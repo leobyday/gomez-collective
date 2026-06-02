@@ -135,6 +135,10 @@
   margin-top: 10px;
 }
 
+.case-tools-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .case-tool-col {
   display: flex;
   flex-direction: column;
@@ -342,7 +346,7 @@
 
 .case-modal-stack {
   position: absolute;
-  left: calc(50% - 250px);
+  left: calc(50% - 150px);
   top: 0;
   width: 300px;
   aspect-ratio: 300/270;
@@ -477,7 +481,7 @@
 }
 
 .case-carousel-img {
-  max-height: 420px;
+  max-height: 504px;
   width: auto;
   max-width: 100%;
   border-radius: 6px;
