@@ -7,9 +7,16 @@
   margin: 0 auto;
 }
 
-/* ─── Back link ──────────────────────────────────────── */
+/* ─── Case nav (prev / next) ─────────────────────────── */
 
-.case-back {
+.case-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 32px 0 0;
+}
+
+.case-nav-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -18,13 +25,12 @@
   letter-spacing: 0.06em;
   color: var(--color-olive);
   text-decoration: none;
-  margin: 32px 0 0;
   transition: color 0.2s ease;
 }
 
-.case-back:hover { color: var(--color-text); }
+.case-nav-link:hover { color: var(--color-text); }
 
-.case-back svg {
+.case-nav-link svg {
   width: 16px;
   height: 16px;
   stroke: currentColor;
@@ -194,7 +200,6 @@
 }
 
 .case-s2-card {
-  background: var(--color-surface);
   border-radius: var(--radius-card);
   overflow: hidden;
 }
