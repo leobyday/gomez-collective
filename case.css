@@ -679,7 +679,7 @@
 .case-s4-images {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 60px;
 }
 
 .case-s4-images img,
