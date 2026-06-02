@@ -81,7 +81,7 @@ body {
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 40px;
   flex-shrink: 0;
 }
 
