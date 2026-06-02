@@ -556,17 +556,15 @@
 /* ─── AminoChain carousel — cycling fade wrap ─────────── */
 
 .case-ac-fade-wrap {
-  position: relative;
+  display: grid;
   width: 100%;
-  height: 420px;
 }
 
 .case-ac-fade-wrap .case-cycle-img {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;
+  display: block;
   opacity: 0;
   animation: cycle-fade-3 9s infinite;
   animation-play-state: paused;
@@ -594,7 +592,6 @@
   height: auto;
   border-radius: 8px;
   display: block;
-  box-shadow: 0 3px 8px 4px rgba(0, 0, 0, 0.08);
 }
 
 /* ─── Section 4 — Video ───────────────────────────────── */
