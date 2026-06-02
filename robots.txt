@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://leogomezblum.com/sitemap.xml
+Sitemap: https://gomezcollective.com/sitemap.xml
