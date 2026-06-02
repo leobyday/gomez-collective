@@ -161,7 +161,7 @@ function attachPwGate(trigger) {
         return;
       }
       if (e.key !== 'Enter') return;
-      if (input.value === 'Recent') {
+      if (input.value.toLowerCase() === 'recent') {
         sessionStorage.setItem('sym_auth', '1');
         window.location.href = href;
       } else {
