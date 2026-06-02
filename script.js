@@ -10,7 +10,11 @@ tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     setActiveTab(tab.dataset.category);
     const target = document.querySelector(`.company-card[data-category="${tab.dataset.category}"]`);
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!target) return;
+    // Offset = collapsed hero (78px) + sticky subnav (56px) + breathing room (20px)
+    const offset = 78 + 56 + 20;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   });
 });
 
@@ -32,6 +36,8 @@ const COLLAPSE_AT = 60;
 const EXPAND_AT   = 20;
 let isCollapsed = false;
 let rafPending  = false;
+// Lock prevents re-toggling while the CSS transition is still running
+let transitionTimer = null;
 
 function setCardOpacity(card, opacity) {
   card.style.opacity = opacity < 1 ? opacity : '';
@@ -44,13 +50,16 @@ function updateScrollState() {
   rafPending = false;
   const scrollY = window.scrollY;
 
-  // Only toggle state when crossing the correct threshold in the correct direction
-  if (!isCollapsed && scrollY > COLLAPSE_AT) {
-    isCollapsed = true;
-    hero.classList.add('hero--collapsed');
-  } else if (isCollapsed && scrollY < EXPAND_AT) {
-    isCollapsed = false;
-    hero.classList.remove('hero--collapsed');
+  if (!transitionTimer) {
+    if (!isCollapsed && scrollY > COLLAPSE_AT) {
+      isCollapsed = true;
+      hero.classList.add('hero--collapsed');
+      transitionTimer = setTimeout(() => { transitionTimer = null; }, 520);
+    } else if (isCollapsed && scrollY < EXPAND_AT) {
+      isCollapsed = false;
+      hero.classList.remove('hero--collapsed');
+      transitionTimer = setTimeout(() => { transitionTimer = null; }, 520);
+    }
   }
 
   const heroBottom = hero.getBoundingClientRect().bottom;
@@ -102,3 +111,46 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 updateScrollState();
+
+// ─── Password gate ────────────────────────────────────────
+
+function attachPwGate(trigger) {
+  const href = trigger.dataset.href;
+
+  trigger.addEventListener('click', () => {
+    const wrap = document.createElement('span');
+    wrap.className = 'pw-gate';
+
+    const input = document.createElement('input');
+    input.type        = 'password';
+    input.className   = 'pw-gate__input';
+    input.placeholder = 'Enter password';
+
+    wrap.appendChild(input);
+    trigger.replaceWith(wrap);
+    input.focus();
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const replacement = document.createElement('span');
+        replacement.className = 'view-more js-pw-gate';
+        replacement.dataset.href = href;
+        replacement.textContent = 'VIEW MORE';
+        wrap.replaceWith(replacement);
+        attachPwGate(replacement);
+        return;
+      }
+      if (e.key !== 'Enter') return;
+      if (input.value === 'Recent') {
+        sessionStorage.setItem('sym_auth', '1');
+        window.location.href = href;
+      } else {
+        wrap.classList.add('pw-gate--shake');
+        input.value = '';
+        setTimeout(() => wrap.classList.remove('pw-gate--shake'), 400);
+      }
+    });
+  });
+}
+
+document.querySelectorAll('.js-pw-gate').forEach(attachPwGate);

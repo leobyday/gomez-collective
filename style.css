@@ -1,11 +1,38 @@
+/* ─── Reset ──────────────────────────────────────────── */
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ─── Design tokens ──────────────────────────────────── */
+
+:root {
+  --color-bg:         #ecf1f3;
+  --color-surface:    #ffffff;
+  --color-gold:       #af9315;
+  --color-olive:      #847e65;
+  --color-text:       #3d3838;
+  --color-muted:      #979797;
+  --color-dim:        #b8b7b7;
+  --color-divider:    #d9d9d9;
+
+  --font-serif:       'Sorts Mill Goudy', Georgia, serif;
+  --font-sans:        'Jost', sans-serif;
+  --font-mono:        'Source Code Pro', monospace;
+
+  --radius-card:      10px;
+  --radius-thumb:     8px;
+
+  --hero-collapsed-h: 78px;
+  --subnav-h:         56px;
+}
+
+/* ─── Base ───────────────────────────────────────────── */
+
 body {
-  background-color: #ecf1f3;
+  background-color: var(--color-bg);
   min-height: 100vh;
   padding: 40px 80px;
 }
@@ -21,13 +48,12 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  margin-bottom: 24px;
   will-change: transform;
 }
 
 .hero-card {
-  background: #ffffff;
-  border-radius: 10px;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
   padding: 36px 52px 40px;
   transition: padding 0.45s ease, box-shadow 0.45s ease;
 }
@@ -42,22 +68,20 @@ body {
 }
 
 .hero-name {
-  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 34px;
   font-weight: 400;
   font-style: normal;
-  color: #af9315;
+  color: var(--color-gold);
   line-height: 1;
 }
 
-.hero-name em {
-  font-style: italic;
-}
+.hero-name em { font-style: italic; }
 
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   flex-shrink: 0;
 }
 
@@ -68,9 +92,9 @@ body {
   border: 1px solid rgba(255, 251, 244, 0.8);
   background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 1px 6px 2px rgba(0, 0, 0, 0.05);
-  font-family: 'Sorts Mill Goudy', serif;
+  font-family: var(--font-serif);
   font-size: 28px;
-  color: #b7b7b7;
+  color: var(--color-dim);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -83,43 +107,45 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.75;
-  transition: opacity 0.2s;
-}
-
-.social-icon:hover {
-  opacity: 1;
+  transition: filter 0.2s;
 }
 
 .social-icon img {
   width: 20px;
   height: 20px;
   object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.97);
+}
+
+.social-icon--resume img {
+  width: 18px;
+  height: 18px;
+}
+
+.social-icon:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.65);
 }
 
 .hero-bio {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 20px;
-  color: #3d3838;
-  line-height: 1.5;
+  font-size: 16px;
+  color: var(--color-text);
+  line-height: 2;
   overflow: hidden;
   max-height: 400px;
   transition: max-height 0.5s ease, opacity 0.4s ease;
 }
 
-.hero-bio p + p {
-  margin-top: 16px;
-}
+.hero-bio p + p { margin-top: 16px; }
 
 .hero-bio .footnote {
-  font-size: 18px;
-  color: #3d3838;
+  font-size: 14px;
+  color: var(--color-text);
+  display: none;
 }
 
-/* ─── Work section ───────────────────────────────────── */
-
-/* ─── Hero collapsed (sticky nav) state ─────────────── */
+/* ─── Hero collapsed state ───────────────────────────── */
 
 .hero--collapsed .hero-card {
   padding-top: 22px;
@@ -127,9 +153,7 @@ body {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
 }
 
-.hero--collapsed .hero-header {
-  margin-bottom: 0;
-}
+.hero--collapsed .hero-header { margin-bottom: 0; }
 
 .hero--collapsed .hero-bio {
   max-height: 0;
@@ -147,7 +171,7 @@ body {
   display: flex;
   justify-content: center;
   position: sticky;
-  top: 80px;
+  top: var(--hero-collapsed-h);
   z-index: 99;
   padding: 16px 0 20px;
   background: rgba(236, 241, 243, 0.65);
@@ -164,25 +188,18 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 20px;
-  color: #979797;
+  color: var(--color-muted);
   padding: 0;
   text-align: left;
   transition: color 0.2s;
 }
 
-.work-tab em {
-  font-style: italic;
-}
+.work-tab em { font-style: italic; }
 
-.work-tab.active {
-  color: #3d3838;
-}
-
-.work-tab:hover {
-  color: #3d3838;
-}
+.work-tab.active,
+.work-tab:hover { color: var(--color-text); }
 
 /* ─── Company card ───────────────────────────────────── */
 
@@ -191,11 +208,10 @@ body {
   gap: 73px;
   align-items: flex-start;
   transition: opacity 0.35s ease;
+  scroll-margin-top: calc(var(--hero-collapsed-h) + var(--subnav-h) + 16px);
 }
 
-.company-card ~ .company-card {
-  margin-top: 130px;
-}
+.company-card ~ .company-card { margin-top: 130px; }
 
 .company-desc {
   width: 284px;
@@ -204,7 +220,7 @@ body {
 }
 
 .company-name {
-  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 24px;
   font-weight: 400;
   color: #000;
@@ -212,55 +228,94 @@ body {
 }
 
 .company-category {
-  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 16px;
-  color: #847e65;
+  color: var(--color-olive);
   margin-bottom: 14px;
 }
 
 .company-bio {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 300;
   font-size: 16px;
-  color: #3d3838;
+  color: var(--color-text);
   line-height: 1.6;
   margin-bottom: 18px;
 }
 
 .company-divider {
   height: 1px;
-  background: #d9d9d9;
+  background: var(--color-divider);
   margin-bottom: 14px;
   width: 100%;
 }
 
 .view-more {
-  font-family: 'Source Code Pro', monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
-  color: #b8b7b7;
+  color: var(--color-dim);
   text-decoration: none;
   letter-spacing: 0.04em;
   transition: color 0.2s;
+  cursor: pointer;
 }
 
-.view-more:hover {
-  color: #3d3838;
+.view-more:hover { color: var(--color-text); }
+
+/* ─── Password gate ──────────────────────────────────── */
+
+.pw-gate {
+  display: inline-block;
 }
 
-/* ─── Thumbnail + visit site column ─────────────────── */
+.pw-gate__input {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-divider);
+  outline: none;
+  width: 148px;
+  padding-bottom: 2px;
+  transition: border-color 0.2s;
+}
+
+.pw-gate__input::placeholder {
+  color: var(--color-dim);
+}
+
+.pw-gate__input:focus {
+  border-color: var(--color-olive);
+}
+
+@keyframes pw-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.pw-gate--shake {
+  animation: pw-shake 0.38s ease;
+}
+
+/* ─── Thumbnail column ───────────────────────────────── */
 
 .company-right {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .company-thumb {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: var(--radius-thumb);
   height: 326px;
   z-index: 1;
 }
@@ -271,10 +326,8 @@ body {
   object-fit: cover;
   object-position: top;
   display: block;
-  border-radius: 8px;
 }
 
-/* Non-lottie thumbnails: 50px taller to show content from the top */
 .company-thumb--media {
   height: 376px;
 }
@@ -285,44 +338,54 @@ body {
   object-position: top;
 }
 
-/* Colour-block placeholder for cards without assets yet */
-.company-thumb--placeholder {
+/* AminoChain: video at 75% width, proportional height, centered */
+.company-thumb--fit {
   height: 376px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.company-thumb::after {
-  display: none;
+.company-thumb.company-thumb--fit video {
+  width: 75%;
+  height: auto;
+  display: block;
+  object-fit: initial;
+  border-radius: 10px;
 }
 
-dotlottie-player {
-  background: transparent !important;
-}
+dotlottie-player { background: transparent !important; }
 
-/* Symmetry: content-following drop-shadow on lottie wrap only */
+/* Symmetry: alpha-aware drop-shadow on lottie wrapper */
 .company-thumb-wrap--lottie {
   filter: drop-shadow(0px 10px 24px rgba(0, 0, 0, 0.28)) drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.14));
 }
 
-/* All wraps need relative positioning for shadow + overlay children */
-.company-thumb-wrap {
-  position: relative;
-}
+.company-thumb-wrap { position: relative; }
 
-/* Figma gradient shadow — sits behind thumbnail, z-index below .company-thumb */
+/* Gradient shadow behind thumbnail — opacity driven by scroll JS */
 .thumb-shadow {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, rgba(217, 217, 217, 0.6), rgba(132, 127, 117, 0.6));
   filter: blur(25px);
-  border-radius: 10px;
+  border-radius: var(--radius-thumb);
   pointer-events: none;
   z-index: 0;
   opacity: 0;
   transition: opacity 0.35s ease;
 }
 
-/* AminoChain mobile overlay — inside .company-thumb so overflow:hidden clips it */
+/* AminoChain: shadow matches the 75%-wide centered video */
+.company-thumb-wrap--fit .thumb-shadow {
+  top: 0;
+  bottom: 0;
+  left: 12.5%;
+  right: 12.5%;
+  border-radius: 10px;
+}
+
+/* Mobile phone overlay — base */
 .thumb-mobile-wrap {
   position: absolute;
   right: 0;
@@ -331,6 +394,34 @@ dotlottie-player {
   transform: rotate(2.41deg);
   transform-origin: bottom right;
   z-index: 2;
+}
+
+/* AminoChain phone — right of video, slight extension beyond container */
+.thumb-mobile-wrap--straight {
+  bottom: auto;
+  top: 18%;
+  right: -6%;
+  width: 24.5%;
+  transform: rotate(0.27deg);
+  transform-origin: top right;
+}
+
+/* Disney+ phone — overlaps desktop image, overflows right + bottom */
+.thumb-mobile-wrap--disney {
+  bottom: auto;
+  top: 14%;
+  right: -3%;
+  width: 23%;
+  transform: rotate(-0.39deg);
+  transform-origin: top right;
+  filter: drop-shadow(0px 12px 28px rgba(0, 0, 0, 0.32)) drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.16));
+}
+
+.thumb-mobile-wrap--disney .thumb-mobile-shadow { display: none; }
+
+/* Extra bottom space so the Disney+ phone overlay doesn't cover VISIT SITE */
+.company-thumb-wrap--has-disney-phone {
+  padding-bottom: 70px;
 }
 
 .thumb-mobile-shadow {
@@ -368,9 +459,9 @@ dotlottie-player {
 }
 
 .visit-site-link {
-  font-family: 'Source Code Pro', monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
-  color: #b8b7b7;
+  color: var(--color-dim);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -379,9 +470,7 @@ dotlottie-player {
   transition: color 0.2s;
 }
 
-.visit-site-link:hover {
-  color: #3d3838;
-}
+.visit-site-link:hover { color: var(--color-text); }
 
 .visit-arrow {
   width: 20px;
@@ -389,24 +478,130 @@ dotlottie-player {
   object-fit: contain;
 }
 
+/* ─── Spotify thumbnail ──────────────────────────────── */
+
+.company-thumb-wrap--spotify {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 344px;
+  position: relative;
+  gap: 20px;
+}
+
+.spotify-watches {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: center;
+}
+
+.spotify-watch {
+  flex: 1;
+  width: auto;
+  max-width: 130px;
+  height: auto;
+  border-radius: 38px;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.22));
+}
+
+.spotify-phone {
+  height: 344px;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.18));
+}
+
+/* ─── Grubhub / phones thumbnail ─────────────────────── */
+
+.company-thumb-wrap--phones {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  min-height: 330px;
+  clip-path: inset(-60px -60px 0 -60px);
+}
+
+.phone-screen {
+  flex: 1;
+  height: 300px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+  transform: rotate(-0.4deg);
+}
+
+/* ─── Amex / phone-only thumbnail ───────────────────── */
+
+.company-thumb-wrap--phone-only {
+  min-height: 330px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.phone-only-img {
+  height: 316px;
+  width: auto;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.25));
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px 0 60px;
+  margin-top: 100px;
+  border-top: 1px solid var(--color-divider);
+  gap: 24px;
+}
+
+.footer-name {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.footer-name em { font-style: italic; }
+
+.footer-links { display: flex; gap: 32px; }
+
+.footer-links a,
+.back-to-top {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-dim);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover,
+.back-to-top:hover { color: var(--color-text); }
+
+.back-to-top {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
 /* ─── Responsive ─────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  body {
-    padding: 20px 16px;
-  }
+  body { padding: 20px 16px; }
 
-  .hero-card {
-    padding: 24px 20px 28px;
-  }
+  .hero-card { padding: 24px 20px 28px; }
 
-  .hero-header {
-    margin-bottom: 20px;
-  }
+  .hero-header { margin-bottom: 20px; }
 
-  .hero-name {
-    font-size: 26px;
-  }
+  .hero-name { font-size: 26px; }
 
   .btn-plus {
     width: 32px;
@@ -414,21 +609,9 @@ dotlottie-player {
     font-size: 22px;
   }
 
-  .hero-bio {
-    font-size: 18px;
-  }
+  .work-tabs-row { padding-left: 0; }
 
-  .hero-bio .footnote {
-    font-size: 16px;
-  }
-
-  .work-tabs-row {
-    padding-left: 0;
-  }
-
-  .work-tabs {
-    gap: 40px;
-  }
+  .work-tabs { gap: 40px; }
 
   .company-card {
     flex-direction: column;
@@ -440,9 +623,51 @@ dotlottie-player {
     min-height: 0;
   }
 
-  .company-thumb img {
-    height: auto;
+  .company-thumb img { height: auto; }
+
+  .visit-site-row { justify-content: flex-start; }
+
+  .company-thumb-wrap {
+    display: flex;
+    justify-content: center;
   }
+
+  .company-thumb-wrap > .company-thumb { width: 100%; }
+
+  .thumb-mobile-wrap--straight {
+    right: -10%;
+    width: 28%;
+  }
+
+  .thumb-mobile-wrap--disney { right: 0; }
+
+  .spotify-watch { max-width: 80px; }
+
+  .spotify-phone { height: 220px; }
+
+  .company-thumb-wrap--spotify { min-height: 220px; }
+
+  .phone-screen { height: 200px; }
+
+  .company-thumb-wrap--phones { min-height: 220px; }
+
+  .phone-only-img { height: 220px; }
+
+  .company-thumb-wrap--phone-only { min-height: 240px; }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 28px 0 48px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .back-to-top { align-self: flex-start; }
 }
 
 /* ─── Page load animations ───────────────────────────── */
@@ -452,24 +677,13 @@ dotlottie-player {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeUpIcon {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 0.75; transform: translateY(0); }
-}
-
 .hero-name,
 .hero-bio,
 .work-tabs-row,
+.hero-actions .social-icon,
+.hero-actions .btn-plus,
 .work-section .company-card:nth-child(2) .company-desc,
 .work-section .company-card:nth-child(2) .company-right {
-  animation: fadeUp 0.8s ease both;
-}
-
-.hero-actions .social-icon {
-  animation: fadeUpIcon 0.8s ease both;
-}
-
-.hero-actions .btn-plus {
   animation: fadeUp 0.8s ease both;
 }
 
@@ -478,6 +692,7 @@ dotlottie-player {
 .hero-actions > :nth-child(1) { animation-delay: 1.5s; }
 .hero-actions > :nth-child(2) { animation-delay: 1.65s; }
 .hero-actions > :nth-child(3) { animation-delay: 1.8s; }
-.work-tabs-row                                              { animation-delay: 2.2s; }
+.hero-actions > :nth-child(4) { animation-delay: 1.95s; }
+.work-tabs-row                { animation-delay: 2.2s; }
 .work-section .company-card:nth-child(2) .company-desc  { animation-delay: 2.2s; }
 .work-section .company-card:nth-child(2) .company-right { animation-delay: 2.6s; }

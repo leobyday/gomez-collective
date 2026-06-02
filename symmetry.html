@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symmetry — Leo Gomez Blum</title>
+  <meta name="description" content="Symmetry — AI chat interface and agent UI. Surfaced LLM-generated knowledge via a Chrome extension, Dashboard agent and desktop app.">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" href="assets/Emoji.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400;500&family=Source+Code+Pro&family=Inter+Tight&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="case.css">
+  <script>
+    if (sessionStorage.getItem('sym_auth') !== '1') {
+      window.location.replace('index.html');
+    }
+  </script>
+</head>
+<body>
+  <div class="page case-page">
+
+    <!-- ─── Nav (always collapsed) ──────────────────── -->
+    <section class="hero hero--collapsed">
+      <div class="hero-card">
+        <div class="hero-header">
+          <a href="index.html" class="hero-name" style="text-decoration:none;">I'm<em> Leo G</em>omez Blum</a>
+          <div class="hero-actions">
+            <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <img src="assets/Linkedin.png" alt="LinkedIn">
+            </a>
+            <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
+              <img src="assets/Mail.png" alt="Email">
+            </a>
+            <a href="assets/Leo Gomez 2026.pdf" class="social-icon social-icon--resume" aria-label="Resume" target="_blank" rel="noopener">
+              <img src="assets/File text.png" alt="Resume">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main>
+
+      <!-- ─── Back ──────────────────────────────────── -->
+      <a href="index.html" class="case-back">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 12L6 8L10 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All work
+      </a>
+
+      <!-- ─── Section 1 — Two column ────────────────── -->
+      <div class="case-s1">
+
+        <!-- Row 1, Col 1: hero image -->
+        <div class="case-hero-images">
+          <div class="case-hero-img-wrap case-hero-img--hero">
+            <div class="case-hero-shadow"></div>
+            <img src="assets/01_Symmetry/Hero Image.png" alt="Symmetry — hero">
+          </div>
+        </div>
+
+        <!-- Row 1, Col 2: name + overview -->
+        <div class="case-company-info">
+
+          <div class="case-info-block">
+            <h1 class="case-company-name">Symmetry</h1>
+            <p class="case-info-body">B2B SaaS AI product with AI Chat Interface design, using LLM-generated work knowledge, available as a Chrome extension, web dashboard and desktop app.</p>
+          </div>
+
+          <div class="case-info-block">
+            <h2 class="case-info-heading">Overview</h2>
+            <p class="case-info-body">Joined as employee #4. Defined brand, product, and design system from prototype to Beta 1. Built workflows that accelerated design and engineering delivery.</p>
+          </div>
+
+        </div>
+
+        <!-- Row 2, Col 1: tools — same grid row as Timelines/Role -->
+        <div class="case-info-block case-info-block--tools">
+          <h2 class="case-info-heading">Tools</h2>
+          <div class="case-tools-grid">
+
+            <div class="case-tool-col">
+              <img class="case-tool-icon" src="assets/Figma-logo_.svg" alt="Figma">
+              <p class="case-tool-label">For Product Design, Branding and Design System</p>
+            </div>
+
+            <div class="case-tool-col">
+              <div class="case-tool-icons">
+                <img class="case-tool-icon" src="assets/Claude.png" alt="Claude">
+                <img class="case-tool-icon" src="assets/vercel.png" alt="Vercel">
+              </div>
+              <p class="case-tool-label">Prototyping working in staging/production.</p>
+            </div>
+
+            <div class="case-tool-col">
+              <img class="case-tool-icon" src="assets/electron.avif" alt="Electron">
+              <p class="case-tool-label">for the Desktop app</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Row 2, Col 2: timelines + role -->
+        <div class="case-meta-row">
+          <div class="case-meta-col">
+            <h2 class="case-meta-heading">Timelines</h2>
+            <p class="case-meta-value">3 Months</p>
+          </div>
+          <div class="case-meta-col">
+            <h2 class="case-meta-heading">Role</h2>
+            <p class="case-meta-value">Lead Designer<br>and Design Engineer</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─── Section 2 — Full-width image ─────────── -->
+      <div class="case-s2">
+        <p class="case-panel-title">Week 1</p>
+        <div class="case-s2-card">
+          <img
+            class="case-full-img"
+            src="assets/01_Symmetry/Product /Symmetry Products.jpg"
+            alt="Symmetry product overview"
+          >
+        </div>
+      </div>
+
+      <!-- ─── Section 3 — Carousel ──────────────────── -->
+      <div class="case-s3">
+
+        <nav class="case-subnav" aria-label="Case study views">
+          <button class="case-subnav-btn" data-view="design-system">Design system</button>
+          <button class="case-subnav-btn" data-view="onboarding">Onboarding</button>
+          <button class="case-subnav-btn" data-view="chrome">Chrome Extension</button>
+          <button class="case-subnav-btn" data-view="chat">Chat</button>
+          <button class="case-subnav-btn" data-view="dashboard">Dashboard</button>
+        </nav>
+
+        <div class="case-carousel" role="region" aria-label="Design views carousel">
+
+          <!-- Design system -->
+          <div class="case-carousel-panel case-carousel-panel--single" data-view="design-system">
+            <p class="case-panel-title">Tailwind CSS</p>
+            <div class="case-panel-images">
+              <img class="case-carousel-img" src="assets/01_Symmetry/Design System/Colors.png" alt="Symmetry design system — colors">
+            </div>
+          </div>
+
+          <!-- Onboarding: cycling modal (upper right) + search bar (bottom) -->
+          <div class="case-carousel-panel" data-view="onboarding">
+            <div class="case-onboarding-stage">
+              <div class="case-modal-stack">
+                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open.png" alt="Onboarding — modal 1">
+                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open2.png" alt="Onboarding — modal 2">
+                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open3.png" alt="Onboarding — modal 3">
+                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open4.png" alt="Onboarding — modal 4">
+              </div>
+              <img class="case-search-bar-img" src="assets/01_Symmetry/Onboarding/search.png" alt="Onboarding — search bar">
+            </div>
+          </div>
+
+          <!-- Chrome Extension -->
+          <div class="case-carousel-panel" data-view="chrome">
+
+            <div class="chrome-toggle">
+              <button class="chrome-mode-btn active" data-mode="dark">Dark Mode</button>
+              <button class="chrome-mode-btn" data-mode="light">Light Mode</button>
+            </div>
+
+            <div class="chrome-panels-wrap">
+
+            <!-- Dark mode -->
+            <div class="chrome-mode-panel active" data-mode="dark">
+              <div class="chrome-pills-layout">
+                <div class="chrome-pills-main">
+                  <div class="chrome-row">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-logged-out.png" alt="Logged out">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-active.png" alt="Active">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-inactive.png" alt="Inactive">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-system-out.png" alt="System Out">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/default-thinking.png" alt="Thinking">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-matched.png" alt="Matched">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/dark/default-expanded.png" alt="Expanded">
+                  </div>
+                </div>
+                <div class="chrome-pills-incognito">
+                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-default.png" alt="Incognito default">
+                  <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/incognito-thinking.png" alt="Incognito thinking">
+                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-matched.png" alt="Incognito matched">
+                  <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/dark/incognito-expanded.png" alt="Incognito expanded">
+                </div>
+              </div>
+            </div>
+
+            <!-- Light mode -->
+            <div class="chrome-mode-panel" data-mode="light">
+              <div class="chrome-pills-layout">
+                <div class="chrome-pills-main chrome-pills-main--light">
+                  <div class="chrome-row">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-logged-out.png" alt="Logged out">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-active.png" alt="Active">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-inactive.png" alt="Inactive">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-system-out.png" alt="System Out">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-active.png" alt="Thinking">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-active.png" alt="Matched">
+                  </div>
+                  <div class="chrome-row chrome-row--indented">
+                    <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/light/expanded-active.png" alt="Expanded">
+                  </div>
+                </div>
+                <div class="chrome-pills-incognito">
+                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-incognito.png" alt="Incognito default">
+                  <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-incognito.png" alt="Incognito thinking">
+                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-incognito.png" alt="Incognito matched">
+                  <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/light/expanded-incognito.png" alt="Incognito expanded">
+                </div>
+              </div>
+            </div>
+
+            </div><!-- /.chrome-panels-wrap -->
+
+          </div>
+
+          <!-- Chat -->
+          <div class="case-carousel-panel" data-view="chat">
+            <div class="case-panel-images">
+              <img class="case-carousel-img" src="assets/01_Symmetry/Chat/(OLD) vFor Eng/Type=Chat With Clarifying Question.png" alt="Chat — clarifying question">
+              <img class="case-carousel-img" src="assets/01_Symmetry/Chat/(OLD) vFor Eng/Type=Chat with Result.png" alt="Chat — with result">
+              <img class="case-carousel-img" src="assets/01_Symmetry/Chat/(OLD) vFor Eng/Type=Chat with Results+Thinking.png" alt="Chat — results and thinking">
+            </div>
+          </div>
+
+          <!-- Dashboard: cycling chat screenshots -->
+          <div class="case-carousel-panel" data-view="dashboard">
+            <div class="case-dash-wrap">
+              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Multi-line.png" alt="Dashboard — multi-line">
+              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Thinking.png" alt="Dashboard — thinking">
+              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - With Prompt.png" alt="Dashboard — with prompt">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ─── Section 4 — Video ─────────────────────── -->
+      <div class="case-s4">
+        <p class="case-panel-title">Desktop App prototype</p>
+        <div class="case-video-wrap">
+          <video controls muted playsinline>
+            <source src="assets/01_Symmetry/VideoDemo.mov" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- ─── Footer ────────────────────────────────── -->
+      <footer class="case-footer">
+        <a href="#" class="case-footer-back" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+          ↑ BACK TO TOP
+        </a>
+        <div class="case-footer-links">
+          <a href="https://www.linkedin.com/in/leonorgomezblum/" class="case-footer-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+            <img src="assets/Linkedin.png" alt="LinkedIn">
+          </a>
+          <a href="mailto:leogomezd@gmail.com" class="case-footer-link" aria-label="Email">
+            <img src="assets/Mail.png" alt="Email">
+          </a>
+          <a href="assets/Leo Gomez 2026.pdf" class="case-footer-link case-footer-link--resume" aria-label="Resume" target="_blank" rel="noopener">
+            <img src="assets/File text.png" alt="Resume">
+          </a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="case.js"></script>
+</body>
+</html>

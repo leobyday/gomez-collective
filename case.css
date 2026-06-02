@@ -1,0 +1,767 @@
+/* ─── Interior page — case study ──────────────────────── */
+
+/* ─── Page layout ────────────────────────────────────── */
+
+.case-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ─── Back link ──────────────────────────────────────── */
+
+.case-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--color-olive);
+  text-decoration: none;
+  margin: 32px 0 0;
+  transition: color 0.2s ease;
+}
+
+.case-back:hover { color: var(--color-text); }
+
+.case-back svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+/* ─── Section 1 — two-column: images left, info right ── */
+
+.case-s1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 64px;
+  row-gap: 40px;
+  align-items: start;
+  margin-top: 48px;
+}
+
+.case-hero-images {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.case-hero-img-wrap {
+  position: relative;
+}
+
+/* Shadow behind the image */
+.case-hero-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 3%;
+  right: 3%;
+  height: 34px;
+  background: linear-gradient(to bottom, rgba(217,217,217,0.6), rgba(132,127,117,0.6));
+  filter: blur(10px);
+  border-radius: 4px;
+  z-index: 0;
+}
+
+.case-hero-img-wrap img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Modal: upper, right-aligned, smaller */
+.case-hero-img--modal {
+  width: 72%;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+/* Search bar: full width, below, slides under modal */
+.case-hero-img--search {
+  margin-top: 16px;
+  z-index: 0;
+}
+
+/* Right: company info */
+
+.case-company-info {
+  padding-top: 4px;
+}
+
+.case-info-block {
+  margin-bottom: 30px;
+}
+
+.case-info-heading {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.case-company-name {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.case-info-body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+/* Tools — 3 columns */
+
+.case-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 10px;
+}
+
+.case-tool-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-tool-icons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.case-tool-icon {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  display: block;
+}
+
+.case-tool-label {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
+
+/* Timelines + Role — aligned to tools grid columns */
+
+.case-meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 0;
+}
+
+.case-meta-heading {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.case-meta-value {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* ─── Section 2 — Full-width image ──────────────────── */
+
+.case-s2 {
+  margin-top: 80px;
+}
+
+.case-s2 .case-panel-title {
+  margin-bottom: 16px;
+}
+
+.case-s2-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.case-full-img {
+  width: 100%;
+  display: block;
+}
+
+/* ─── Section 3 — Carousel ───────────────────────────── */
+
+.case-s3 {
+  margin-top: 80px;
+}
+
+/* Subnav — centered, no full-width underline */
+
+.case-subnav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.case-subnav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  color: var(--color-muted);
+  padding: 6px 0;
+  position: relative;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.case-subnav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--color-text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.case-subnav-btn:hover { color: var(--color-text); }
+
+.case-subnav-btn.active {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.case-subnav-btn.active::after {
+  transform: scaleX(1);
+}
+
+/* ─── Cycling fade animations ────────────────────────── */
+
+/* 4-image cycle: 8s total, each image visible ~1.8s */
+@keyframes cycle-fade-4 {
+  0%    { opacity: 0; }
+  4%    { opacity: 1; }
+  22%   { opacity: 1; }
+  26%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+
+/* 3-image cycle: 9s total, each image visible ~2.7s */
+@keyframes cycle-fade-3 {
+  0%    { opacity: 0; }
+  4%    { opacity: 1; }
+  28%   { opacity: 1; }
+  33%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+
+/* ─── Onboarding panel ───────────────────────────────── */
+
+.case-onboarding-stage {
+  position: relative;
+  width: 100%;
+  height: 370px;
+}
+
+.case-modal-stack {
+  position: absolute;
+  left: calc(50% - 250px);
+  top: 0;
+  width: 300px;
+  aspect-ratio: 300/270;
+}
+
+.case-modal-stack .case-cycle-modal {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  opacity: 0;
+  animation: cycle-fade-4 8s infinite;
+  animation-play-state: paused;
+}
+
+.case-modal-stack .case-cycle-modal:nth-child(1) { animation-delay: 0s; }
+.case-modal-stack .case-cycle-modal:nth-child(2) { animation-delay: 2s; }
+.case-modal-stack .case-cycle-modal:nth-child(3) { animation-delay: 4s; }
+.case-modal-stack .case-cycle-modal:nth-child(4) { animation-delay: 6s; }
+
+.case-carousel-panel.active .case-modal-stack .case-cycle-modal {
+  animation-play-state: running;
+}
+
+.case-search-bar-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 768px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* ─── Dashboard panel ────────────────────────────────── */
+
+.case-dash-wrap {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  aspect-ratio: 777/475;
+}
+
+.case-dash-wrap .case-cycle-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+  opacity: 0;
+  animation: cycle-fade-3 9s infinite;
+  animation-play-state: paused;
+}
+
+.case-dash-wrap .case-cycle-img:nth-child(1) { animation-delay: 0s; }
+.case-dash-wrap .case-cycle-img:nth-child(2) { animation-delay: 3s; }
+.case-dash-wrap .case-cycle-img:nth-child(3) { animation-delay: 6s; }
+
+.case-carousel-panel.active .case-dash-wrap .case-cycle-img {
+  animation-play-state: running;
+}
+
+/* ─── Carousel — panels flow in a stack, active visible */
+
+.case-carousel {
+  position: relative;
+  min-height: 520px;
+}
+
+.case-carousel-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.case-carousel-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Panel title (e.g. "Tailwind CSS") — sits between subnav and image */
+
+.case-panel-title {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  width: 100%;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Images row inside each panel */
+
+.case-panel-images {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.case-carousel-img {
+  max-height: 420px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 6px;
+  display: block;
+}
+
+.case-carousel-panel--single .case-panel-images {
+  align-items: center;
+}
+
+.case-carousel-panel--single .case-carousel-img {
+  max-height: 460px;
+  max-width: 100%;
+}
+
+/* ─── Chrome Extension panel ─────────────────────────── */
+
+.chrome-toggle {
+  display: flex;
+  gap: 52px;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.chrome-mode-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--color-dim);
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.chrome-mode-btn.active { color: var(--color-text); }
+.chrome-mode-btn:hover  { color: var(--color-text); }
+
+/* Both panels stacked in the same grid cell so light sits exactly over dark */
+.chrome-panels-wrap {
+  display: grid;
+  width: 100%;
+}
+
+.chrome-mode-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.chrome-mode-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chrome-pills-layout {
+  display: flex;
+  justify-content: center;
+  gap: 90px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.chrome-pills-main {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  /* same padding as light mode so both panels share identical height */
+  padding: 24px 28px;
+}
+
+.chrome-pills-main--light {
+  background: #ebe9e9;
+  border-radius: 10px;
+}
+
+.chrome-row {
+  display: flex;
+  gap: 44px;
+  align-items: center;
+}
+
+/* Rows 2–4 indent to align under 2nd default pill (= first pill 66px + gap 44px) */
+.chrome-row--indented {
+  padding-left: 110px;
+}
+
+.chrome-pills-incognito {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  padding-top: 24px;
+}
+
+/* Pills at 1× Figma logical size — 4× export renders crisply on retina */
+.chrome-pill {
+  width: 66px;
+  height: auto;
+  display: block;
+}
+
+.chrome-pill--expanded           { width: 111px; }
+.chrome-pill--thinking           { width: 70px; }
+.chrome-pill--expanded-incognito { width: 100px; }
+
+/* ─── Section 2 — Colored-bg variant (AminoChain) ───────── */
+
+.case-s2-amino-bg {
+  background: #77948a;
+  border-radius: var(--radius-card);
+  padding: 52px 80px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  overflow: hidden;
+}
+
+.case-panel-title--amino {
+  color: #1f4337;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.case-s2-amino-video {
+  width: 82%;
+  max-width: 900px;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.22);
+}
+
+.case-s2-amino-video video {
+  width: 100%;
+  display: block;
+}
+
+/* ─── AminoChain carousel — cycling fade wrap ─────────── */
+
+.case-ac-fade-wrap {
+  position: relative;
+  width: 100%;
+  height: 420px;
+}
+
+.case-ac-fade-wrap .case-cycle-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  animation: cycle-fade-3 9s infinite;
+  animation-play-state: paused;
+  border-radius: 6px;
+}
+
+.case-ac-fade-wrap .case-cycle-img:nth-child(1) { animation-delay: 0s; }
+.case-ac-fade-wrap .case-cycle-img:nth-child(2) { animation-delay: 3s; }
+.case-ac-fade-wrap .case-cycle-img:nth-child(3) { animation-delay: 6s; }
+
+.case-carousel-panel.active .case-ac-fade-wrap .case-cycle-img {
+  animation-play-state: running;
+}
+
+/* ─── Section 4 — Screenshots row ────────────────────── */
+
+.case-s4-images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.case-s4-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 3px 8px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Section 4 — Video ───────────────────────────────── */
+
+.case-s4 {
+  margin-top: 80px;
+}
+
+.case-s4 .case-panel-title {
+  margin-bottom: 16px;
+}
+
+.case-video-wrap {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.case-video-wrap video {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 80vh;
+}
+
+/* ─── Footer ──────────────────────────────────────────── */
+
+.case-footer {
+  margin-top: 100px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 40px;
+}
+
+.case-footer-back {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--color-olive);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.case-footer-back:hover { color: var(--color-text); }
+
+.case-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.case-footer-link {
+  display: flex;
+  align-items: center;
+}
+
+.case-footer-link img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.97);
+  transition: filter 0.2s ease;
+}
+
+.case-footer-link:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.65);
+}
+
+/* Resume SVG is already rendered in olive via stroke, apply same filter */
+.case-footer-link--resume img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.97);
+}
+
+.case-footer-link--resume:hover img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(30%) saturate(200%) brightness(0.65);
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .hero--collapsed .hero-card { padding-left: 20px; padding-right: 20px; }
+
+  .case-s1 {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .case-tools-grid { gap: 20px; }
+  .case-tool-col { min-width: 100%; }
+
+  .case-subnav {
+    gap: 24px;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .case-subnav::-webkit-scrollbar { display: none; }
+
+  /* Carousel — fluid on mobile */
+  .case-carousel { min-height: 0; }
+  .case-carousel-panel {
+    position: relative;
+    inset: auto;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .case-carousel-panel.active {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    pointer-events: auto;
+  }
+  .case-carousel-img { max-height: 220px; }
+
+  /* Onboarding — stack modal and search bar vertically */
+  .case-onboarding-stage {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .case-modal-stack {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 60%;
+    align-self: center;
+    aspect-ratio: 300/270;
+  }
+  .case-search-bar-img {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Dashboard — full width on mobile */
+  .case-dash-wrap {
+    width: 100%;
+  }
+
+  /* Chrome pills — scale down */
+  .chrome-toggle { gap: 28px; }
+  .chrome-pills-layout { gap: 24px; }
+  .chrome-pills-main { padding: 16px; gap: 20px; }
+  .chrome-pills-incognito { gap: 20px; padding-top: 16px; }
+  .chrome-row { gap: 24px; }
+  .chrome-row--indented { padding-left: 60px; }
+
+  .chrome-pill { width: 44px; }
+  .chrome-pill--expanded { width: 74px; }
+  .chrome-pill--thinking { width: 47px; }
+  .chrome-pill--expanded-incognito { width: 67px; }
+
+  .case-footer {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+}

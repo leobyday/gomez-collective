@@ -2,11 +2,13 @@
 .DS_Store
 **/.DS_Store
 
+# Vercel
+.vercel
+
 # Working notes
 design.md
 
-# Internal project assets (not used by the site)
-assets/01_Symmetry/
+# Internal project assets (not published)
 assets/02_AminoChain/
 assets/03_Roku/
 assets/04_Disney/
