@@ -512,9 +512,6 @@
 .case-carousel-full video {
   width: 100%;
   height: auto;
-  max-height: 560px;
-  object-fit: contain;
-  object-position: center;
   border-radius: 6px;
   display: block;
 }
@@ -685,7 +682,8 @@
   gap: 24px;
 }
 
-.case-s4-images img {
+.case-s4-images img,
+.case-s4-images video {
   width: 100%;
   height: auto;
   border-radius: 8px;
