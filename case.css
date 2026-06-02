@@ -126,11 +126,11 @@
   color: var(--color-text);
 }
 
-/* Tools — 3 columns */
+/* Tools — expand to fill when fewer than 3 items */
 
 .case-tools-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 32px;
   margin-top: 10px;
 }
@@ -163,11 +163,11 @@
   color: var(--color-text);
 }
 
-/* Timelines + Role — aligned to tools grid columns */
+/* Timelines + Role — expand to fill when fewer columns */
 
 .case-meta-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 32px;
   margin-top: 0;
 }
@@ -417,6 +417,23 @@
   min-height: 520px;
 }
 
+/* Fluid height variant — carousel sizes to active panel content */
+.case-carousel--fluid {
+  min-height: 0;
+}
+
+.case-carousel--fluid .case-carousel-panel {
+  position: relative;
+  inset: auto;
+  height: 0;
+  overflow: hidden;
+}
+
+.case-carousel--fluid .case-carousel-panel.active {
+  height: auto;
+  overflow: visible;
+}
+
 .case-carousel-panel {
   position: absolute;
   inset: 0;
@@ -441,6 +458,7 @@
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--color-text);
   width: 100%;
   text-align: center;
