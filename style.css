@@ -267,6 +267,13 @@ body {
 
 .view-more:hover { color: var(--color-text); }
 
+.view-more--coming-soon {
+  cursor: default;
+  pointer-events: none;
+}
+
+.view-more--coming-soon:hover { color: var(--color-dim); }
+
 /* ─── Password gate ──────────────────────────────────── */
 
 .pw-gate {
@@ -638,6 +645,15 @@ dotlottie-player { background: transparent !important; }
   }
 
   .company-thumb-wrap > .company-thumb { width: 100%; }
+
+  .thumb-shadow {
+    inset: 4%;
+    filter: blur(12px);
+  }
+
+  .thumb-mobile-shadow {
+    filter: blur(10px);
+  }
 
   .thumb-mobile-wrap--straight {
     right: -10%;
