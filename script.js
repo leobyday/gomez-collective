@@ -135,7 +135,7 @@ function attachPwGate(trigger) {
         const replacement = document.createElement('span');
         replacement.className = 'view-more js-pw-gate';
         replacement.dataset.href = href;
-        replacement.textContent = 'VIEW MORE';
+        replacement.textContent = 'Enter password';
         wrap.replaceWith(replacement);
         attachPwGate(replacement);
         return;
