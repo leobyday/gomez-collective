@@ -18,13 +18,20 @@ tabs.forEach(tab => {
   });
 });
 
-// ─── Lottie: play once per load ──────────────────────────
+// ─── Lottie: play after hero fade-in, stop after one loop ─
 
 customElements.whenDefined('dotlottie-player').then(() => {
   document.querySelectorAll('dotlottie-player').forEach(player => {
     player.addEventListener('complete', () => player.stop(), { once: true });
   });
 });
+
+// Last fadeUp ends at 2.6s delay + 0.8s duration = 3.4s
+setTimeout(() => {
+  document.querySelectorAll('dotlottie-player').forEach(p => {
+    if (typeof p.play === 'function') p.play();
+  });
+}, 3500);
 
 // ─── Scroll: hero collapse + card + shadow fade ───────────
 

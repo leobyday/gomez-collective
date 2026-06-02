@@ -173,10 +173,15 @@ body {
   position: sticky;
   top: var(--hero-collapsed-h);
   z-index: 99;
-  padding: 16px 0 20px;
+  padding: 36px 0 40px;
   background: rgba(236, 241, 243, 0.65);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  transition: padding 0.52s ease;
+}
+
+.hero--collapsed ~ .work-section .work-tabs-row {
+  padding: 16px 0 20px;
 }
 
 .work-tabs {
