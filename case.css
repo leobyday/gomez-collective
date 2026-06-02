@@ -483,6 +483,24 @@
   display: block;
 }
 
+/* Full-width panel content (Roku A/B tests) */
+.case-carousel-full {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.case-carousel-full img,
+.case-carousel-full video {
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 6px;
+  display: block;
+}
+
 /* ─── Chrome Extension panel ─────────────────────────── */
 
 .chrome-toggle {
