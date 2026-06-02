@@ -408,21 +408,21 @@ dotlottie-player { background: transparent !important; }
   z-index: 2;
 }
 
-/* AminoChain phone — right of video, slight extension beyond container */
+/* AminoChain phone — right of video, inside container */
 .thumb-mobile-wrap--straight {
   bottom: auto;
   top: 18%;
-  right: -6%;
+  right: 4%;
   width: 24.5%;
   transform: rotate(0.27deg);
   transform-origin: top right;
 }
 
-/* Disney+ phone — overlaps desktop image, overflows right + bottom */
+/* Disney+ phone — overlaps desktop image, inside container */
 .thumb-mobile-wrap--disney {
   bottom: auto;
   top: 14%;
-  right: -3%;
+  right: 4%;
   width: 23%;
   transform: rotate(-0.39deg);
   transform-origin: top right;
