@@ -1,3 +1,16 @@
+// ─── Shadow blur: scale proportionally to wrapper width ───
+
+function updateShadowBlur() {
+  document.querySelectorAll('.company-thumb-wrap').forEach(wrap => {
+    const w = wrap.offsetWidth;
+    wrap.style.setProperty('--thumb-blur',        Math.round(w * 0.05) + 'px');
+    wrap.style.setProperty('--thumb-mobile-blur', Math.round(w * 0.04) + 'px');
+  });
+}
+
+window.addEventListener('resize', updateShadowBlur);
+updateShadowBlur();
+
 // ─── Tab switching ────────────────────────────────────────
 
 const tabs = document.querySelectorAll('.work-tab');

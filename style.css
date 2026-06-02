@@ -375,12 +375,12 @@ dotlottie-player { background: transparent !important; }
 
 .company-thumb-wrap { position: relative; }
 
-/* Gradient shadow behind thumbnail — opacity driven by scroll JS */
+/* Gradient shadow behind thumbnail — opacity driven by scroll JS, blur driven by JS via --thumb-blur */
 .thumb-shadow {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, rgba(217, 217, 217, 0.6), rgba(132, 127, 117, 0.6));
-  filter: blur(25px);
+  filter: blur(var(--thumb-blur, 25px));
   border-radius: var(--radius-thumb);
   pointer-events: none;
   z-index: 0;
@@ -440,7 +440,7 @@ dotlottie-player { background: transparent !important; }
   position: absolute;
   inset: 8% 8%;
   background: linear-gradient(to bottom, rgba(217, 217, 217, 0.6), rgba(132, 127, 117, 0.6));
-  filter: blur(20px);
+  filter: blur(var(--thumb-mobile-blur, 20px));
   border-radius: 14px;
   pointer-events: none;
   opacity: 0;
@@ -646,14 +646,6 @@ dotlottie-player { background: transparent !important; }
 
   .company-thumb-wrap > .company-thumb { width: 100%; }
 
-  .thumb-shadow {
-    inset: 4%;
-    filter: blur(12px);
-  }
-
-  .thumb-mobile-shadow {
-    filter: blur(10px);
-  }
 
   .thumb-mobile-wrap--straight {
     right: -10%;
