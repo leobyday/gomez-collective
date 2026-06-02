@@ -557,6 +557,7 @@
 
 .case-ac-fade-wrap {
   display: grid;
+  justify-items: center;
   width: 100%;
 }
 
@@ -566,7 +567,7 @@
   height: auto;
   max-height: 560px;
   object-fit: contain;
-  object-position: left top;
+  object-position: center;
   display: block;
   opacity: 0;
   animation: cycle-fade-3 9s infinite;
