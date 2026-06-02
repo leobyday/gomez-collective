@@ -346,10 +346,12 @@
 
 .case-modal-stack {
   position: absolute;
-  left: calc(50% - 150px);
-  top: 0;
+  left: calc(50% - 10px);
+  top: 30px;
   width: 300px;
   aspect-ratio: 300/270;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .case-modal-stack .case-cycle-modal {
@@ -360,6 +362,7 @@
   border-radius: 8px;
   object-fit: cover;
   opacity: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
   animation: cycle-fade-4 8s infinite;
   animation-play-state: paused;
 }
@@ -373,15 +376,21 @@
   animation-play-state: running;
 }
 
-.case-search-bar-img {
+.case-search-bar-wrap {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 768px;
   max-width: 100%;
-  height: auto;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+
+.case-search-bar-img {
+  width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -392,6 +401,8 @@
   width: 80%;
   margin: 0 auto;
   aspect-ratio: 777/475;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .case-dash-wrap .case-cycle-img {
@@ -402,6 +413,7 @@
   border-radius: 8px;
   object-fit: contain;
   opacity: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
   animation: cycle-fade-3 9s infinite;
   animation-play-state: paused;
 }
@@ -486,6 +498,14 @@
   max-width: 100%;
   border-radius: 6px;
   display: block;
+}
+
+.case-panel-images--chat {
+  gap: 40px;
+}
+
+.case-carousel-img--shadow {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.10);
 }
 
 .case-carousel-panel--single .case-panel-images {
@@ -869,3 +889,25 @@
     align-items: flex-start;
   }
 }
+
+/* ─── Page load animations ───────────────────────────── */
+
+.case-nav,
+.case-s1 .case-hero-images,
+.case-s1 .case-company-info,
+.case-s1 .case-info-block--tools,
+.case-s1 .case-meta-row,
+.case-s2,
+.case-s3,
+.case-s4 {
+  animation: fadeUp 0.8s ease both;
+}
+
+.case-nav                          { animation-delay: 0.1s; }
+.case-s1 .case-hero-images         { animation-delay: 0.25s; }
+.case-s1 .case-company-info        { animation-delay: 0.4s; }
+.case-s1 .case-info-block--tools   { animation-delay: 0.55s; }
+.case-s1 .case-meta-row            { animation-delay: 0.65s; }
+.case-s2                           { animation-delay: 0.8s; }
+.case-s3                           { animation-delay: 0.95s; }
+.case-s4                           { animation-delay: 1.1s; }
