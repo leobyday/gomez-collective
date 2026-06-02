@@ -105,47 +105,59 @@
 
       </div>
 
-      <!-- ─── Section 2 — Full-width image ─────────── -->
+      <!-- ─── Section 2 — Insights from Users ─────────── -->
       <div class="case-s2">
-        <p class="case-panel-title">Homescreen</p>
-        <div class="case-s2-card">
-          <img
-            class="case-full-img"
-            src="assets/03_Roku/A_ Home - COH 1.jpg"
-            alt="Roku — Homescreen overview"
-          >
+        <div class="case-s2-insights">
+          <h2 class="case-s2-insights-title">Insights from Users</h2>
+          <img class="case-s2-insights-img" src="assets/03_Roku/Data.png" alt="Roku — Insights from Users">
+          <div class="case-s2-insights-copy">
+            <p>Roku's Home Screen is very important for our users: Home Screen Sentiment is one of the best predictors of CSAT, even better than Platform Streaming Hours or Account Tenure.</p>
+            <p>Based on the user's survey on perception: 77% Simplicity, 51% Helpfulness, 15% Delight.</p>
+          </div>
         </div>
       </div>
 
-      <!-- ─── Section 3 — Carousel ──────────────────── -->
+      <!-- ─── Section 3 — A/B tests carousel ──────────── -->
       <div class="case-s3">
 
-        <nav class="case-subnav" aria-label="Case study views">
-          <button class="case-subnav-btn" data-view="homescreen">Homescreen</button>
-          <button class="case-subnav-btn" data-view="content-rows">Content rows</button>
-          <button class="case-subnav-btn" data-view="ml">ML experiments</button>
+        <p class="case-panel-title case-s3-title">A/B tests</p>
+
+        <nav class="case-subnav" aria-label="A/B test views">
+          <button class="case-subnav-btn" data-view="ml-content-rows">ML Content Rows</button>
+          <button class="case-subnav-btn" data-view="customize-grid">Customize the Grid</button>
+          <button class="case-subnav-btn" data-view="delight">Moments of Delight</button>
+          <button class="case-subnav-btn" data-view="personalization">Personalization</button>
         </nav>
 
-        <div class="case-carousel" role="region" aria-label="Design views carousel">
+        <div class="case-carousel" role="region" aria-label="A/B tests carousel">
 
-          <!-- Homescreen -->
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="homescreen">
+          <!-- ML Content Rows -->
+          <div class="case-carousel-panel case-carousel-panel--single" data-view="ml-content-rows">
             <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/03_Roku/Roku_1.png" alt="Roku — Homescreen">
+              <img class="case-carousel-img" src="assets/03_Roku/ML content rows (1).gif" alt="Roku — ML Content Rows">
             </div>
           </div>
 
-          <!-- Content rows -->
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="content-rows">
+          <!-- Customize the Grid -->
+          <div class="case-carousel-panel case-carousel-panel--single" data-view="customize-grid">
             <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/03_Roku/Collection-Card (1).gif" alt="Roku — Collection card">
+              <img class="case-carousel-img" src="assets/03_Roku/Collection-Card (1).gif" alt="Roku — Customize the Grid">
             </div>
           </div>
 
-          <!-- ML experiments -->
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="ml">
+          <!-- Moments of Delight -->
+          <div class="case-carousel-panel case-carousel-panel--single" data-view="delight">
             <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/03_Roku/ML Experiements.jpg" alt="Roku — ML experiments">
+              <video class="case-carousel-video" muted loop playsinline>
+                <source src="assets/03_Roku/Apptileanimation.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+          <!-- Personalization -->
+          <div class="case-carousel-panel case-carousel-panel--single" data-view="personalization">
+            <div class="case-panel-images">
+              <img class="case-carousel-img" src="assets/03_Roku/ML Experiements.jpg" alt="Roku — Personalization">
             </div>
           </div>
 

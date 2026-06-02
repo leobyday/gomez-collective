@@ -209,10 +209,60 @@
   display: block;
 }
 
+/* ─── Section 2 — Insights variant (Roku) ────────────── */
+
+.case-s2-insights {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 56px 80px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.case-s2-insights-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--color-text);
+  text-align: center;
+  margin: 0;
+}
+
+.case-s2-insights-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+.case-s2-insights-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.case-s2-insights-copy p {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
 /* ─── Section 3 — Carousel ───────────────────────────── */
 
 .case-s3 {
   margin-top: 80px;
+}
+
+.case-s3-title {
+  margin-bottom: 24px;
 }
 
 /* Subnav — centered, no full-width underline */
@@ -423,6 +473,14 @@
 .case-carousel-panel--single .case-carousel-img {
   max-height: 460px;
   max-width: 100%;
+}
+
+.case-carousel-video {
+  max-height: 460px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 6px;
+  display: block;
 }
 
 /* ─── Chrome Extension panel ─────────────────────────── */
@@ -694,6 +752,8 @@
 
   .case-tools-grid { gap: 20px; }
   .case-tool-col { min-width: 100%; }
+
+  .case-s2-insights { padding: 40px 24px 48px; }
 
   .case-subnav {
     gap: 24px;

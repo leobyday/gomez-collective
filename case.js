@@ -16,7 +16,12 @@ function showPanel(view) {
   panels.forEach(panel => {
     const isActive = panel.dataset.view === view;
     panel.classList.toggle('active', isActive);
-    if (isActive) restartAnimations(panel);
+    if (isActive) {
+      restartAnimations(panel);
+      panel.querySelectorAll('video').forEach(v => v.play());
+    } else {
+      panel.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
+    }
   });
 }
 
