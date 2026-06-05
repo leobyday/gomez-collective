@@ -366,7 +366,7 @@ body {
   border-radius: 10px;
 }
 
-dotlottie-player { background: transparent !important; }
+dotlottie-player { background: transparent !important; margin-top: 1px; }
 
 /* Symmetry: alpha-aware drop-shadow on lottie wrapper */
 .company-thumb-wrap--lottie {
