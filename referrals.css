@@ -1,0 +1,281 @@
+/* ─── Referral page ──────────────────────────────────── */
+
+.ref-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.ref-main {
+  max-width: 720px;
+  margin: 64px auto 120px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+
+.ref-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.1s;
+}
+
+.ref-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin: 0;
+}
+
+.ref-title {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.15;
+}
+
+.ref-subtitle {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-muted);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Sections ───────────────────────────────────────── */
+
+.ref-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeUp 0.8s ease both;
+  animation-delay: 0.3s;
+}
+
+.ref-section--highlight {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 40px 48px;
+  animation-delay: 0.5s;
+}
+
+.ref-heading {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.ref-body {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ─── What I'm looking for list ─────────────────────── */
+
+.ref-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ref-list-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.ref-list-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  flex-shrink: 0;
+}
+
+.ref-list-value {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+}
+
+/* ─── Strengths ──────────────────────────────────────── */
+
+.ref-strength {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-divider);
+}
+
+.ref-strength:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.ref-strength-num {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--color-muted);
+  padding-top: 2px;
+}
+
+.ref-strength-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 10px;
+}
+
+/* ─── Blurb ──────────────────────────────────────────── */
+
+.ref-blurb {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  margin: 0;
+  padding: 32px 40px;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  border-left: 3px solid var(--color-olive);
+}
+
+/* ─── Links ──────────────────────────────────────────── */
+
+.ref-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ref-link {
+  display: grid;
+  grid-template-columns: 28px 120px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.ref-link:hover {
+  background: var(--color-surface);
+}
+
+.ref-link-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ref-link-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.ref-link-url {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ─── How you can help ───────────────────────────────── */
+
+.ref-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ref-bullets li {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text);
+  letter-spacing: 0.02em;
+  padding-left: 20px;
+  position: relative;
+}
+
+.ref-bullets li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-olive);
+}
+
+.ref-thanks {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 8px 0 0;
+  font-style: italic;
+}
+
+/* ─── Mobile ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .ref-main {
+    margin: 40px auto 80px;
+    gap: 40px;
+  }
+
+  .ref-title { font-size: 30px; }
+
+  .ref-section--highlight {
+    padding: 28px 24px;
+  }
+
+  .ref-blurb {
+    padding: 24px 24px 24px 20px;
+  }
+
+  .ref-list-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .ref-link {
+    grid-template-columns: 28px 1fr;
+  }
+
+  .ref-link-url { display: none; }
+}
