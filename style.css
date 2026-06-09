@@ -485,9 +485,9 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .visit-site-link:hover { color: var(--color-text); }
 
 .visit-arrow {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 /* ─── Spotify thumbnail ──────────────────────────────── */

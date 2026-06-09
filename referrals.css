@@ -152,6 +152,59 @@
   margin: 0 0 10px;
 }
 
+/* ─── Heading row (with copy button) ────────────────── */
+
+.ref-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ─── Copy button ────────────────────────────────────── */
+
+.ref-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-divider);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ref-copy-btn:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.ref-copy-btn--done {
+  color: var(--color-olive);
+  border-color: var(--color-olive);
+}
+
+/* ─── Link rows (link + copy button) ────────────────── */
+
+.ref-link-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ref-link-row .ref-link {
+  flex: 1;
+}
+
+.ref-link-row .ref-copy-btn {
+  padding: 6px 10px;
+}
+
 /* ─── Blurb ──────────────────────────────────────────── */
 
 .ref-blurb {

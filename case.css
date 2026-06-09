@@ -70,7 +70,8 @@
   z-index: 0;
 }
 
-.case-hero-img-wrap img {
+.case-hero-img-wrap img,
+.case-hero-img-wrap video {
   display: block;
   width: 100%;
   border-radius: 8px;
@@ -512,8 +513,10 @@
 }
 
 .case-carousel-panel--single .case-carousel-img {
-  max-height: 460px;
-  max-width: 100%;
+  width: 100%;
+  max-height: 560px;
+  object-fit: contain;
+  border-radius: 0;
 }
 
 .case-carousel-video {
@@ -697,6 +700,7 @@
   animation-play-state: running;
 }
 
+
 /* ─── Section 4 — Screenshots row ────────────────────── */
 
 .case-s4-images {
@@ -713,6 +717,30 @@
   display: block;
 }
 
+/* ─── Mobile phone row ────────────────────────────────── */
+
+.case-phone-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.case-phone-row--spaced {
+  margin-top: 40px;
+}
+
+.case-phone-img {
+  flex: 1;
+  min-width: 0;
+  max-width: 220px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: block;
+}
+
 /* ─── Section 4 — Video ───────────────────────────────── */
 
 .case-s4 {
@@ -721,6 +749,16 @@
 
 .case-s4 .case-panel-title {
   margin-bottom: 16px;
+}
+
+.case-s4-description {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+  margin: 0 0 12px;
 }
 
 .case-video-wrap {
@@ -886,6 +924,22 @@
     flex-direction: column;
     gap: 20px;
     align-items: flex-start;
+  }
+
+  .case-phone-row {
+    gap: 12px;
+  }
+
+  .case-phone-img {
+    max-width: 100px;
+  }
+
+  .case-phone-row--spaced {
+    margin-top: 28px;
+  }
+
+  .case-s4-description {
+    font-size: 14px;
   }
 }
 
