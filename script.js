@@ -24,10 +24,7 @@ tabs.forEach(tab => {
     setActiveTab(tab.dataset.category);
     const target = document.querySelector(`.company-card[data-category="${tab.dataset.category}"]`);
     if (!target) return;
-    // Offset = collapsed hero (78px) + sticky subnav (56px) + breathing room (20px)
-    const offset = 78 + 56 + 20;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 

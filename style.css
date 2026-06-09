@@ -274,6 +274,12 @@ body {
 
 .view-more--coming-soon:hover { color: var(--color-dim); }
 
+.view-more--locked {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 /* ─── Password gate ──────────────────────────────────── */
 
 .pw-gate {
