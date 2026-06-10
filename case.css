@@ -219,6 +219,7 @@
 .case-week1-header {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 12px;
   margin-bottom: 32px;
 }
@@ -230,8 +231,9 @@
   line-height: 1.8;
   letter-spacing: 0.02em;
   color: var(--color-muted);
-  margin: 0;
+  margin: 0 auto;
   max-width: 680px;
+  text-align: center;
 }
 
 /* ─── Section 2 — Insights variant (Roku) ────────────── */
