@@ -44,16 +44,13 @@ const lightboxImg = lightbox.querySelector('.lightbox-img');
 
 function openLightbox(img) {
   const rect = img.getBoundingClientRect();
-  const targetW = rect.width * 2;
-  const targetH = rect.height * 2;
-  const maxW = window.innerWidth * 0.92;
-  const maxH = window.innerHeight * 0.92;
-  const scale = Math.min(maxW / targetW, maxH / targetH, 1);
+  const targetW = Math.min(rect.width * 2, window.innerWidth * 0.94);
   lightboxImg.src = img.src;
   lightboxImg.alt = img.alt || '';
-  lightboxImg.style.width = Math.round(targetW * scale) + 'px';
+  lightboxImg.style.width = Math.round(targetW) + 'px';
   lightboxImg.style.height = 'auto';
   lightbox.classList.add('active');
+  lightbox.scrollTop = 0;
   document.body.style.overflow = 'hidden';
 }
 
