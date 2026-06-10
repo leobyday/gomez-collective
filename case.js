@@ -60,7 +60,11 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-lightbox.addEventListener('click', closeLightbox);
+let _lbDragging = false;
+let _lbStartX = 0, _lbStartY = 0;
+lightbox.addEventListener('mousedown', e => { _lbStartX = e.clientX; _lbStartY = e.clientY; _lbDragging = false; });
+lightbox.addEventListener('mousemove', e => { if (Math.abs(e.clientX - _lbStartX) > 4 || Math.abs(e.clientY - _lbStartY) > 4) _lbDragging = true; });
+lightbox.addEventListener('click', () => { if (!_lbDragging) closeLightbox(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
 document.querySelectorAll('.case-carousel-img').forEach(img => {
