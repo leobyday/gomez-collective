@@ -42,15 +42,24 @@ document.body.appendChild(lightbox);
 
 const lightboxImg = lightbox.querySelector('.lightbox-img');
 
-function openLightbox(src, alt) {
-  lightboxImg.src = src;
-  lightboxImg.alt = alt || '';
+function openLightbox(img) {
+  const rect = img.getBoundingClientRect();
+  const targetW = rect.width * 2;
+  const targetH = rect.height * 2;
+  const maxW = window.innerWidth * 0.92;
+  const maxH = window.innerHeight * 0.92;
+  const scale = Math.min(maxW / targetW, maxH / targetH, 1);
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt || '';
+  lightboxImg.style.width = Math.round(targetW * scale) + 'px';
+  lightboxImg.style.height = 'auto';
   lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
   lightbox.classList.remove('active');
+  lightboxImg.style.width = '';
   document.body.style.overflow = '';
 }
 
@@ -69,7 +78,7 @@ document.querySelectorAll('.case-carousel-img').forEach(img => {
   btn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4"/><line x1="9.5" y1="9.5" x2="14" y2="14"/></svg>';
   wrap.appendChild(btn);
 
-  wrap.addEventListener('click', () => openLightbox(img.src, img.alt));
+  wrap.addEventListener('click', () => openLightbox(img));
 });
 
 // ─── Chrome Extension dark/light toggle ──────────────
