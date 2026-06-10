@@ -1,36 +1,37 @@
-// ─── Case study carousel ──────────────────────────────
-
-const subnav = document.querySelectorAll('.case-subnav-btn');
-const panels = document.querySelectorAll('.case-carousel-panel');
+// ─── Case study carousel (scoped per group) ───────────
 
 function restartAnimations(panel) {
   panel.querySelectorAll('.case-cycle-modal, .case-cycle-img').forEach(img => {
     img.style.animation = 'none';
-    img.offsetHeight; // force reflow
+    img.offsetHeight;
     img.style.animation = '';
   });
 }
 
-function showPanel(view) {
-  subnav.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-  panels.forEach(panel => {
-    const isActive = panel.dataset.view === view;
-    panel.classList.toggle('active', isActive);
-    if (isActive) {
-      restartAnimations(panel);
-      panel.querySelectorAll('video').forEach(v => v.play());
-    } else {
-      panel.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
-    }
+document.querySelectorAll('.case-carousel-group').forEach(group => {
+  const subnav = group.querySelectorAll('.case-subnav-btn');
+  const panels = group.querySelectorAll('.case-carousel-panel');
+
+  function showPanel(view) {
+    subnav.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+    panels.forEach(panel => {
+      const isActive = panel.dataset.view === view;
+      panel.classList.toggle('active', isActive);
+      if (isActive) {
+        restartAnimations(panel);
+        panel.querySelectorAll('video').forEach(v => v.play());
+      } else {
+        panel.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
+      }
+    });
+  }
+
+  subnav.forEach(btn => {
+    btn.addEventListener('click', () => showPanel(btn.dataset.view));
   });
-}
 
-subnav.forEach(btn => {
-  btn.addEventListener('click', () => showPanel(btn.dataset.view));
+  if (subnav.length) showPanel(subnav[0].dataset.view);
 });
-
-// Activate first tab on load
-if (subnav.length) showPanel(subnav[0].dataset.view);
 
 // ─── Chrome Extension dark/light toggle ──────────────
 

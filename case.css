@@ -214,6 +214,26 @@
   display: block;
 }
 
+/* ─── Section 2 — Week 1 multiview variant ───────────── */
+
+.case-week1-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.case-week1-subtext {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+  margin: 0;
+  max-width: 680px;
+}
+
 /* ─── Section 2 — Insights variant (Roku) ────────────── */
 
 .case-s2-insights {
