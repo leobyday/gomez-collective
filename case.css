@@ -987,3 +987,62 @@
 .case-s2                           { animation-delay: 0.8s; }
 .case-s3                           { animation-delay: 0.95s; }
 .case-s4                           { animation-delay: 1.1s; }
+
+/* ─── Lightbox ───────────────────────────────────────── */
+
+.zoom-wrap {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+}
+
+.zoom-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: zoom-in;
+  padding: 0;
+  z-index: 2;
+}
+
+.zoom-wrap:hover .zoom-btn {
+  opacity: 1;
+}
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  cursor: zoom-out;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6);
+}

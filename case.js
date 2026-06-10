@@ -33,6 +33,45 @@ document.querySelectorAll('.case-carousel-group').forEach(group => {
   if (subnav.length) showPanel(subnav[0].dataset.view);
 });
 
+// ─── Lightbox ────────────────────────────────────────
+
+const lightbox = document.createElement('div');
+lightbox.className = 'lightbox-overlay';
+lightbox.innerHTML = '<img class="lightbox-img" src="" alt="">';
+document.body.appendChild(lightbox);
+
+const lightboxImg = lightbox.querySelector('.lightbox-img');
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+lightbox.addEventListener('click', closeLightbox);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+document.querySelectorAll('.case-carousel-img').forEach(img => {
+  const wrap = document.createElement('div');
+  wrap.className = 'zoom-wrap';
+  img.parentNode.insertBefore(wrap, img);
+  wrap.appendChild(img);
+
+  const btn = document.createElement('button');
+  btn.className = 'zoom-btn';
+  btn.setAttribute('aria-label', 'Enlarge image');
+  btn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4"/><line x1="9.5" y1="9.5" x2="14" y2="14"/></svg>';
+  wrap.appendChild(btn);
+
+  wrap.addEventListener('click', () => openLightbox(img.src, img.alt));
+});
+
 // ─── Chrome Extension dark/light toggle ──────────────
 
 const chromeModebtns = document.querySelectorAll('.chrome-mode-btn');
