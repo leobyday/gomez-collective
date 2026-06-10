@@ -642,6 +642,7 @@
 .chrome-pills-incognito {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 34px;
   padding-top: 24px;
 }
