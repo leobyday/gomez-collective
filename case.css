@@ -636,6 +636,15 @@
   padding-left: 110px;
 }
 
+.chrome-pills-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 115px;
+  gap: 34px;
+  margin-left: 110px;
+}
+
 .chrome-pills-incognito {
   display: flex;
   flex-direction: column;
