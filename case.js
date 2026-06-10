@@ -44,13 +44,13 @@ const lightboxImg = lightbox.querySelector('.lightbox-img');
 
 function openLightbox(img) {
   const rect = img.getBoundingClientRect();
-  const targetW = Math.min(rect.width * 2, window.innerWidth * 0.94);
   lightboxImg.src = img.src;
   lightboxImg.alt = img.alt || '';
-  lightboxImg.style.width = Math.round(targetW) + 'px';
+  lightboxImg.style.width = Math.round(rect.width * 2) + 'px';
   lightboxImg.style.height = 'auto';
   lightbox.classList.add('active');
   lightbox.scrollTop = 0;
+  lightbox.scrollLeft = 0;
   document.body.style.overflow = 'hidden';
 }
 
