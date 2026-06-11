@@ -234,7 +234,7 @@
   font-size: 15px;
   line-height: 1.8;
   letter-spacing: 0.02em;
-  color: var(--color-muted);
+  color: var(--color-body);
   margin: 0;
 }
 
@@ -795,7 +795,7 @@
   font-size: 15px;
   line-height: 1.8;
   letter-spacing: 0.02em;
-  color: var(--color-muted);
+  color: var(--color-body);
   margin: 0 0 12px;
 }
 
