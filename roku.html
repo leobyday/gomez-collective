@@ -82,12 +82,14 @@
 
           <div class="case-info-block">
             <h1 class="case-company-name">Roku</h1>
-            <p class="case-info-body">Software and hardware platform redesign for Roku's Homescreen. Shipped features across International Markets, Live TV, Settings and Privacy, and Search.</p>
+            <p class="case-info-body">Roku is a streaming platform operating across hardware and software, serving millions of users across North America, LATAM, APAC, and Europe.</p>
           </div>
 
           <div class="case-info-block">
             <h2 class="case-info-heading">Overview</h2>
-            <p class="case-info-body">I joined Roku as a lead designer for international, but ended up leading initiatives for Live TV, Settings and Privacy, Homescreen Redesign and Search.</p>
+            <p class="case-info-body">Joined as lead designer for international markets, and expanded scope to lead initiatives across Live TV, Settings and Privacy, Homescreen Redesign, and Search.</p>
+            <p class="case-info-body" style="margin-top:12px;">Led international expansion across LATAM, APAC, and Europe, working cross-functionally with engineering, legal, and regional stakeholders to ship localized experiences including audio tracks, subtitles, channel scan, and market-specific onboarding flows.</p>
+            <p class="case-info-body" style="margin-top:12px;">Ran A/B experiments across the Homescreen to optimize content discovery, personalization, and streaming engagement, averaging a 15 to 18% increase in streaming hours for OTT content.</p>
           </div>
 
         </div>
@@ -113,91 +115,109 @@
           </div>
           <div class="case-meta-col">
             <h2 class="case-meta-heading">Impact</h2>
-            <p class="case-meta-value">A/B tests with average 15–18% increase in streaming hours, for OTT content</p>
+            <p class="case-meta-value">A/B tests with average 15 to 18% increase in streaming hours, for OTT content</p>
           </div>
         </div>
 
       </div>
 
-      <!-- ─── Section 2 — Insights from Users ─────────── -->
-      <div class="case-s2">
-        <div class="case-s2-insights">
-          <h2 class="case-s2-insights-title">Insights from Users</h2>
-          <img class="case-s2-insights-img" src="assets/03_Roku/Data.png" alt="Roku — Insights from Users">
-          <div class="case-s2-insights-copy">
-            <p>Roku's Home Screen is very important for our users: Home Screen Sentiment is one of the best predictors of CSAT, even better than Platform Streaming Hours or Account Tenure.</p>
-            <p>Based on the user's survey on perception: 77% Simplicity, 51% Helpfulness, 15% Delight.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── Section 3 — A/B tests carousel ──────────── -->
-      <div class="case-s3">
-
-        <p class="case-panel-title case-s3-title">A/B tests</p>
-
-        <nav class="case-subnav" aria-label="A/B test views">
-          <button class="case-subnav-btn" data-view="ml-content-rows">ML Content Rows</button>
-          <button class="case-subnav-btn" data-view="customize-grid">Customize the Grid</button>
-          <button class="case-subnav-btn" data-view="delight">Moments of Delight</button>
-          <button class="case-subnav-btn" data-view="personalization">Personalization</button>
+      <!-- ─── Top-level HOMESCREEN / INTERNATIONAL subnav ── -->
+      <div class="case-s2" style="padding-bottom: 0;">
+        <nav class="case-subnav case-subnav--top" aria-label="Roku sections">
+          <button class="case-subnav-btn active" data-section="homescreen">HOMESCREEN</button>
+          <button class="case-subnav-btn" data-section="international">INTERNATIONAL</button>
         </nav>
-
-        <div class="case-carousel case-carousel--fluid" role="region" aria-label="A/B tests carousel">
-
-          <!-- ML Content Rows -->
-          <div class="case-carousel-panel" data-view="ml-content-rows">
-            <div class="case-carousel-full">
-              <img src="assets/03_Roku/Multivew/ML content rows (1).gif" alt="Roku — ML Content Rows">
-            </div>
-          </div>
-
-          <!-- Customize the Grid -->
-          <div class="case-carousel-panel" data-view="customize-grid">
-            <div class="case-carousel-full">
-              <video muted loop playsinline>
-                <source src="assets/03_Roku/Multivew/Customize the gride.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <!-- Moments of Delight -->
-          <div class="case-carousel-panel" data-view="delight">
-            <div class="case-carousel-full">
-              <video muted loop playsinline>
-                <source src="assets/03_Roku/Apptileanimation.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <!-- Personalization -->
-          <div class="case-carousel-panel" data-view="personalization">
-            <div class="case-carousel-full">
-              <img src="assets/03_Roku/Multivew/Personalization.jpg" alt="Roku — Personalization">
-            </div>
-          </div>
-
-        </div>
       </div>
 
-      <!-- ─── Section 4 — Homescreen designs ───────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Homescreen</p>
-        <div class="case-s4-images">
-          <video controls muted playsinline>
-            <source src="assets/03_Roku/01.mov" type="video/mp4">
-          </video>
-          <img src="assets/03_Roku/02.jpg" alt="Roku — Homescreen">
+      <!-- ─── HOMESCREEN section ───────────────────────── -->
+      <div class="case-section-panel" data-section="homescreen">
+
+        <!-- ─── Section 2 — Insights from Users ─────────── -->
+        <div class="case-s2">
+          <div class="case-s2-insights">
+            <h2 class="case-s2-insights-title">Insights from Users</h2>
+            <img class="case-s2-insights-img" src="assets/03_Roku/Homescreen/Data.png" alt="Roku — Insights from Users">
+            <div class="case-s2-insights-copy">
+              <p>Roku's Home Screen is very important for our users: Home Screen Sentiment is one of the best predictors of CSAT, even better than Platform Streaming Hours or Account Tenure.</p>
+              <p>Based on the user's survey on perception: 77% Simplicity, 51% Helpfulness, 15% Delight.</p>
+            </div>
+          </div>
         </div>
+
+        <!-- ─── Section 3 — A/B tests carousel ──────────── -->
+        <div class="case-s3">
+
+          <p class="case-panel-title case-s3-title">A/B tests</p>
+
+          <nav class="case-subnav" aria-label="A/B test views">
+            <button class="case-subnav-btn" data-view="ml-content-rows">ML Content Rows</button>
+            <button class="case-subnav-btn" data-view="customize-grid">Customize the Grid</button>
+            <button class="case-subnav-btn" data-view="delight">Moments of Delight</button>
+            <button class="case-subnav-btn" data-view="personalization">Personalization</button>
+          </nav>
+
+          <div class="case-carousel case-carousel--fluid" role="region" aria-label="A/B tests carousel">
+
+            <!-- ML Content Rows -->
+            <div class="case-carousel-panel" data-view="ml-content-rows">
+              <div class="case-carousel-full">
+                <img src="assets/03_Roku/International/Multivew/ML content rows (1).gif" alt="Roku — ML Content Rows">
+              </div>
+            </div>
+
+            <!-- Customize the Grid -->
+            <div class="case-carousel-panel" data-view="customize-grid">
+              <div class="case-carousel-full">
+                <video muted loop playsinline>
+                  <source src="assets/03_Roku/International/Multivew/Customize the gride.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <!-- Moments of Delight -->
+            <div class="case-carousel-panel" data-view="delight">
+              <div class="case-carousel-full">
+                <video muted loop playsinline>
+                  <source src="assets/03_Roku/Homescreen/Apptileanimation.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <!-- Personalization -->
+            <div class="case-carousel-panel" data-view="personalization">
+              <div class="case-carousel-full">
+                <img src="assets/03_Roku/International/Multivew/Personalization.jpg" alt="Roku — Personalization">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ─── Section 4 — Homescreen designs ───────────── -->
+        <div class="case-s4">
+          <p class="case-panel-title">Homescreen</p>
+          <div class="case-s4-images">
+            <video controls muted playsinline>
+              <source src="assets/03_Roku/Homescreen/01.mov" type="video/mp4">
+            </video>
+            <img src="assets/03_Roku/Homescreen/02.jpg" alt="Roku — Homescreen">
+          </div>
+        </div>
+
       </div>
 
-      <!-- ─── Section 5 — Internationalization ────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Internationalization</p>
-        <div class="case-s4-images">
-          <img src="assets/03_Roku/International 1.jpg" alt="Roku — Internationalization">
-          <img src="assets/03_Roku/International2.png" alt="Roku — Internationalization">
+      <!-- ─── INTERNATIONAL section ─────────────────────── -->
+      <div class="case-section-panel" data-section="international" style="display:none;">
+
+        <div class="case-s4">
+          <p class="case-panel-title">Internationalization</p>
+          <div class="case-s4-images">
+            <img src="assets/03_Roku/International/01_Why.jpg" alt="Roku — Why International">
+            <img src="assets/03_Roku/International/International 1.jpg" alt="Roku — Internationalization">
+            <img src="assets/03_Roku/International/International2.png" alt="Roku — Internationalization">
+          </div>
         </div>
+
       </div>
 
       <!-- ─── Footer ────────────────────────────────── -->
@@ -222,5 +242,45 @@
   </div>
 
   <script src="case.js"></script>
+  <script>
+    // ─── Roku top-level section toggle ───────────────────
+    (function () {
+      const topBtns = document.querySelectorAll('.case-subnav--top .case-subnav-btn');
+      const sections = document.querySelectorAll('.case-section-panel');
+
+      topBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.section;
+          topBtns.forEach(b => b.classList.toggle('active', b.dataset.section === target));
+          sections.forEach(s => {
+            const isActive = s.dataset.section === target;
+            s.style.display = isActive ? '' : 'none';
+          });
+        });
+      });
+
+      // init inner carousels once DOM is ready
+      const innerSubnavs = document.querySelectorAll('.case-s3 .case-subnav-btn');
+      const innerPanels = document.querySelectorAll('.case-s3 .case-carousel-panel');
+
+      function showInnerPanel(view) {
+        innerSubnavs.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+        innerPanels.forEach(p => {
+          const isActive = p.dataset.view === view;
+          p.classList.toggle('active', isActive);
+          if (isActive) {
+            p.querySelectorAll('video').forEach(v => v.play());
+          } else {
+            p.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
+          }
+        });
+      }
+
+      innerSubnavs.forEach(btn => {
+        btn.addEventListener('click', () => showInnerPanel(btn.dataset.view));
+      });
+      if (innerSubnavs.length) showInnerPanel(innerSubnavs[0].dataset.view);
+    })();
+  </script>
 </body>
 </html>

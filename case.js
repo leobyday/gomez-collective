@@ -82,6 +82,25 @@ document.querySelectorAll('.case-carousel-img').forEach(img => {
   wrap.addEventListener('click', () => openLightbox(img));
 });
 
+// ─── Shadow loads after hero image ───────────────────
+
+document.querySelectorAll('.case-hero-img-wrap').forEach(wrap => {
+  const shadow = wrap.querySelector('.case-hero-shadow');
+  if (!shadow) return;
+  const media = wrap.querySelector('img, video');
+  if (!media) return;
+  if (media.tagName === 'IMG') {
+    if (media.complete && media.naturalWidth) {
+      shadow.classList.add('loaded');
+    } else {
+      media.addEventListener('load', () => shadow.classList.add('loaded'), { once: true });
+    }
+  } else {
+    media.addEventListener('loadeddata', () => shadow.classList.add('loaded'), { once: true });
+    if (media.readyState >= 2) shadow.classList.add('loaded');
+  }
+});
+
 // ─── Chrome Extension dark/light toggle ──────────────
 
 const chromeModebtns = document.querySelectorAll('.chrome-mode-btn');
