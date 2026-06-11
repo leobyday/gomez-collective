@@ -142,7 +142,7 @@
         </div>
 
         <!-- ─── Section 3 — A/B tests carousel ──────────── -->
-        <div class="case-s3">
+        <div class="case-s3" id="ab-tests-carousel">
 
           <p class="case-panel-title case-s3-title">A/B tests</p>
           <p class="case-s4-description">In order to increase delight and helpfulness perception in the product, we ran a series of A/B tests that would break down specifics of our home screen, without changing its simplicity.</p>
@@ -212,7 +212,7 @@
         <!-- What's Internationalization? -->
         <div class="case-s4">
           <p class="case-panel-title">What's Internationalization?</p>
-          <p class="case-s4-description">Internationalization is nuanced insights and products adapted to users all over the world. Different from localization, which focuses on translations, orthography and cultural insights or globalization which are the tools and systems that help products scale.</p>
+          <p class="case-s4-description">Internationalization is the practice of adapting products for users across the world. Going beyond localization, which handles translation, orthography, and cultural nuance, and beyond globalization, which focuses on the systems and tools that enable scale. True internationalization sits at the intersection of all three: understanding how people in different markets think, behave, and expect products to work.</p>
           <div class="case-s4-images" style="margin-top: 32px;">
             <img src="assets/03_Roku/International/01_Why.jpg" alt="Roku — Why Internationalization">
           </div>
@@ -221,7 +221,7 @@
         <!-- Strategy -->
         <div class="case-s4">
           <p class="case-panel-title">Strategy</p>
-          <p class="case-s4-description">Launching the hardware in new markets, in Australia, Europe and LATAM. Update the experience to meet the compliance needs for each country and region, which included, but were not limited to: parental controls, privacy and settings, Live TV set up and accessibility requirements, such as closed captions/subtitles and audio tracks.</p>
+          <p class="case-s4-description">Led the design for Roku's hardware expansion into Australia, Europe, and LATAM, adapting the core experience to meet the compliance and regulatory requirements of each market. This included parental controls, privacy and settings, Live TV configuration, and accessibility standards such as closed captions, subtitle formatting, and audio track management. Each region brought distinct legal and cultural constraints that required more than translation; they required rethinking how core features were surfaced and controlled.</p>
         </div>
 
         <!-- CC and Audio Tracks multiview -->
@@ -315,38 +315,47 @@
       const topBtns = document.querySelectorAll('.case-subnav--top .case-subnav-btn');
       const sections = document.querySelectorAll('.case-section-panel');
 
-      topBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const target = btn.dataset.section;
-          topBtns.forEach(b => b.classList.toggle('active', b.dataset.section === target));
-          sections.forEach(s => {
-            const isActive = s.dataset.section === target;
-            s.style.display = isActive ? '' : 'none';
-          });
-        });
-      });
-
-      // init inner carousels once DOM is ready
-      const innerSubnavs = document.querySelectorAll('.case-s3 .case-subnav-btn');
-      const innerPanels = document.querySelectorAll('.case-s3 .case-carousel-panel');
-
-      function showInnerPanel(view) {
-        innerSubnavs.forEach(b => b.classList.toggle('active', b.dataset.view === view));
-        innerPanels.forEach(p => {
-          const isActive = p.dataset.view === view;
-          p.classList.toggle('active', isActive);
-          if (isActive) {
-            p.querySelectorAll('video').forEach(v => v.play());
-          } else {
-            p.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
-          }
+      function showSection(target) {
+        topBtns.forEach(b => b.classList.toggle('active', b.dataset.section === target));
+        sections.forEach(s => {
+          s.style.display = s.dataset.section === target ? '' : 'none';
         });
       }
 
-      innerSubnavs.forEach(btn => {
-        btn.addEventListener('click', () => showInnerPanel(btn.dataset.view));
+      topBtns.forEach(btn => {
+        btn.addEventListener('click', () => showSection(btn.dataset.section));
       });
-      if (innerSubnavs.length) showInnerPanel(innerSubnavs[0].dataset.view);
+
+      // Default to International tab if arriving from /international
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('section') === 'international') {
+        showSection('international');
+      }
+
+      // ─── A/B tests carousel (Homescreen only) ────────────
+      const abCarousel = document.getElementById('ab-tests-carousel');
+      if (abCarousel) {
+        const abBtns = abCarousel.querySelectorAll('.case-subnav-btn');
+        const abPanels = abCarousel.querySelectorAll('.case-carousel-panel');
+
+        function showAbPanel(view) {
+          abBtns.forEach(b => b.classList.toggle('active', b.dataset.view === view));
+          abPanels.forEach(p => {
+            const isActive = p.dataset.view === view;
+            p.classList.toggle('active', isActive);
+            if (isActive) {
+              p.querySelectorAll('video').forEach(v => v.play());
+            } else {
+              p.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
+            }
+          });
+        }
+
+        abBtns.forEach(btn => {
+          btn.addEventListener('click', () => showAbPanel(btn.dataset.view));
+        });
+        if (abBtns.length) showAbPanel(abBtns[0].dataset.view);
+      }
     })();
   </script>
 </body>
