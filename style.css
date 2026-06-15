@@ -26,6 +26,13 @@
   --radius-card:      10px;
   --radius-thumb:     8px;
 
+  --space-xs:         8px;
+  --space-sm:         16px;
+  --space-md:         24px;
+  --space-lg:         40px;
+  --space-xl:         60px;
+  --space-section:    80px;
+
   --hero-collapsed-h: 78px;
   --subnav-h:         56px;
 }
