@@ -33,6 +33,18 @@ document.querySelectorAll('.case-carousel-group').forEach(group => {
   if (subnav.length) showPanel(subnav[0].dataset.view);
 });
 
+// ─── Content pipeline diagram: animate on scroll ─────
+
+const pipeline = document.querySelector('.disney-pipeline');
+if (pipeline) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      pipeline.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { threshold: 0.3 });
+  io.observe(pipeline);
+}
+
 // ─── Lightbox ────────────────────────────────────────
 
 const lightbox = document.createElement('div');
