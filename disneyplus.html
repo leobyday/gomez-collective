@@ -242,57 +242,94 @@
         </div>
       </div>
 
-      <!-- ─── Feature Enhancement ──────────────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Feature Enhancement</p>
-        <div class="dp-feature-grid" style="margin-top: 32px;">
-          <div class="dp-feature-item">
-            <span class="dp-feature-label">Hypothesis</span>
-            <img class="dp-feature-img" src="assets/04_Disney/Search/01_DisneyGif.gif" alt="Disney+ Search — Hypothesis">
+      <!-- ─── Feature Enhancement multiview ───────────── -->
+      <div class="multiview case-carousel-group">
+        <p class="multiview__title">Feature Enhancement</p>
+        <nav class="case-subnav" aria-label="Feature Enhancement views">
+          <button class="case-subnav-btn" data-view="fe-hypothesis">Hypothesis</button>
+          <button class="case-subnav-btn" data-view="fe-default">Default</button>
+          <button class="case-subnav-btn" data-view="fe-enhanced">Enhanced design</button>
+        </nav>
+        <div class="case-carousel case-carousel--fluid" role="region" aria-label="Feature Enhancement carousel">
+          <div class="case-carousel-panel" data-view="fe-hypothesis">
+            <img class="case-carousel-img" src="assets/04_Disney/Search/01_DisneyGif.gif" alt="Disney+ Search — Hypothesis" style="width:100%;display:block;border-radius:8px;">
           </div>
-          <div class="dp-feature-item">
-            <span class="dp-feature-label">Default</span>
-            <img class="dp-feature-img" src="assets/04_Disney/Search/02_Search_beginning.png" alt="Disney+ Search — Default">
+          <div class="case-carousel-panel" data-view="fe-default">
+            <img class="case-carousel-img" src="assets/04_Disney/Search/02_Search_beginning.png" alt="Disney+ Search — Default" style="width:100%;display:block;border-radius:8px;">
           </div>
-          <div class="dp-feature-item">
-            <span class="dp-feature-label">Enhanced design</span>
-            <img class="dp-feature-img" src="assets/04_Disney/Search/03_Search_solution.png" alt="Disney+ Search — Enhanced design">
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── Typography and Scripts ───────────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Typography and Scripts</p>
-        <p class="case-s4-description">Drove the font and typography strategy across CJK, Latin, and RTL scripts. Each script family brought distinct rendering constraints, legibility requirements, and accessibility considerations that had to be validated at launch scale across devices.</p>
-        <div class="case-s4-images" style="margin-top: 32px;">
-          <div style="width:100%;aspect-ratio:16/9;background:var(--color-bg);border:1.5px dashed var(--color-divider);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.04em;color:var(--color-muted);">IMAGE PLACEHOLDER</span>
-          </div>
-          <img src="assets/04_Disney/Screen.png" alt="Disney+ — Screen">
-        </div>
-      </div>
-
-      <!-- ─── Design System ─────────────────────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Design System</p>
-        <p class="case-s4-description">Built a design system capable of adapting to dozens of languages and scripts simultaneously, across mobile apps, responsive web, and TV surfaces.</p>
-        <div class="case-s4-images" style="margin-top: 32px;">
-          <div style="width:100%;aspect-ratio:16/9;background:var(--color-bg);border:1.5px dashed var(--color-divider);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.04em;color:var(--color-muted);">IMAGE PLACEHOLDER</span>
+          <div class="case-carousel-panel" data-view="fe-enhanced">
+            <img class="case-carousel-img" src="assets/04_Disney/Search/03_Search_solution.png" alt="Disney+ Search — Enhanced design" style="width:100%;display:block;border-radius:8px;">
           </div>
         </div>
       </div>
 
-      <!-- ─── Growth and Rollout ────────────────────── -->
+      <!-- ─── Pillars of International ─────────────────── -->
       <div class="case-s4">
-        <p class="case-panel-title">Growth and Rollout</p>
-        <p class="case-s4-description">Validated and built the product across languages, devices, and markets ahead of each regional rollout. Drove growth strategy alongside product and marketing to support the expansion from 9M to 200M subscribers.</p>
-        <div class="case-s4-images" style="margin-top: 32px;">
-          <div style="width:100%;aspect-ratio:16/9;background:var(--color-bg);border:1.5px dashed var(--color-divider);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.04em;color:var(--color-muted);">IMAGE PLACEHOLDER</span>
-          </div>
+        <p class="case-panel-title">Pillars of International</p>
+        <div class="dp-pillars-diagram">
+          <svg viewBox="0 0 1600 780" width="100%" height="auto" aria-hidden="true" style="display:block;">
+
+            <!-- Center node -->
+            <circle class="dp-pillar-ring" cx="800" cy="370" r="82"/>
+            <text class="dp-pillar-center-cat" x="800" y="360" text-anchor="middle">DISNEY+</text>
+            <text class="dp-pillar-center-name" x="800" y="390" text-anchor="middle">International</text>
+
+            <!-- Pillar 1: Research (top) -->
+            <g class="dp-pillar dp-pillar--1">
+              <path class="dp-pillar-line" pathLength="1" d="M 800,80 L 800,288"/>
+              <circle class="dp-pillar-dot" cx="800" cy="80" r="6"/>
+              <text class="dp-pillar-name" x="800" y="38" text-anchor="middle">User Insights</text>
+              <text class="dp-pillar-cat" x="800" y="64" text-anchor="middle">RESEARCH</text>
+            </g>
+
+            <!-- Pillar 2: Design System + Typography (top-right) -->
+            <g class="dp-pillar dp-pillar--2">
+              <path class="dp-pillar-line" pathLength="1" d="M 1051,225 L 871,329"/>
+              <circle class="dp-pillar-dot" cx="1051" cy="225" r="6"/>
+              <text class="dp-pillar-cat" x="1068" y="198" text-anchor="start">DESIGN SYSTEM</text>
+              <text class="dp-pillar-name" x="1068" y="230" text-anchor="start">Typography &amp; Scripts</text>
+            </g>
+
+            <!-- Pillar 3: Content Pipelines (bottom-right) -->
+            <g class="dp-pillar dp-pillar--3">
+              <path class="dp-pillar-line" pathLength="1" d="M 1051,515 L 871,411"/>
+              <circle class="dp-pillar-dot" cx="1051" cy="515" r="6"/>
+              <text class="dp-pillar-cat" x="1068" y="502" text-anchor="start">CONTENT</text>
+              <text class="dp-pillar-name" x="1068" y="536" text-anchor="start">Pipelines</text>
+            </g>
+
+            <!-- Pillar 4: Feature Enhancement (bottom) -->
+            <g class="dp-pillar dp-pillar--4">
+              <path class="dp-pillar-line" pathLength="1" d="M 800,650 L 800,452"/>
+              <circle class="dp-pillar-dot" cx="800" cy="650" r="6"/>
+              <text class="dp-pillar-cat" x="800" y="674" text-anchor="middle">FEATURE</text>
+              <text class="dp-pillar-name" x="800" y="710" text-anchor="middle">Enhancement</text>
+            </g>
+
+            <!-- Pillar 5: CMS and Workflows (bottom-left) -->
+            <g class="dp-pillar dp-pillar--5">
+              <path class="dp-pillar-line" pathLength="1" d="M 549,515 L 729,411"/>
+              <circle class="dp-pillar-dot" cx="549" cy="515" r="6"/>
+              <text class="dp-pillar-cat" x="532" y="502" text-anchor="end">CMS</text>
+              <text class="dp-pillar-name" x="532" y="536" text-anchor="end">Workflows</text>
+            </g>
+
+            <!-- Pillar 6: Localization (top-left) -->
+            <g class="dp-pillar dp-pillar--6">
+              <path class="dp-pillar-line" pathLength="1" d="M 549,225 L 729,329"/>
+              <circle class="dp-pillar-dot" cx="549" cy="225" r="6"/>
+              <text class="dp-pillar-cat" x="532" y="198" text-anchor="end">LOCALIZATION</text>
+              <text class="dp-pillar-name" x="532" y="230" text-anchor="end">Cultural Nuance</text>
+            </g>
+
+          </svg>
         </div>
+      </div>
+
+      <!-- ─── Impact ──────────────────────────────────── -->
+      <div class="case-s4">
+        <p class="case-panel-title">Impact</p>
+        <p class="dp-impact-text">The internationalization framework built pre-launch became the foundation for one of the fastest global expansions in streaming history. Disney+ today operates in 150 countries with over 132 million subscribers — infrastructure that was designed to scale from day one.</p>
       </div>
 
       <!-- ─── Footer ────────────────────────────────── -->

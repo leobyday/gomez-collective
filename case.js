@@ -46,6 +46,19 @@ if (triptych) {
   ioT.observe(triptych);
 }
 
+// ─── Pillars diagram: animate on scroll (once) ───────
+
+const pillars = document.querySelector('.dp-pillars-diagram');
+if (pillars) {
+  const ioP = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      pillars.classList.add('in-view');
+      ioP.disconnect();
+    }
+  }, { threshold: 0.2 });
+  ioP.observe(pillars);
+}
+
 // ─── Content pipeline diagram: animate on scroll ─────
 
 const pipeline = document.querySelector('.disney-pipeline');

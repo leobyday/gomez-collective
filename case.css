@@ -533,34 +533,76 @@
   letter-spacing: -0.02em;
 }
 
-/* ─── Disney+ Feature Enhancement comparison ──────────── */
+/* ─── Disney+ Pillars of International diagram ────────── */
 
-.dp-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.dp-feature-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.dp-feature-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-olive);
-}
-
-.dp-feature-img {
-  width: 100%;
-  height: auto;
-  display: block;
+.dp-pillars-diagram {
+  position: relative;
+  background: #0d0e14;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  width: 100%;
+  overflow: hidden;
+  margin-top: 32px;
+}
+
+/* Base state — all hidden */
+.dp-pillar-line {
+  fill: none;
+  stroke: #9899a6;
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.dp-pillar-dot { fill: #9899a6; opacity: 0; }
+.dp-pillar-cat { font-family: 'Source Code Pro', monospace; font-size: 22px; fill: #9899a6; letter-spacing: 0.08em; opacity: 0; }
+.dp-pillar-name { font-family: 'Sorts Mill Goudy', Georgia, serif; font-size: 30px; fill: #ffffff; opacity: 0; }
+
+.dp-pillar-ring        { fill: none; stroke: #9899a6; stroke-width: 1.5; opacity: 0; }
+.dp-pillar-center-cat  { font-family: 'Source Code Pro', monospace; font-size: 24px; fill: #9899a6; letter-spacing: 0.06em; opacity: 0; }
+.dp-pillar-center-name { font-family: 'Sorts Mill Goudy', Georgia, serif; font-size: 28px; fill: #ffffff; opacity: 0; }
+
+/* Triggered on in-view */
+.dp-pillars-diagram.in-view .dp-pillar-ring        { animation: dp-fade 0.5s 0.0s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar-center-cat  { animation: dp-fade 0.5s 0.1s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar-center-name { animation: dp-fade 0.5s 0.2s ease forwards; }
+
+.dp-pillars-diagram.in-view .dp-pillar--1 .dp-pillar-dot { animation: dp-fade 0.25s 0.25s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--2 .dp-pillar-dot { animation: dp-fade 0.25s 0.45s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--3 .dp-pillar-dot { animation: dp-fade 0.25s 0.65s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--4 .dp-pillar-dot { animation: dp-fade 0.25s 0.85s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--5 .dp-pillar-dot { animation: dp-fade 0.25s 1.05s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--6 .dp-pillar-dot { animation: dp-fade 0.25s 1.25s ease forwards; }
+
+.dp-pillars-diagram.in-view .dp-pillar--1 .dp-pillar-line { animation: dp-draw 0.7s 0.30s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--2 .dp-pillar-line { animation: dp-draw 0.7s 0.50s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--3 .dp-pillar-line { animation: dp-draw 0.7s 0.70s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--4 .dp-pillar-line { animation: dp-draw 0.7s 0.90s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--5 .dp-pillar-line { animation: dp-draw 0.7s 1.10s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--6 .dp-pillar-line { animation: dp-draw 0.7s 1.30s ease forwards; }
+
+.dp-pillars-diagram.in-view .dp-pillar--1 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--1 .dp-pillar-name { animation: dp-fade 0.4s 1.05s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--2 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--2 .dp-pillar-name { animation: dp-fade 0.4s 1.20s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--3 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--3 .dp-pillar-name { animation: dp-fade 0.4s 1.35s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--4 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--4 .dp-pillar-name { animation: dp-fade 0.4s 1.50s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--5 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--5 .dp-pillar-name { animation: dp-fade 0.4s 1.65s ease forwards; }
+.dp-pillars-diagram.in-view .dp-pillar--6 .dp-pillar-cat,
+.dp-pillars-diagram.in-view .dp-pillar--6 .dp-pillar-name { animation: dp-fade 0.4s 1.80s ease forwards; }
+
+/* ─── Disney+ Impact ──────────────────────────────────── */
+
+.dp-impact-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.75;
+  color: var(--color-text);
+  max-width: 860px;
+  margin-top: 8px;
 }
 
 /* Subnav — centered, no full-width underline */
