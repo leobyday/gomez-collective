@@ -356,19 +356,19 @@
 
 .disney-pipeline {
   position: relative;
-  background: #000;
+  background: #0d0e14;
   border-radius: 8px;
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 1774/1405;
   overflow: hidden;
 }
 
-/* Screen.png positioned in the center 66% of the 16:9 container */
+/* Content Pipelines.png positioned centered with dark margins for annotation labels */
 .disney-pipeline__screen {
   position: absolute;
-  left: 17%;
-  top: 17%;
-  width: 66%;
+  left: 12%;
+  top: 10%;
+  width: 76%;
   height: auto;
   display: block;
   border-radius: 3px;
