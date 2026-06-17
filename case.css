@@ -456,32 +456,84 @@
   animation: dp-fade 0.4s 1.6s ease forwards;
 }
 
-/* ─── Disney+ Iterating collage ───────────────────────── */
+/* ─── Disney+ Iterating grid ──────────────────────────── */
 
-.dp-collage {
+.dp-iterating-grid {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  overflow: visible;
+  gap: 10px;
+  height: 540px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.dp-collage-img {
-  height: 260px;
-  width: auto;
-  flex-shrink: 0;
-  border-radius: 8px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12);
+.dp-iterating-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.dp-iterating-img {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+}
+
+/* ─── Disney+ Research triptych ───────────────────────── */
+
+.dp-research-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 400px;
+  gap: 3px;
+  background: var(--color-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+
+.dp-research-panel {
   position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
 }
 
-.dp-collage-img:not(:first-child) {
-  margin-left: -48px;
+.dp-research-triptych.in-view .dp-research-panel:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s;    }
+.dp-research-triptych.in-view .dp-research-panel:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.18s; }
+.dp-research-triptych.in-view .dp-research-panel:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.36s; }
+
+.dp-research-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.dp-collage-img:nth-child(1) { z-index: 1; }
-.dp-collage-img:nth-child(2) { z-index: 2; }
-.dp-collage-img:nth-child(3) { z-index: 3; }
-.dp-collage-img:nth-child(4) { z-index: 4; }
+.dp-research-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.20);
+  pointer-events: none;
+}
+
+.dp-research-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-family: var(--font-sans);
+  font-size: 56px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 2;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
 
 /* Subnav — centered, no full-width underline */
 
@@ -1249,7 +1301,7 @@
 .lightbox-img {
   display: block;
   flex-shrink: 0;
-  height: auto;
+  max-width: none;
   border-radius: 4px;
   box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6);
   cursor: zoom-out;

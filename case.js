@@ -33,6 +33,19 @@ document.querySelectorAll('.case-carousel-group').forEach(group => {
   if (subnav.length) showPanel(subnav[0].dataset.view);
 });
 
+// ─── Research triptych: fade in once on scroll ───────
+
+const triptych = document.querySelector('.dp-research-triptych');
+if (triptych) {
+  const ioT = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      triptych.classList.add('in-view');
+      ioT.disconnect();
+    }
+  }, { threshold: 0.25 });
+  ioT.observe(triptych);
+}
+
 // ─── Content pipeline diagram: animate on scroll ─────
 
 const pipeline = document.querySelector('.disney-pipeline');
@@ -55,11 +68,19 @@ document.body.appendChild(lightbox);
 const lightboxImg = lightbox.querySelector('.lightbox-img');
 
 function openLightbox(img) {
-  const rect = img.getBoundingClientRect();
   lightboxImg.src = img.src;
   lightboxImg.alt = img.alt || '';
-  lightboxImg.style.width = Math.round(rect.width * 2) + 'px';
-  lightboxImg.style.height = 'auto';
+  lightboxImg.style.width = '';
+  lightboxImg.style.height = '';
+  const setNaturalSize = () => {
+    lightboxImg.style.width  = lightboxImg.naturalWidth  + 'px';
+    lightboxImg.style.height = lightboxImg.naturalHeight + 'px';
+  };
+  if (lightboxImg.naturalWidth) {
+    setNaturalSize();
+  } else {
+    lightboxImg.addEventListener('load', setNaturalSize, { once: true });
+  }
   lightbox.classList.add('active');
   lightbox.scrollTop = 0;
   lightbox.scrollLeft = 0;
