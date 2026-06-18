@@ -550,14 +550,8 @@
 
 /* ─── Feature Enhancement carousel images ─────────────── */
 
-.dp-fe-img {
-  display: block;
-  max-height: 580px;
-  max-width: 100%;
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  border-radius: 8px;
+.dp-fe-hypothesis .case-carousel-full img {
+  width: 70%;
 }
 
 /* ─── Disney+ Impact ──────────────────────────────────── */
