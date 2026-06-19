@@ -837,6 +837,63 @@
   display: block;
 }
 
+/* ─── A/B video play/pause overlay ───────────────────── */
+
+.ab-video-wrap {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+
+.ab-video-wrap video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+.ab-play-btn {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ab-play-btn-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ab-play-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Show button on hover or when paused */
+.ab-video-wrap:hover .ab-play-btn-circle,
+.ab-video-wrap.is-paused .ab-play-btn-circle {
+  opacity: 1;
+}
+
+/* Icon state: playing = show pause icon; paused = show play icon */
+.ab-icon-play  { display: none; }
+.ab-icon-pause { display: block; }
+.ab-video-wrap.is-paused .ab-icon-play  { display: block; }
+.ab-video-wrap.is-paused .ab-icon-pause { display: none; }
+
 /* ─── Chrome Extension panel ─────────────────────────── */
 
 .chrome-toggle {

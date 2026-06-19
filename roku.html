@@ -195,27 +195,51 @@
             <!-- ML Content Rows -->
             <div class="case-carousel-panel" data-view="ml-content-rows">
               <div class="case-carousel-full">
-                <video autoplay muted loop playsinline>
-                  <source src="assets/03_Roku/Homescreen/Multiview/ML content rows (1).mp4" type="video/mp4">
-                </video>
+                <div class="ab-video-wrap">
+                  <video autoplay muted loop playsinline>
+                    <source src="assets/03_Roku/Homescreen/Multiview/ML content rows (1).mp4" type="video/mp4">
+                  </video>
+                  <button class="ab-play-btn" aria-label="Play / Pause">
+                    <span class="ab-play-btn-circle">
+                      <svg class="ab-icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.75L17.25 12L6 19.25V4.75Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                      <svg class="ab-icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5H7a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zM17 5h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z" fill="white"/></svg>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
             <!-- Customize the Grid -->
             <div class="case-carousel-panel" data-view="customize-grid">
               <div class="case-carousel-full">
-                <video muted loop playsinline>
-                  <source src="assets/03_Roku/Homescreen/Multiview/Customize the gride.mp4" type="video/mp4">
-                </video>
+                <div class="ab-video-wrap is-paused">
+                  <video muted loop playsinline>
+                    <source src="assets/03_Roku/Homescreen/Multiview/Customize the gride.mp4" type="video/mp4">
+                  </video>
+                  <button class="ab-play-btn" aria-label="Play / Pause">
+                    <span class="ab-play-btn-circle">
+                      <svg class="ab-icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.75L17.25 12L6 19.25V4.75Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                      <svg class="ab-icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5H7a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zM17 5h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z" fill="white"/></svg>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
             <!-- Moments of Delight -->
             <div class="case-carousel-panel" data-view="delight">
               <div class="case-carousel-full">
-                <video muted loop playsinline>
-                  <source src="assets/03_Roku/Homescreen/Apptileanimation.mp4" type="video/mp4">
-                </video>
+                <div class="ab-video-wrap is-paused">
+                  <video muted loop playsinline>
+                    <source src="assets/03_Roku/Homescreen/Apptileanimation.mp4" type="video/mp4">
+                  </video>
+                  <button class="ab-play-btn" aria-label="Play / Pause">
+                    <span class="ab-play-btn-circle">
+                      <svg class="ab-icon-play" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4.75L17.25 12L6 19.25V4.75Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                      <svg class="ab-icon-pause" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5H7a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zM17 5h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z" fill="white"/></svg>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -381,17 +405,38 @@
           abPanels.forEach(p => {
             const isActive = p.dataset.view === view;
             p.classList.toggle('active', isActive);
-            if (isActive) {
-              p.querySelectorAll('video').forEach(v => v.play());
-            } else {
-              p.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
-            }
+            p.querySelectorAll('.ab-video-wrap').forEach(wrap => {
+              const v = wrap.querySelector('video');
+              if (isActive) {
+                v.play();
+                wrap.classList.remove('is-paused');
+              } else {
+                v.pause();
+                v.currentTime = 0;
+                wrap.classList.add('is-paused');
+              }
+            });
           });
         }
 
         abBtns.forEach(btn => {
           btn.addEventListener('click', () => showAbPanel(btn.dataset.view));
         });
+
+        // ─── Play/pause button toggle ─────────────────────
+        abCarousel.querySelectorAll('.ab-video-wrap').forEach(wrap => {
+          const video = wrap.querySelector('video');
+          wrap.querySelector('.ab-play-btn').addEventListener('click', () => {
+            if (video.paused) {
+              video.play();
+              wrap.classList.remove('is-paused');
+            } else {
+              video.pause();
+              wrap.classList.add('is-paused');
+            }
+          });
+        });
+
         if (abBtns.length) showAbPanel(abBtns[0].dataset.view);
       }
     })();
