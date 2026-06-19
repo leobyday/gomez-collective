@@ -1,0 +1,458 @@
+/* ── Reset & tokens ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg:      #ecf1f3;
+  --color-surface: #ffffff;
+  --color-text:    #3d3838;
+  --color-olive:   #847e65;
+  --color-muted:   #979797;
+  --color-dim:     #b8b7b7;
+  --font-serif:    'Sorts Mill Goudy', Georgia, serif;
+  --font-sans:     'Jost', sans-serif;
+  --radius-thumb:  8px;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.pres-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 200;
+}
+
+.pres-home {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--color-olive);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.pres-home:hover { opacity: 1; }
+
+.pres-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.pres-btn svg { width: 14px; height: 14px; }
+.pres-btn:hover { opacity: 0.75; }
+
+:fullscreen .pres-topbar,
+:-webkit-full-screen .pres-topbar { opacity: 0; transition: opacity 0.3s; }
+:fullscreen .pres-topbar:hover,
+:-webkit-full-screen .pres-topbar:hover { opacity: 1; }
+
+/* ── Slide counter ───────────────────────────────────────── */
+.pres-counter {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--color-dim);
+  user-select: none;
+}
+
+/* ── Slides wrap ─────────────────────────────────────────── */
+.slides-wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Individual slide — pure fade ────────────────────────── */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 96px 64px;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.slide.is-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 860px;
+}
+
+.slide-inner--wide {
+  max-width: 980px;
+}
+
+/* ── Slide 1 — Welcome ───────────────────────────────────── */
+.s-eyebrow {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 28px;
+}
+
+.s-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--color-text);
+}
+
+.s-headline em {
+  font-style: italic;
+  color: var(--color-olive);
+}
+
+/* ── Section title (shared) ──────────────────────────────── */
+.s-title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: 40px;
+}
+
+/* ── Slide 2 — About ─────────────────────────────────────── */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--color-dim);
+  border-bottom: 1px solid var(--color-dim);
+  margin-bottom: 44px;
+}
+
+.about-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px 0;
+  border-right: 1px solid var(--color-dim);
+}
+.about-stat:first-child { padding-right: 28px; }
+.about-stat:nth-child(2) { padding: 24px 28px; }
+.about-stat:last-child { padding-left: 28px; border-right: none; }
+
+.about-stat-num {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.about-stat-label {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+}
+
+.about-bio {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-text);
+  max-width: 580px;
+  padding-left: 20px;
+  border-left: 2px solid var(--color-olive);
+}
+
+/* ── Slide 3 — Work ──────────────────────────────────────── */
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.work-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.work-thumb-wrap {
+  position: relative;
+  border-radius: var(--radius-thumb);
+  overflow: visible;
+}
+
+.work-shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(217,217,217,0.6), rgba(132,127,117,0.6));
+  filter: blur(25px);
+  border-radius: var(--radius-thumb);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.work-thumb {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-thumb);
+  height: 220px;
+  z-index: 1;
+}
+
+.work-thumb--media img,
+.work-thumb--media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+/* Phone overlay — AminoChain */
+.work-phone-wrap {
+  position: absolute;
+  z-index: 3;
+}
+
+.work-phone-wrap--straight {
+  top: 10%;
+  right: 4%;
+  width: 24.5%;
+  transform: rotate(0.27deg);
+  transform-origin: top right;
+}
+
+.work-phone-shadow {
+  position: absolute;
+  inset: 8% 8%;
+  background: linear-gradient(to bottom, rgba(217,217,217,0.6), rgba(132,127,117,0.6));
+  filter: blur(20px);
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.work-phone {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+.work-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* ── Slide 4 — Why two ───────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+.why-rule {
+  align-self: stretch;
+  background: var(--color-dim);
+  margin-top: 4px;
+}
+
+.why-company {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.why-tag {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 22px;
+}
+
+.why-body {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* ── Slide 5 — AminoChain deep dive ─────────────────────── */
+.deepdive-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 32px 52px;
+}
+
+.deepdive-cell {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-dim);
+}
+
+.deepdive-label {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  margin-bottom: 12px;
+}
+
+.deepdive-body {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+/* ── Slide 6 — Process ───────────────────────────────────── */
+.process-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.process-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-dim);
+}
+
+.process-num {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--color-dim);
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+.process-head {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.process-body {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--color-text);
+  opacity: 0.75;
+}
+
+/* ── Slide 7 — Faire ─────────────────────────────────────── */
+.faire-line {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--color-text);
+  opacity: 0.55;
+  margin-bottom: 24px;
+}
+
+.faire-line--emphasis {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3.2vw, 40px);
+  font-weight: 400;
+  line-height: 1.3;
+  opacity: 1;
+  margin-bottom: 32px;
+}
+
+.faire-line--sub {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--color-olive);
+  opacity: 1;
+  text-transform: uppercase;
+}
+
+/* ── Nav arrows ──────────────────────────────────────────── */
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(61, 56, 56, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: border-color 0.2s, opacity 0.2s;
+}
+
+.nav-arrow svg { width: 18px; height: 18px; }
+.nav-arrow:hover { border-color: var(--color-text); }
+
+.nav-arrow:disabled {
+  opacity: 0.18;
+  cursor: default;
+  pointer-events: none;
+}
+
+.nav-arrow--prev { left: 20px; }
+.nav-arrow--next { right: 20px; }
