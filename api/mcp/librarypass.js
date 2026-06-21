@@ -465,6 +465,7 @@ const LANDING_HTML = `<!DOCTYPE html>
       --sans:'Jost',sans-serif;--mono:'Source Code Pro',monospace;
     }
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
     html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
 
@@ -479,9 +480,12 @@ const LANDING_HTML = `<!DOCTYPE html>
     .hero-headline{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
     .hero-headline em{font-style:italic;color:var(--olive)}
     .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
-    .hero-icons{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:32px 0;animation:fadeUp .6s ease both;animation-delay:.55s}
-    .hero-icon{width:20px;height:20px;opacity:.55;transition:opacity .2s}
-    .hero-icon:hover{opacity:1}
+    .hero-marquee{width:100%;overflow:hidden;margin:36px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
+    .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
+    .hero-marquee-track{display:flex;gap:36px;animation:marquee 28s linear infinite;width:max-content}
+    .hero-marquee-item{display:flex;align-items:center;gap:8px;flex-shrink:0;padding:6px 14px;background:var(--surface);border:1px solid var(--divider);border-radius:6px}
+    .hero-icon{width:15px;height:15px;opacity:.65;flex-shrink:0}
+    .hero-icon-name{font-size:12px;color:var(--body);font-family:var(--sans);white-space:nowrap}
     .url-box{display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:8px;overflow:hidden;max-width:100%;animation:fadeUp .6s ease both;animation-delay:.7s}
     .url-text{font-family:var(--mono);font-size:14px;color:var(--text);padding:12px 18px;letter-spacing:.02em;user-select:all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .url-divider{width:1px;background:var(--divider);align-self:stretch;flex-shrink:0}
@@ -522,8 +526,12 @@ const LANDING_HTML = `<!DOCTYPE html>
     .prompt-item:hover{border-color:var(--olive)}
     .prompt-arrow{font-size:14px;color:var(--olive);margin-top:1px;flex-shrink:0}
     .prompt-text{font-family:var(--mono);font-size:13px;color:var(--text);line-height:1.65;flex:1}
-    .prompt-copy-btn{font-family:var(--mono);font-size:11px;color:var(--dim);flex-shrink:0;margin-top:2px;transition:color .2s}
+    .prompt-copy-btn{display:flex;align-items:center;color:var(--dim);flex-shrink:0;transition:color .2s}
     .prompt-item:hover .prompt-copy-btn{color:var(--olive)}
+    .prompt-copy-btn .icon-check{display:none}
+    .prompt-copy-btn.copied{color:var(--olive)}
+    .prompt-copy-btn.copied .icon-copy{display:none}
+    .prompt-copy-btn.copied .icon-check{display:block}
 
     .free-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);border:1px solid var(--divider);border-radius:4px;padding:3px 10px;margin-left:12px;vertical-align:middle}
 
@@ -573,23 +581,53 @@ const LANDING_HTML = `<!DOCTYPE html>
   <section class="hero">
     <p class="hero-eyebrow">MCP connector for Claude Code</p>
     <h1 class="hero-headline"><em>Librarypass</em></h1>
-    <p class="hero-tagline">Install, learn, and stay current with React and UI libraries, directly in Claude Code. No guessing versions. No stale docs. No looking things up.</p>
-    <div class="hero-icons">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="Tailwind CSS" title="Tailwind CSS" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="shadcn/ui" title="shadcn/ui" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="MUI" title="MUI" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="Mantine" title="Mantine" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="Chakra UI" title="Chakra UI" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="NextUI" title="NextUI" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="Radix UI" title="Radix UI" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="Headless UI" title="Headless UI" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="Lucide" title="Lucide" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="Framer Motion" title="Framer Motion" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="React Hook Form" title="React Hook Form" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="Zod" title="Zod" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="TanStack Query" title="TanStack Query" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="TanStack Table" title="TanStack Table" onerror="this.style.display='none'">
-      <img class="hero-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="Day.js" title="Day.js" onerror="this.style.display='none'">
+    <p class="hero-tagline">Install, learn, and stay current with React and UI libraries, directly in Claude Code.<br>No guessing versions. No stale docs. No looking things up.</p>
+    <div class="hero-marquee">
+      <div class="hero-marquee-track">
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Tailwind CSS</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">shadcn/ui</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">MUI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Mantine</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Chakra UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">NextUI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Radix UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Headless UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Lucide</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Framer Motion</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">React Hook Form</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Zod</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">TanStack Query</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">TanStack Table</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Day.js</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Zustand</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Recharts</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">React Icons</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Heroicons</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">AutoAnimate</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">clsx</span></div>
+        <!-- duplicate for seamless loop -->
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Tailwind CSS</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">shadcn/ui</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">MUI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Mantine</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Chakra UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">NextUI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Radix UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Headless UI</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Lucide</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Framer Motion</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">React Hook Form</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Zod</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">TanStack Query</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">TanStack Table</span></div>
+        <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Day.js</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Zustand</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Recharts</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">React Icons</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Heroicons</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">AutoAnimate</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">clsx</span></div>
+      </div>
     </div>
     <div class="url-box">
       <span class="url-text">https://gomezcollective.com/mcp/librarypass</span>
@@ -757,42 +795,42 @@ const LANDING_HTML = `<!DOCTYPE html>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass recommend I'm building a SaaS dashboard with real-time data, tables, and charts</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass install shadcn</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass component shadcn data table</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass configure lucide icons stroke 1.5px</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass install tailwind with dark mode</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass recommend mobile app</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass list mantine</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
         <span class="prompt-text">/librarypass request react-spring for spring physics animations</span>
-        <span class="prompt-copy-btn">copy</span>
+        <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
     </div>
   </section>
@@ -821,9 +859,9 @@ const LANDING_HTML = `<!DOCTYPE html>
   function copyPrompt(el) {
     const text = el.querySelector('.prompt-text').textContent.trim()
     navigator.clipboard.writeText(text).then(() => {
-      const lbl = el.querySelector('.prompt-copy-btn')
-      lbl.textContent = 'copied!'
-      setTimeout(() => { lbl.textContent = 'copy' }, 1500)
+      const btn = el.querySelector('.prompt-copy-btn')
+      btn.classList.add('copied')
+      setTimeout(() => btn.classList.remove('copied'), 1500)
     })
   }
 
