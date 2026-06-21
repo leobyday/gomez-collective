@@ -483,13 +483,22 @@ const LANDING_HTML = `<!DOCTYPE html>
       font-family: 'Nabla';
       base-palette: 0;
       override-colors:
-        0 #ffb3d4,
-        1 #f06ab0,
-        2 #c43d9a,
-        3 #8b48cc,
-        4 #5568e8,
-        5 #d44fa0,
-        6 #2244b8;
+        0 #e070c8,
+        1 #cc44b0,
+        2 #a038c0,
+        3 #7750e0,
+        4 #5566e8,
+        5 #3355cc,
+        6 #0e1438,
+        7 #cc60d0,
+        8 #f0a0e0,
+        9 #0a0e30,
+        10 #8844cc,
+        11 #bb55c8,
+        12 #4455cc,
+        13 #141840,
+        14 #6644d0,
+        15 #080c28;
     }
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -589,7 +598,8 @@ const LANDING_HTML = `<!DOCTYPE html>
     .story-steps{display:flex;flex-direction:column;gap:0}
     .story-step{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--divider);align-items:flex-start}
     .story-step:last-child{border-bottom:1px solid var(--divider)}
-    .story-icon{font-size:14px;margin-top:1px;flex-shrink:0;width:20px;text-align:center}
+    .story-num{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:3px;flex-shrink:0;width:20px;text-align:center;letter-spacing:.04em}
+    .story-col:last-child .story-num{color:var(--olive)}
     .story-text{font-size:15px;color:var(--text);line-height:1.6}
     .story-text strong{color:var(--text);font-weight:400}
     @media(max-width:768px){.story-grid{grid-template-columns:1fr;gap:32px}}
@@ -691,23 +701,23 @@ const LANDING_HTML = `<!DOCTYPE html>
         <p class="story-col-label before">Without Librarypass</p>
         <div class="story-steps">
           <div class="story-step">
-            <span class="story-icon">↗</span>
+            <span class="story-num">1</span>
             <p class="story-text">Open a new tab. Search for the library. Find the docs site, hope it hasn&rsquo;t moved.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon">↗</span>
+            <span class="story-num">2</span>
             <p class="story-text">Ask Claude to help install it. Claude gives you <strong>commands from six months ago</strong>, before the breaking change.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon">↗</span>
+            <span class="story-num">3</span>
             <p class="story-text">You hit an error. Go back to the docs. The config file format changed. The import path changed.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon">↗</span>
+            <span class="story-num">4</span>
             <p class="story-text">Find the right version, copy the setup steps manually, wire the provider into your root layout.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon">↗</span>
+            <span class="story-num">5</span>
             <p class="story-text"><strong>45 minutes later</strong>, you&rsquo;re set up. You haven&rsquo;t written a single line of product code.</p>
           </div>
         </div>
@@ -716,15 +726,15 @@ const LANDING_HTML = `<!DOCTYPE html>
         <p class="story-col-label after">With <span class="nabla-inline">Librarypass</span></p>
         <div class="story-steps">
           <div class="story-step">
-            <span class="story-icon" style="color:var(--olive)">→</span>
+            <span class="story-num">1</span>
             <p class="story-text">Type <span style="font-family:var(--mono);font-size:13px">/librarypass:install shadcn</span> in Claude Code.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon" style="color:var(--olive)">→</span>
+            <span class="story-num">2</span>
             <p class="story-text">Get the <strong>current</strong> install commands, config files, and a working usage example, pulled live from npm and GitHub.</p>
           </div>
           <div class="story-step">
-            <span class="story-icon" style="color:var(--olive)">→</span>
+            <span class="story-num">3</span>
             <p class="story-text">Claude runs the scaffold, wires everything up. You&rsquo;re writing product code in minutes.</p>
           </div>
         </div>
