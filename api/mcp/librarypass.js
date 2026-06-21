@@ -398,9 +398,23 @@ async function handleMcp(body) {
 
   if (method === 'prompts/get') {
     const name = params?.name
+    const args = params?.arguments || {}
     const prompt = PROMPTS.find(p => p.name === name)
     if (!prompt) return error(-32602, `Prompt "${name}" not found`)
-    return respond({ prompt })
+
+    const text = {
+      recommend: () => `Use the librarypass recommend tool with use_case: "${args.use_case || 'general'}"`,
+      install:   () => `Use the librarypass install tool for library: "${args.library || ''}"${args.options ? `, options: "${args.options}"` : ''}`,
+      component: () => `Use the librarypass component tool for library: "${args.library || ''}", component: "${args.component || ''}"`,
+      list:      () => `Use the librarypass list tool${args.library ? ` with library: "${args.library}"` : ''}`,
+      configure: () => `Use the librarypass configure tool for library: "${args.library || ''}", options: "${args.options || ''}"`,
+      request:   () => `Use the librarypass request tool for library: "${args.library || ''}"${args.description ? `, description: "${args.description}"` : ''}`,
+    }[name]
+
+    return respond({
+      description: prompt.description,
+      messages: [{ role: 'user', content: { type: 'text', text: text ? text() : name } }],
+    })
   }
 
   if (method === 'tools/call') {
