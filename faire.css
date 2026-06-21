@@ -5,6 +5,7 @@
   --color-bg:      #ecf1f3;
   --color-surface: #ffffff;
   --color-text:    #3d3838;
+  --color-body:    #706b6b;
   --color-olive:   #847e65;
   --color-muted:   #979797;
   --color-dim:     #b8b7b7;
@@ -124,7 +125,7 @@ html, body {
 
 /* ── Slide 1 — Welcome ───────────────────────────────────── */
 .s-eyebrow {
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -186,7 +187,7 @@ html, body {
 .about-stat-label {
   font-size: 16px;
   font-weight: 300;
-  color: var(--color-muted);
+  color: var(--color-body);
   letter-spacing: 0.04em;
 }
 
@@ -195,9 +196,11 @@ html, body {
   font-weight: 300;
   line-height: 1.8;
   color: var(--color-text);
-  max-width: 580px;
   padding-left: 20px;
   border-left: 2px solid var(--color-olive);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* ── Slide 3 — Work ──────────────────────────────────────── */
@@ -247,6 +250,38 @@ html, body {
   object-position: top;
   display: block;
 }
+
+/* AminoChain: proportional display — full height, natural width */
+.work-thumb--natural {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-thumb--natural video,
+.work-thumb--natural img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: initial;
+  display: block;
+}
+
+/* Case study link below card name */
+.work-link {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  text-decoration: none;
+  margin-top: -4px;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+.work-link:hover { opacity: 1; }
 
 /* Phone overlay — AminoChain */
 .work-phone-wrap {
@@ -303,13 +338,52 @@ html, body {
   margin-top: 4px;
 }
 
+/* Step reveal — AminoChain column fades in on next click */
+.why-reveal {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.why-reveal.is-visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
 .why-company {
   font-family: var(--font-serif);
   font-size: 26px;
   font-weight: 400;
   color: var(--color-text);
   margin-bottom: 10px;
+  text-decoration: none;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
+a.why-company:hover { border-bottom-color: var(--color-text); }
+
+.why-see-more {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  text-decoration: none;
+  margin-top: 20px;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+.why-see-more:hover { opacity: 1; }
+
+/* Eyebrow as link (slide 5 + 7) */
+a.s-eyebrow {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+a.s-eyebrow:hover { border-color: var(--color-olive); }
 
 .why-tag {
   font-size: 15px;
@@ -456,3 +530,111 @@ html, body {
 
 .nav-arrow--prev { left: 20px; }
 .nav-arrow--next { right: 20px; }
+
+/* ── Slide animations ────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide 1 — Welcome */
+.slide[data-slide="1"].is-active .s-eyebrow  { animation: fadeUp 0.4s ease 0.08s backwards; }
+.slide[data-slide="1"].is-active .s-headline { animation: fadeUp 0.5s ease 0.22s backwards; }
+
+/* Slide 2 — About me */
+.slide[data-slide="2"].is-active .s-title    { animation: fadeUp 0.4s ease 0.08s backwards; }
+.slide[data-slide="2"].is-active .about-stats { animation: fadeUp 0.4s ease 0.22s backwards; }
+.slide[data-slide="2"].is-active .about-bio  { animation: fadeUp 0.4s ease 0.44s backwards; }
+
+/* Slide 3 — The work */
+.slide[data-slide="3"].is-active .s-title            { animation: fadeUp 0.4s ease 0.08s backwards; }
+.slide[data-slide="3"].is-active .work-card:nth-child(1) { animation: fadeUp 0.4s ease 0.22s backwards; }
+/* work-card:nth-child(2) is .work-reveal — revealed by click, not slide enter */
+
+/* Slide 4 — Why these two */
+.slide[data-slide="4"].is-active .s-title                 { animation: fadeUp 0.4s ease 0.08s backwards; }
+.slide[data-slide="4"].is-active .why-col:not(.why-reveal) { animation: fadeUp 0.4s ease 0.22s backwards; }
+
+/* Slides 5 & 7 — Deepdive (AminoChain + Roku) */
+.slide[data-slide="5"].is-active .s-eyebrow,
+.slide[data-slide="7"].is-active .s-eyebrow { animation: fadeUp 0.4s ease 0.08s backwards; }
+
+/* Only animate first cell on slide enter — cells 2-4 are .cell-hidden, revealed by click */
+.slide[data-slide="5"].is-active .deepdive-cell:nth-child(1),
+.slide[data-slide="7"].is-active .deepdive-cell:nth-child(1) { animation: fadeUp 0.4s ease 0.22s backwards; }
+
+/* Slides 6 & 8 — Process (AminoChain + Roku) */
+.slide[data-slide="6"].is-active .s-eyebrow,
+.slide[data-slide="8"].is-active .s-eyebrow { animation: fadeUp 0.4s ease 0.08s backwards; }
+
+.slide[data-slide="6"].is-active .process-item:nth-child(1),
+.slide[data-slide="8"].is-active .process-item:nth-child(1) { animation: fadeUp 0.4s ease 0.22s backwards; }
+.slide[data-slide="6"].is-active .process-item:nth-child(2),
+.slide[data-slide="8"].is-active .process-item:nth-child(2) { animation: fadeUp 0.4s ease 0.36s backwards; }
+.slide[data-slide="6"].is-active .process-item:nth-child(3),
+.slide[data-slide="8"].is-active .process-item:nth-child(3) { animation: fadeUp 0.4s ease 0.5s backwards; }
+
+/* Slide 9 — Why Faire */
+.slide[data-slide="9"].is-active .s-title            { animation: fadeUp 0.4s ease 0.08s backwards; }
+.slide[data-slide="9"].is-active .faire-line:nth-child(2) { animation: fadeUp 0.4s ease 0.22s backwards; }
+.slide[data-slide="9"].is-active .faire-line:nth-child(3) { animation: fadeUp 0.4s ease 0.38s backwards; }
+.slide[data-slide="9"].is-active .faire-line:nth-child(4) { animation: fadeUp 0.4s ease 0.54s backwards; }
+
+/* ── Topbar actions ──────────────────────────────────────── */
+.pres-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pres-notes-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid rgba(61, 56, 56, 0.28);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.pres-notes-btn svg { width: 14px; height: 14px; }
+.pres-notes-btn:hover { border-color: var(--color-text); }
+
+/* ── Step reveal — work card (slide 3) ───────────────────── */
+.work-reveal {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.work-reveal.is-visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Step reveal — deepdive cells ────────────────────────── */
+.cell-hidden {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.cell-hidden.cell-visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Deepdive SVG visuals ────────────────────────────────── */
+.deepdive-visual {
+  margin-bottom: 10px;
+}
+.deepdive-visual svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}

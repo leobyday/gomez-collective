@@ -1,0 +1,8 @@
+{
+  "name": "gomez-collective",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "posthog-node": "^4.0.1"
+  }
+}

@@ -14,3 +14,13 @@ assets/04_Disney/
 assets/05_Spotify/
 assets/06_Grubhub/
 assets/07_Amex/
+
+# Node
+node_modules/
+.env
+.env.local
+
+# Internal docs
+librarypass-prd.md
+librarypass-README.md
+librarypass-build-prompt.md

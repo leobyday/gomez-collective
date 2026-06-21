@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presenter Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #1a1a1a;
+      --surface: #242424;
+      --border:  #333;
+      --text:    #e8e4de;
+      --muted:   #888;
+      --olive:   #9e9270;
+      --font:    'Jost', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .notes-slide-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .notes-counter {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .notes-slide-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .notes-hint {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .notes-body {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 65px);
+    }
+
+    .notes-textarea {
+      flex: 1;
+      width: 100%;
+      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: var(--font);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      caret-color: var(--olive);
+    }
+
+    .notes-textarea::placeholder {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .notes-footer {
+      padding: 10px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notes-saved-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.3s;
+    }
+    .notes-saved-dot.saved { background: #5a8a5a; }
+  </style>
+</head>
+<body>
+
+  <div class="notes-header">
+    <div class="notes-slide-info">
+      <span class="notes-counter" id="notesCounter">Slide 1 / 9</span>
+      <span class="notes-slide-title" id="notesTitle">Welcome</span>
+    </div>
+    <span class="notes-hint">Only visible to you</span>
+  </div>
+
+  <div class="notes-body">
+    <textarea
+      class="notes-textarea"
+      id="notesTextarea"
+      placeholder="Add notes for this slide…"
+    ></textarea>
+  </div>
+
+  <div class="notes-footer">
+    <div class="notes-saved-dot" id="savedDot"></div>
+    <span id="savedLabel">Notes auto-save as you type</span>
+  </div>
+
+  <script>
+    const slideTitles = [
+      'Welcome',
+      'About me',
+      'The work',
+      'Why these two companies',
+      'AminoChain — Deep dive',
+      'AminoChain — Process',
+      'Roku — Deep dive',
+      'Roku — Process',
+      'Why Faire',
+    ];
+
+    const counter  = document.getElementById('notesCounter');
+    const title    = document.getElementById('notesTitle');
+    const textarea = document.getElementById('notesTextarea');
+    const savedDot = document.getElementById('savedDot');
+    const savedLabel = document.getElementById('savedLabel');
+
+    let currentSlide = 0;
+    let saveTimer = null;
+
+    function noteKey(index) {
+      return `faire-note-${index}`;
+    }
+
+    function loadSlide(index) {
+      currentSlide = index;
+      counter.textContent = `Slide ${index + 1} / ${slideTitles.length}`;
+      title.textContent = slideTitles[index] || `Slide ${index + 1}`;
+      textarea.value = localStorage.getItem(noteKey(index)) || '';
+      savedDot.classList.remove('saved');
+      savedLabel.textContent = 'Notes auto-save as you type';
+    }
+
+    function saveNote() {
+      localStorage.setItem(noteKey(currentSlide), textarea.value);
+      savedDot.classList.add('saved');
+      savedLabel.textContent = 'Saved';
+    }
+
+    textarea.addEventListener('input', () => {
+      savedDot.classList.remove('saved');
+      savedLabel.textContent = 'Saving…';
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveNote, 600);
+    });
+
+    // Sync with main window via localStorage
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'faire-current' && e.newValue !== null) {
+        loadSlide(parseInt(e.newValue, 10));
+      }
+    });
+
+    // Init from main window's current slide
+    const stored = localStorage.getItem('faire-current');
+    loadSlide(stored !== null ? parseInt(stored, 10) : 0);
+  </script>
+
+</body>
+</html>
