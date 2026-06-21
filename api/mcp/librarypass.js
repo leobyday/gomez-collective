@@ -217,7 +217,7 @@ function handleRecommend(args) {
           homepage: entry?.homepage,
         }
       }),
-      next_step: `Run /librarypass install [library] to scaffold any of these — starting with the first one is usually the right call.`,
+      next_step: `Run /librarypass:install [library] to scaffold any of these — starting with the first one is usually the right call.`,
     }
   }
 
@@ -230,7 +230,7 @@ function handleRecommend(args) {
       description: rec.description,
       libraries: rec.stack.map(s => CATALOG[s.key]?.display || s.key),
     })),
-    tip: `Try: /librarypass recommend dashboard — or describe your project and I'll pick the closest match.`,
+    tip: `Try: /librarypass:recommend dashboard — or describe your project and I'll pick the closest match.`,
   }
 }
 
@@ -246,7 +246,7 @@ function handleInstall(args) {
     return {
       error: `Library "${args.library}" not found in Librarypass catalog.`,
       suggestions: suggestions.length ? suggestions : undefined,
-      tip: 'Run /librarypass list to see all supported libraries, or /librarypass request to suggest one.',
+      tip: 'Run /librarypass:list to see all supported libraries, or /librarypass:request to suggest one.',
     }
   }
 
@@ -266,7 +266,7 @@ function handleInstall(args) {
       : null,
     usage_example: entry.install.usage,
     note: entry.install.note || null,
-    tip: `Run /librarypass component ${key} [component-name] to get docs for a specific component.`,
+    tip: `Run /librarypass:component ${key} [component-name] to get docs for a specific component.`,
   }
 }
 
@@ -277,7 +277,7 @@ async function handleComponent(args) {
 
   if (!entry) {
     return {
-      error: `Library "${args.library}" not found. Run /librarypass list to see supported libraries.`,
+      error: `Library "${args.library}" not found. Run /librarypass:list to see supported libraries.`,
     }
   }
 
@@ -342,7 +342,7 @@ function handleList(args) {
     total: Object.keys(CATALOG).length,
     catalog: grouped,
     use_cases: Object.keys(RECOMMENDATIONS),
-    tip: 'Run /librarypass recommend [use case] to get a curated stack, or /librarypass install [library] to get started.',
+    tip: 'Run /librarypass:recommend [use case] to get a curated stack, or /librarypass:install [library] to get started.',
   }
 }
 
@@ -352,7 +352,7 @@ function handleConfigure(args) {
 
   if (!result) {
     return {
-      error: `Library "${args.library}" not found. Run /librarypass list to see supported libraries.`,
+      error: `Library "${args.library}" not found. Run /librarypass:list to see supported libraries.`,
     }
   }
 
@@ -702,7 +702,7 @@ const LANDING_HTML = `<!DOCTYPE html>
         <div class="story-steps">
           <div class="story-step">
             <span class="story-icon" style="color:var(--olive)">→</span>
-            <p class="story-text">Type <span style="font-family:var(--mono);font-size:13px">/librarypass install shadcn</span> in Claude Code.</p>
+            <p class="story-text">Type <span style="font-family:var(--mono);font-size:13px">/librarypass:install shadcn</span> in Claude Code.</p>
           </div>
           <div class="story-step">
             <span class="story-icon" style="color:var(--olive)">→</span>
@@ -795,9 +795,9 @@ const LANDING_HTML = `<!DOCTYPE html>
           <div>
             <p class="step-head">Use slash commands with full autocomplete</p>
             <div class="step-codes">
-              <span class="step-code">/librarypass recommend mobile app</span>
-              <span class="step-code">/librarypass install shadcn</span>
-              <span class="step-code">/librarypass component shadcn dialog</span>
+              <span class="step-code">/librarypass:recommend mobile app</span>
+              <span class="step-code">/librarypass:install shadcn</span>
+              <span class="step-code">/librarypass:component shadcn dialog</span>
             </div>
           </div>
         </div>
@@ -810,34 +810,34 @@ const LANDING_HTML = `<!DOCTYPE html>
     <h2 class="section-title">Everything you need to ask</h2>
     <div class="commands-grid">
       <div class="command-card">
-        <p class="command-name">/librarypass recommend</p>
+        <p class="command-name">/librarypass:recommend</p>
         <p class="command-desc">Don&rsquo;t know where to start? Describe your project and get a curated library stack with reasoning.</p>
-        <p class="command-example">/librarypass recommend saas product</p>
+        <p class="command-example">/librarypass:recommend saas product</p>
       </div>
       <div class="command-card">
-        <p class="command-name">/librarypass install</p>
+        <p class="command-name">/librarypass:install</p>
         <p class="command-desc">Get the full scaffold &mdash; exact commands, config files, and a working usage example.</p>
-        <p class="command-example">/librarypass install tailwind</p>
+        <p class="command-example">/librarypass:install tailwind</p>
       </div>
       <div class="command-card">
-        <p class="command-name">/librarypass component</p>
+        <p class="command-name">/librarypass:component</p>
         <p class="command-desc">Pull live component docs into context. Props, usage, import path &mdash; always current.</p>
-        <p class="command-example">/librarypass component mantine drawer</p>
+        <p class="command-example">/librarypass:component mantine drawer</p>
       </div>
       <div class="command-card">
-        <p class="command-name">/librarypass list</p>
+        <p class="command-name">/librarypass:list</p>
         <p class="command-desc">Show everything Librarypass supports, or list all components in a specific library.</p>
-        <p class="command-example">/librarypass list shadcn</p>
+        <p class="command-example">/librarypass:list shadcn</p>
       </div>
       <div class="command-card">
-        <p class="command-name">/librarypass configure</p>
+        <p class="command-name">/librarypass:configure</p>
         <p class="command-desc">Generate configuration code &mdash; custom themes, icon stroke width, dark mode, CSS variables.</p>
-        <p class="command-example">/librarypass configure lucide stroke 1.5px</p>
+        <p class="command-example">/librarypass:configure lucide stroke 1.5px</p>
       </div>
       <div class="command-card">
-        <p class="command-name">/librarypass request</p>
+        <p class="command-name">/librarypass:request</p>
         <p class="command-desc">Library missing? Request it and it gets added when there&rsquo;s enough demand.</p>
-        <p class="command-example">/librarypass request react-spring</p>
+        <p class="command-example">/librarypass:request react-spring</p>
       </div>
     </div>
   </section>
@@ -876,42 +876,42 @@ const LANDING_HTML = `<!DOCTYPE html>
     <div class="prompts-list">
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass recommend I'm building a SaaS dashboard with real-time data, tables, and charts</span>
+        <span class="prompt-text">/librarypass:recommend I'm building a SaaS dashboard with real-time data, tables, and charts</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass install shadcn</span>
+        <span class="prompt-text">/librarypass:install shadcn</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass component shadcn data table</span>
+        <span class="prompt-text">/librarypass:component shadcn data table</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass configure lucide icons stroke 1.5px</span>
+        <span class="prompt-text">/librarypass:configure lucide icons stroke 1.5px</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass install tailwind with dark mode</span>
+        <span class="prompt-text">/librarypass:install tailwind with dark mode</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass recommend mobile app</span>
+        <span class="prompt-text">/librarypass:recommend mobile app</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass list mantine</span>
+        <span class="prompt-text">/librarypass:list mantine</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
       <div class="prompt-item" onclick="copyPrompt(this)">
         <span class="prompt-arrow">&rarr;</span>
-        <span class="prompt-text">/librarypass request react-spring for spring physics animations</span>
+        <span class="prompt-text">/librarypass:request react-spring for spring physics animations</span>
         <span class="prompt-copy-btn"><svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
     </div>
