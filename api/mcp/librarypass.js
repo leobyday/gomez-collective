@@ -493,7 +493,7 @@ const LANDING_HTML = `<!DOCTYPE html>
     .hero-headline{font-size:clamp(52px,8vw,96px);font-weight:400;line-height:1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
     .hero-headline span{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;letter-spacing:-.01em}
     .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
-    .hero-marquee{width:100%;overflow:hidden;margin:36px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
+    .hero-marquee{width:100%;overflow:hidden;margin:100px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
     .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
     .hero-marquee-track{display:flex;gap:48px;animation:marquee 56s linear infinite;width:max-content}
     .hero-marquee-item{display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -511,8 +511,8 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .section{padding:64px 0;border-bottom:1px solid var(--divider)}
     .section:last-of-type{border-bottom:none}
-    .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:28px}
-    .section-title{font-family:var(--serif);font-size:clamp(24px,3vw,36px);font-weight:400;color:var(--text);margin-bottom:36px;line-height:1.2}
+    .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:28px;text-align:center}
+    .section-title{font-family:var(--serif);font-size:clamp(24px,3vw,36px);font-weight:400;color:var(--text);margin-bottom:36px;line-height:1.2;text-align:center}
 
     .steps-list{display:flex;flex-direction:column}
     .step{display:grid;grid-template-columns:40px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--divider);align-items:start}
