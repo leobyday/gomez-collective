@@ -531,6 +531,13 @@ const LANDING_HTML = `<!DOCTYPE html>
     .step-copy-btn.copied .icon-copy{display:none}
     .step-copy-btn.copied .icon-check{display:block}
 
+    .install-tabs{display:flex;gap:0;margin-bottom:32px;border-bottom:1px solid var(--divider)}
+    .install-tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--body);background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px 10px 0;cursor:pointer;transition:color .2s;margin-bottom:-1px}
+    .install-tab.active{color:var(--text);border-bottom-color:var(--text)}
+    .install-tab:hover:not(.active){color:var(--text)}
+    .install-panel{display:none}
+    .install-panel.active{display:block}
+
     .commands-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--divider);border:1px solid var(--divider);border-radius:10px;overflow:hidden}
     .command-card{background:var(--surface);padding:24px 28px}
     .command-name{font-family:var(--mono);font-size:13px;color:var(--olive);margin-bottom:8px;letter-spacing:.04em}
@@ -713,36 +720,85 @@ const LANDING_HTML = `<!DOCTYPE html>
   <section class="section" id="install-steps">
     <p class="section-label">Getting started</p>
     <h2 class="section-title">Three steps <span class="free-badge">Free</span></h2>
-    <div class="steps-list">
-      <div class="step">
-        <p class="step-num">01</p>
-        <div>
-          <p class="step-head">Open Claude Code settings</p>
-          <p class="step-body">In Claude Code, go to Settings &rarr; Connectors &rarr; Add custom connector.</p>
+
+    <div class="install-tabs">
+      <button class="install-tab active" onclick="switchTab('vscode', this)">Claude Code</button>
+      <button class="install-tab" onclick="switchTab('cli', this)">CLI</button>
+    </div>
+
+    <!-- Claude Code (VS Code extension) -->
+    <div class="install-panel active" id="panel-vscode">
+      <div class="steps-list">
+        <div class="step">
+          <p class="step-num">01</p>
+          <div>
+            <p class="step-head">Open Settings &rarr; Connectors &rarr; Add custom connector</p>
+            <p class="step-body">In the Claude Code panel in VS Code, click the settings icon and go to Connectors.</p>
+          </div>
         </div>
-      </div>
-      <div class="step">
-        <p class="step-num">02</p>
-        <div>
-          <p class="step-head">Paste the connector URL</p>
-          <div class="step-copy-wrap">
-            <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
-            <button class="step-copy-btn" id="stepCopyBtn" onclick="copyStepUrl()" aria-label="Copy URL">
-              <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </button>
+        <div class="step">
+          <p class="step-num">02</p>
+          <div>
+            <p class="step-head">Paste the connector URL</p>
+            <div class="step-copy-wrap">
+              <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
+              <button class="step-copy-btn" id="stepCopyBtn" onclick="copyStepUrl()" aria-label="Copy URL">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <p class="step-num">03</p>
+          <div>
+            <p class="step-head">Ask Claude to use Librarypass</p>
+            <p class="step-body">Claude picks up the tools automatically. Just describe what you need.</p>
+            <div class="step-codes">
+              <span class="step-code">Use librarypass to recommend a stack for my dashboard</span>
+              <span class="step-code">Use librarypass to install shadcn</span>
+              <span class="step-code">Use librarypass to get docs for the shadcn dialog</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="step">
-        <p class="step-num">03</p>
-        <div>
-          <p class="step-head">Use slash commands directly in Claude Code</p>
-          <p class="step-body">Commands appear in autocomplete. You don't need to remember syntax.</p>
-          <div class="step-codes">
-            <span class="step-code">/librarypass recommend mobile app</span>
-            <span class="step-code">/librarypass install shadcn</span>
-            <span class="step-code">/librarypass component shadcn dialog</span>
+    </div>
+
+    <!-- CLI -->
+    <div class="install-panel" id="panel-cli">
+      <div class="steps-list">
+        <div class="step">
+          <p class="step-num">01</p>
+          <div>
+            <p class="step-head">Add the connector</p>
+            <p class="step-body">Run this once in your terminal. Works across all projects.</p>
+            <div class="step-copy-wrap" style="margin-top:10px">
+              <span class="step-code">claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass</span>
+              <button class="step-copy-btn" id="cliCopyBtn" onclick="copyCliCmd()" aria-label="Copy command">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <p class="step-num">02</p>
+          <div>
+            <p class="step-head">Open Claude in your project</p>
+            <div class="step-codes">
+              <span class="step-code">cd my-project && claude</span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <p class="step-num">03</p>
+          <div>
+            <p class="step-head">Use slash commands with full autocomplete</p>
+            <div class="step-codes">
+              <span class="step-code">/librarypass recommend mobile app</span>
+              <span class="step-code">/librarypass install shadcn</span>
+              <span class="step-code">/librarypass component shadcn dialog</span>
+            </div>
           </div>
         </div>
       </div>
@@ -888,6 +944,21 @@ const LANDING_HTML = `<!DOCTYPE html>
       btn.classList.add('copied')
       setTimeout(() => btn.classList.remove('copied'), 2000)
     })
+  }
+
+  function copyCliCmd() {
+    navigator.clipboard.writeText('claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass').then(() => {
+      const btn = document.getElementById('cliCopyBtn')
+      btn.classList.add('copied')
+      setTimeout(() => btn.classList.remove('copied'), 2000)
+    })
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.install-panel').forEach(p => p.classList.remove('active'))
+    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'))
+    document.getElementById('panel-' + id).classList.add('active')
+    btn.classList.add('active')
   }
 
   function copyPrompt(el) {
