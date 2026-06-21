@@ -483,13 +483,13 @@ const LANDING_HTML = `<!DOCTYPE html>
       font-family: 'Nabla';
       base-palette: 0;
       override-colors:
-        0 #c44a2a,
-        1 #e8673a,
-        2 #f59842,
-        3 #ffc96b,
-        4 #ffedaa,
-        5 #e05050,
-        6 #8b2a2a;
+        0 #ffb3d4,
+        1 #f06ab0,
+        2 #c43d9a,
+        3 #8b48cc,
+        4 #5568e8,
+        5 #d44fa0,
+        6 #2244b8;
     }
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
@@ -505,7 +505,8 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .hero{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
     .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.1s}
-    .hero-logo{height:clamp(56px,7vw,84px);width:auto;margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.25s}
+    .hero-headline{font-size:clamp(52px,8vw,96px);font-weight:400;line-height:1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
+    .hero-headline span{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;letter-spacing:-.01em}
     .nabla-inline{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;font-size:15px;letter-spacing:-.01em;vertical-align:middle;line-height:1;display:inline-block}
     .hero-tagline{font-size:18px;color:var(--dark);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
     .hero-marquee{width:100%;overflow:hidden;margin:100px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
@@ -623,7 +624,7 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   <section class="hero">
     <p class="hero-eyebrow">MCP connector for Claude Code</p>
-    <img class="hero-logo" src="/assets/librarypass/logo.png" alt="Librarypass">
+    <h1 class="hero-headline"><span>Librarypass</span></h1>
     <p class="hero-tagline">Install, learn, and stay current with React and UI libraries,<br>directly in Claude Code.<br>No guessing versions. No stale docs. No looking things up.</p>
     <div class="hero-marquee">
       <div class="hero-marquee-track">
