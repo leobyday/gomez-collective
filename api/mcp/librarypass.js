@@ -460,7 +460,7 @@ const LANDING_HTML = `<!DOCTYPE html>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
       --bg:#ecf1f3;--surface:#ffffff;--text:#3d3838;--body:#706b6b;
-      --olive:#847e65;--dim:#b8b7b7;--divider:#d9d9d9;
+      --olive:#847e65;--dim:#b8b7b7;--divider:#d9d9d9;--dark:#333333;
       --serif:'Sorts Mill Goudy',Georgia,serif;
       --sans:'Jost',sans-serif;--mono:'Source Code Pro',monospace;
     }
@@ -490,15 +490,15 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .hero{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
     .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.1s}
-    .hero-headline{font-size:clamp(52px,8vw,96px);font-weight:400;line-height:1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
-    .hero-headline span{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;letter-spacing:-.01em}
-    .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
+    .hero-logo{height:clamp(56px,7vw,84px);width:auto;margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.25s}
+    .nabla-inline{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;font-size:15px;letter-spacing:-.01em;vertical-align:middle;line-height:1;display:inline-block}
+    .hero-tagline{font-size:18px;color:var(--dark);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
     .hero-marquee{width:100%;overflow:hidden;margin:100px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
     .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
     .hero-marquee-track{display:flex;gap:48px;animation:marquee 56s linear infinite;width:max-content}
     .hero-marquee-item{display:flex;align-items:center;gap:12px;flex-shrink:0}
     .hero-icon{width:45px;height:45px;opacity:.65;flex-shrink:0}
-    .hero-icon-name{font-size:13px;color:var(--body);font-family:var(--sans);white-space:nowrap}
+    .hero-icon-name{font-size:13px;color:var(--dark);font-family:var(--sans);white-space:nowrap}
     .url-box{display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:8px;overflow:hidden;max-width:100%;animation:fadeUp .6s ease both;animation-delay:.7s}
     .url-text{font-family:var(--mono);font-size:14px;color:var(--text);padding:12px 18px;letter-spacing:.02em;user-select:all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .url-divider{width:1px;background:var(--divider);align-self:stretch;flex-shrink:0}
@@ -521,6 +521,14 @@ const LANDING_HTML = `<!DOCTYPE html>
     .step-body{font-size:16px;color:var(--body);line-height:1.75}
     .step-codes{display:flex;flex-direction:column;gap:6px;margin-top:10px}
     .step-code{display:inline-block;font-family:var(--mono);font-size:13px;background:var(--bg);border:1px solid var(--divider);border-radius:4px;padding:4px 10px;color:var(--text)}
+    .step-copy-wrap{display:inline-flex;align-items:stretch;border:1px solid var(--divider);border-radius:4px;overflow:hidden;margin-top:10px}
+    .step-copy-wrap .step-code{border:none;border-radius:0;margin:0;padding:8px 14px}
+    .step-copy-btn{display:flex;align-items:center;justify-content:center;width:40px;background:var(--text);color:var(--bg);border:none;cursor:pointer;transition:opacity .2s,background .25s;flex-shrink:0;padding:0}
+    .step-copy-btn:hover{opacity:.75}
+    .step-copy-btn.copied{background:var(--olive)}
+    .step-copy-btn .icon-check{display:none}
+    .step-copy-btn.copied .icon-copy{display:none}
+    .step-copy-btn.copied .icon-check{display:block}
 
     .commands-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--divider);border:1px solid var(--divider);border-radius:10px;overflow:hidden}
     .command-card{background:var(--surface);padding:24px 28px}
@@ -529,7 +537,7 @@ const LANDING_HTML = `<!DOCTYPE html>
     .command-example{font-family:var(--mono);font-size:12px;color:var(--dim);line-height:1.6}
 
     .lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
-    .lib-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--divider);border-radius:6px;padding:11px 14px;transition:border-color .2s}
+    .lib-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--divider);border-radius:6px;padding:11px 14px;transition:border-color .2s;text-decoration:none;color:inherit}
     .lib-item:hover{border-color:var(--olive)}
     .lib-icon{width:16px;height:16px;flex-shrink:0;opacity:.75}
     .lib-name{font-size:13px;color:var(--body);font-family:var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -593,7 +601,7 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   <section class="hero">
     <p class="hero-eyebrow">MCP connector for Claude Code</p>
-    <h1 class="hero-headline"><span>Librarypass</span></h1>
+    <img class="hero-logo" src="/assets/librarypass/logo.png" alt="Librarypass">
     <p class="hero-tagline">Install, learn, and stay current with React and UI libraries,<br>directly in Claude Code.<br>No guessing versions. No stale docs. No looking things up.</p>
     <div class="hero-marquee">
       <div class="hero-marquee-track">
@@ -682,7 +690,7 @@ const LANDING_HTML = `<!DOCTYPE html>
         </div>
       </div>
       <div class="story-col">
-        <p class="story-col-label after">With Librarypass</p>
+        <p class="story-col-label after">With <span class="nabla-inline">Librarypass</span></p>
         <div class="story-steps">
           <div class="story-step">
             <span class="story-icon" style="color:var(--olive)">→</span>
@@ -716,8 +724,12 @@ const LANDING_HTML = `<!DOCTYPE html>
         <p class="step-num">02</p>
         <div>
           <p class="step-head">Paste the connector URL</p>
-          <div class="step-codes">
+          <div class="step-copy-wrap">
             <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
+            <button class="step-copy-btn" id="stepCopyBtn" onclick="copyStepUrl()" aria-label="Copy URL">
+              <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -777,27 +789,27 @@ const LANDING_HTML = `<!DOCTYPE html>
     <p class="section-label">Supported libraries</p>
     <h2 class="section-title">The libraries you already use</h2>
     <div class="lib-grid">
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Tailwind CSS</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">shadcn/ui</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">MUI</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Mantine</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Chakra UI</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">NextUI</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Radix UI</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Headless UI</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Lucide</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Framer Motion</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">React Hook Form</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Zod</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Query</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Table</span></div>
-      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Day.js</span></div>
-      <div class="lib-item"><span class="lib-name">React Icons</span></div>
-      <div class="lib-item"><span class="lib-name">Heroicons</span></div>
-      <div class="lib-item"><span class="lib-name">AutoAnimate</span></div>
-      <div class="lib-item"><span class="lib-name">Zustand</span></div>
-      <div class="lib-item"><span class="lib-name">Recharts</span></div>
-      <div class="lib-item"><span class="lib-name">clsx + tw-merge</span></div>
+      <a class="lib-item" href="https://tailwindcss.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Tailwind CSS</span></a>
+      <a class="lib-item" href="https://ui.shadcn.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">shadcn/ui</span></a>
+      <a class="lib-item" href="https://mui.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">MUI</span></a>
+      <a class="lib-item" href="https://mantine.dev" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Mantine</span></a>
+      <a class="lib-item" href="https://chakra-ui.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Chakra UI</span></a>
+      <a class="lib-item" href="https://nextui.org" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">NextUI</span></a>
+      <a class="lib-item" href="https://www.radix-ui.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Radix UI</span></a>
+      <a class="lib-item" href="https://headlessui.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Headless UI</span></a>
+      <a class="lib-item" href="https://lucide.dev" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Lucide</span></a>
+      <a class="lib-item" href="https://www.framer.com/motion" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Framer Motion</span></a>
+      <a class="lib-item" href="https://react-hook-form.com" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">React Hook Form</span></a>
+      <a class="lib-item" href="https://zod.dev" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Zod</span></a>
+      <a class="lib-item" href="https://tanstack.com/query" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Query</span></a>
+      <a class="lib-item" href="https://tanstack.com/table" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Table</span></a>
+      <a class="lib-item" href="https://day.js.org" target="_blank" rel="noopener"><img class="lib-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Day.js</span></a>
+      <a class="lib-item" href="https://react-icons.github.io/react-icons" target="_blank" rel="noopener"><span class="lib-name">React Icons</span></a>
+      <a class="lib-item" href="https://heroicons.com" target="_blank" rel="noopener"><span class="lib-name">Heroicons</span></a>
+      <a class="lib-item" href="https://auto-animate.formkit.com" target="_blank" rel="noopener"><span class="lib-name">AutoAnimate</span></a>
+      <a class="lib-item" href="https://zustand.docs.pmnd.rs" target="_blank" rel="noopener"><span class="lib-name">Zustand</span></a>
+      <a class="lib-item" href="https://recharts.org" target="_blank" rel="noopener"><span class="lib-name">Recharts</span></a>
+      <a class="lib-item" href="https://github.com/lukeed/clsx" target="_blank" rel="noopener"><span class="lib-name">clsx + tw-merge</span></a>
     </div>
   </section>
 
@@ -865,6 +877,14 @@ const LANDING_HTML = `<!DOCTYPE html>
       const btn = document.getElementById('copyBtn')
       btn.classList.add('copied')
       window.va?.track('librarypass_url_copied')
+      setTimeout(() => btn.classList.remove('copied'), 2000)
+    })
+  }
+
+  function copyStepUrl() {
+    navigator.clipboard.writeText('https://gomezcollective.com/mcp/librarypass').then(() => {
+      const btn = document.getElementById('stepCopyBtn')
+      btn.classList.add('copied')
       setTimeout(() => btn.classList.remove('copied'), 2000)
     })
   }
