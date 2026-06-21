@@ -482,10 +482,10 @@ const LANDING_HTML = `<!DOCTYPE html>
     .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
     .hero-marquee{width:100%;overflow:hidden;margin:36px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
     .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
-    .hero-marquee-track{display:flex;gap:36px;animation:marquee 28s linear infinite;width:max-content}
-    .hero-marquee-item{display:flex;align-items:center;gap:8px;flex-shrink:0;padding:6px 14px;background:var(--surface);border:1px solid var(--divider);border-radius:6px}
-    .hero-icon{width:15px;height:15px;opacity:.65;flex-shrink:0}
-    .hero-icon-name{font-size:12px;color:var(--body);font-family:var(--sans);white-space:nowrap}
+    .hero-marquee-track{display:flex;gap:48px;animation:marquee 56s linear infinite;width:max-content}
+    .hero-marquee-item{display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .hero-icon{width:45px;height:45px;opacity:.65;flex-shrink:0}
+    .hero-icon-name{font-size:13px;color:var(--body);font-family:var(--sans);white-space:nowrap}
     .url-box{display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:8px;overflow:hidden;max-width:100%;animation:fadeUp .6s ease both;animation-delay:.7s}
     .url-text{font-family:var(--mono);font-size:14px;color:var(--text);padding:12px 18px;letter-spacing:.02em;user-select:all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .url-divider{width:1px;background:var(--divider);align-self:stretch;flex-shrink:0}
