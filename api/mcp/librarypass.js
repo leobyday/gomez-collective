@@ -464,6 +464,8 @@ const LANDING_HTML = `<!DOCTYPE html>
       --serif:'Sorts Mill Goudy',Georgia,serif;
       --sans:'Jost',sans-serif;--mono:'Source Code Pro',monospace;
     }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
     html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
 
     .site-nav{display:flex;align-items:center;padding:18px 80px;border-bottom:1px solid var(--divider);background:var(--surface)}
@@ -472,17 +474,23 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .page{max-width:900px;margin:0 auto;padding:0 80px 100px}
 
-    .hero{padding:72px 0 64px;border-bottom:1px solid var(--divider)}
-    .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px}
-    .hero-headline{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.1;margin-bottom:8px}
+    .hero{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
+    .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.1s}
+    .hero-headline{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
     .hero-headline em{font-style:italic;color:var(--olive)}
-    .hero-tagline{font-size:20px;color:var(--body);margin-bottom:40px;line-height:1.5}
-    .url-box{display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:8px;overflow:hidden;max-width:100%}
+    .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
+    .hero-icons{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin:32px 0;animation:fadeUp .6s ease both;animation-delay:.55s}
+    .hero-icon{width:20px;height:20px;opacity:.55;transition:opacity .2s}
+    .hero-icon:hover{opacity:1}
+    .url-box{display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:8px;overflow:hidden;max-width:100%;animation:fadeUp .6s ease both;animation-delay:.7s}
     .url-text{font-family:var(--mono);font-size:14px;color:var(--text);padding:12px 18px;letter-spacing:.02em;user-select:all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .url-divider{width:1px;background:var(--divider);align-self:stretch;flex-shrink:0}
-    .url-copy{display:flex;align-items:center;gap:6px;padding:12px 18px;background:var(--text);color:var(--bg);border:none;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
-    .url-copy:hover{opacity:.8}
+    .url-copy{display:flex;align-items:center;justify-content:center;width:46px;height:46px;background:var(--text);color:var(--bg);border:none;cursor:pointer;transition:opacity .2s,background .25s;flex-shrink:0}
+    .url-copy:hover{opacity:.75}
     .url-copy.copied{background:var(--olive)}
+    .url-copy .icon-check{display:none}
+    .url-copy.copied .icon-copy{display:none}
+    .url-copy.copied .icon-check{display:block}
 
     .section{padding:64px 0;border-bottom:1px solid var(--divider)}
     .section:last-of-type{border-bottom:none}
@@ -520,6 +528,9 @@ const LANDING_HTML = `<!DOCTYPE html>
     .free-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);border:1px solid var(--divider);border-radius:4px;padding:3px 10px;margin-left:12px;vertical-align:middle}
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+    .story-col{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+    .story-grid.in-view .story-col{opacity:1;transform:translateY(0)}
+    .story-grid.in-view .story-col:last-child{transition-delay:1.5s}
     .story-col-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-bottom:20px}
     .story-col-label.before{color:var(--text)}
     .story-col-label.after{color:var(--olive)}
@@ -539,12 +550,14 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     @media(max-width:768px){
       .site-nav,.page,.site-footer{padding-left:20px;padding-right:20px}
-      .hero{padding:40px 0 48px}
-      .url-box{flex-direction:column;width:100%}
+      .hero{padding:60px 0;min-height:calc(100vh - 57px)}
+      .hero-icons{gap:14px}
+      .url-box{width:100%;max-width:420px}
       .url-divider{width:auto;height:1px}
-      .url-copy{justify-content:center}
+      .url-copy{width:100%;height:44px}
       .commands-grid{grid-template-columns:1fr}
       .section{padding:48px 0}
+      .story-grid{grid-template-columns:1fr;gap:32px}
       .footer-links{flex-wrap:wrap;gap:16px}
     }
   </style>
@@ -558,16 +571,33 @@ const LANDING_HTML = `<!DOCTYPE html>
 <div class="page">
 
   <section class="hero">
-    <p class="hero-eyebrow">MCP Connector for Claude Code</p>
+    <p class="hero-eyebrow">MCP connector for Claude Code</p>
     <h1 class="hero-headline"><em>Librarypass</em></h1>
-    <p class="hero-tagline">
-      Install, learn, and stay current with React and UI libraries &mdash; directly in Claude Code.<br>
-      No guessing versions. No stale docs. No looking things up.
-    </p>
+    <p class="hero-tagline">Install, learn, and stay current with React and UI libraries, directly in Claude Code. No guessing versions. No stale docs. No looking things up.</p>
+    <div class="hero-icons">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="Tailwind CSS" title="Tailwind CSS" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="shadcn/ui" title="shadcn/ui" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="MUI" title="MUI" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="Mantine" title="Mantine" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="Chakra UI" title="Chakra UI" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="NextUI" title="NextUI" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="Radix UI" title="Radix UI" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="Headless UI" title="Headless UI" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="Lucide" title="Lucide" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="Framer Motion" title="Framer Motion" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="React Hook Form" title="React Hook Form" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="Zod" title="Zod" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="TanStack Query" title="TanStack Query" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="TanStack Table" title="TanStack Table" onerror="this.style.display='none'">
+      <img class="hero-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="Day.js" title="Day.js" onerror="this.style.display='none'">
+    </div>
     <div class="url-box">
       <span class="url-text">https://gomezcollective.com/mcp/librarypass</span>
       <div class="url-divider"></div>
-      <button class="url-copy" id="copyBtn" onclick="copyUrl()">Copy URL</button>
+      <button class="url-copy" id="copyBtn" onclick="copyUrl()" aria-label="Copy URL">
+        <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </button>
     </div>
   </section>
 
@@ -575,7 +605,7 @@ const LANDING_HTML = `<!DOCTYPE html>
     <p class="section-label">Why it exists</p>
     <h2 class="section-title">Setting up a library used to take an hour</h2>
     <div class="story-grid">
-      <div>
+      <div class="story-col">
         <p class="story-col-label before">Without Librarypass</p>
         <div class="story-steps">
           <div class="story-step">
@@ -600,7 +630,7 @@ const LANDING_HTML = `<!DOCTYPE html>
           </div>
         </div>
       </div>
-      <div>
+      <div class="story-col">
         <p class="story-col-label after">With Librarypass</p>
         <div class="story-steps">
           <div class="story-step">
@@ -782,10 +812,9 @@ const LANDING_HTML = `<!DOCTYPE html>
   function copyUrl() {
     navigator.clipboard.writeText('https://gomezcollective.com/mcp/librarypass').then(() => {
       const btn = document.getElementById('copyBtn')
-      btn.textContent = 'Copied!'
       btn.classList.add('copied')
       window.va?.track('librarypass_url_copied')
-      setTimeout(() => { btn.textContent = 'Copy URL'; btn.classList.remove('copied') }, 2000)
+      setTimeout(() => btn.classList.remove('copied'), 2000)
     })
   }
 
@@ -799,11 +828,26 @@ const LANDING_HTML = `<!DOCTYPE html>
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Animate story columns when scrolled into view
+    const storyGrid = document.querySelector('.story-grid')
+    if (storyGrid) {
+      new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view')
+            window.va?.track('librarypass_story_viewed')
+          }
+        })
+      }, { threshold: 0.2 }).observe(storyGrid)
+    }
+
+    // Track install steps viewed
     const steps = document.querySelector('#install-steps')
-    if (!steps) return
-    new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) window.va?.track('librarypass_install_steps_viewed') })
-    }, { threshold: 0.8 }).observe(steps)
+    if (steps) {
+      new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) window.va?.track('librarypass_install_steps_viewed') })
+      }, { threshold: 0.8 }).observe(steps)
+    }
   })
 </script>
 </body>
