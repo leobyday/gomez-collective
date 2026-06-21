@@ -451,7 +451,8 @@ const LANDING_HTML = `<!DOCTYPE html>
   <meta property="og:url" content="https://gomezcollective.com/mcp/librarypass">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://gomezcollective.com/mcp/librarypass">
-  <link rel="icon" href="/assets/Emoji.png">
+  <link rel="icon" href="/assets/librarypass/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/Emoji.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400&family=Source+Code+Pro&family=Nabla&display=swap" rel="stylesheet">
