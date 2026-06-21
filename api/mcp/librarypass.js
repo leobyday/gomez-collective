@@ -454,7 +454,7 @@ const LANDING_HTML = `<!DOCTYPE html>
   <link rel="icon" href="/assets/Emoji.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400&family=Source+Code+Pro&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400&family=Source+Code+Pro&family=Nabla&display=swap" rel="stylesheet">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Librarypass","applicationCategory":"DeveloperApplication","description":"MCP connector that gives Claude live access to React and UI library data — installation scaffolds, component docs, recommendations, and changelogs.","url":"https://gomezcollective.com/mcp/librarypass","provider":{"@type":"Organization","name":"Gomez Collective","url":"https://gomezcollective.com"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -464,6 +464,19 @@ const LANDING_HTML = `<!DOCTYPE html>
       --serif:'Sorts Mill Goudy',Georgia,serif;
       --sans:'Jost',sans-serif;--mono:'Source Code Pro',monospace;
     }
+    @font-palette-values --nabla-sunset {
+      font-family: 'Nabla';
+      base-palette: 0;
+      override-colors:
+        0 #c44a2a,
+        1 #e8673a,
+        2 #f59842,
+        3 #ffc96b,
+        4 #ffedaa,
+        5 #e05050,
+        6 #8b2a2a;
+    }
+
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -477,8 +490,8 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .hero{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
     .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.1s}
-    .hero-headline{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
-    .hero-headline em{font-style:italic;color:var(--olive)}
+    .hero-headline{font-size:clamp(52px,8vw,96px);font-weight:400;line-height:1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
+    .hero-headline span{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;letter-spacing:-.01em}
     .hero-tagline{font-size:18px;color:var(--body);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
     .hero-marquee{width:100%;overflow:hidden;margin:36px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
     .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
@@ -580,8 +593,8 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   <section class="hero">
     <p class="hero-eyebrow">MCP connector for Claude Code</p>
-    <h1 class="hero-headline"><em>Librarypass</em></h1>
-    <p class="hero-tagline">Install, learn, and stay current with React and UI libraries, directly in Claude Code.<br>No guessing versions. No stale docs. No looking things up.</p>
+    <h1 class="hero-headline"><span>Librarypass</span></h1>
+    <p class="hero-tagline">Install, learn, and stay current with React and UI libraries,<br>directly in Claude Code.<br>No guessing versions. No stale docs. No looking things up.</p>
     <div class="hero-marquee">
       <div class="hero-marquee-track">
         <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Tailwind CSS</span></div>
