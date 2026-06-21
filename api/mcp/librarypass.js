@@ -466,16 +466,14 @@ const LANDING_HTML = `<!DOCTYPE html>
     }
     html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
 
-    .site-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 80px;border-bottom:1px solid var(--divider);background:var(--surface)}
+    .site-nav{display:flex;align-items:center;padding:18px 80px;border-bottom:1px solid var(--divider);background:var(--surface)}
     .nav-back{font-size:14px;font-weight:400;letter-spacing:.06em;color:var(--olive);text-decoration:none;opacity:.8;transition:opacity .2s}
     .nav-back:hover{opacity:1}
-    .nav-mcp{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--dim);text-decoration:none;transition:color .2s}
-    .nav-mcp:hover{color:var(--olive)}
 
     .page{max-width:900px;margin:0 auto;padding:0 80px 100px}
 
     .hero{padding:72px 0 64px;border-bottom:1px solid var(--divider)}
-    .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+    .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px}
     .hero-headline{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.1;margin-bottom:8px}
     .hero-headline em{font-style:italic;color:var(--olive)}
     .hero-tagline{font-size:20px;color:var(--body);margin-bottom:40px;line-height:1.5}
@@ -488,7 +486,7 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .section{padding:64px 0;border-bottom:1px solid var(--divider)}
     .section:last-of-type{border-bottom:none}
-    .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin-bottom:28px}
+    .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:28px}
     .section-title{font-family:var(--serif);font-size:clamp(24px,3vw,36px);font-weight:400;color:var(--text);margin-bottom:36px;line-height:1.2}
 
     .steps-list{display:flex;flex-direction:column}
@@ -505,8 +503,11 @@ const LANDING_HTML = `<!DOCTYPE html>
     .command-desc{font-size:15px;color:var(--text);line-height:1.6;margin-bottom:10px}
     .command-example{font-family:var(--mono);font-size:12px;color:var(--dim);line-height:1.6}
 
-    .lib-grid{display:flex;flex-wrap:wrap;gap:8px}
-    .lib-tag{font-family:var(--mono);font-size:12px;color:var(--body);background:var(--surface);border:1px solid var(--divider);border-radius:4px;padding:5px 12px}
+    .lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
+    .lib-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--divider);border-radius:6px;padding:11px 14px;transition:border-color .2s}
+    .lib-item:hover{border-color:var(--olive)}
+    .lib-icon{width:16px;height:16px;flex-shrink:0;opacity:.75}
+    .lib-name{font-size:13px;color:var(--body);font-family:var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
     .prompts-list{display:flex;flex-direction:column;gap:10px}
     .prompt-item{display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--divider);border-radius:8px;padding:14px 20px;cursor:pointer;transition:border-color .2s}
@@ -519,14 +520,14 @@ const LANDING_HTML = `<!DOCTYPE html>
     .free-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);border:1px solid var(--divider);border-radius:4px;padding:3px 10px;margin-left:12px;vertical-align:middle}
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-    .story-col-label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px}
-    .story-col-label.before{color:var(--dim)}
+    .story-col-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-bottom:20px}
+    .story-col-label.before{color:var(--text)}
     .story-col-label.after{color:var(--olive)}
     .story-steps{display:flex;flex-direction:column;gap:0}
     .story-step{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--divider);align-items:flex-start}
     .story-step:last-child{border-bottom:1px solid var(--divider)}
     .story-icon{font-size:14px;margin-top:1px;flex-shrink:0;width:20px;text-align:center}
-    .story-text{font-size:15px;color:var(--body);line-height:1.6}
+    .story-text{font-size:15px;color:var(--text);line-height:1.6}
     .story-text strong{color:var(--text);font-weight:400}
     @media(max-width:768px){.story-grid{grid-template-columns:1fr;gap:32px}}
 
@@ -552,7 +553,6 @@ const LANDING_HTML = `<!DOCTYPE html>
 
 <nav class="site-nav">
   <a href="/" class="nav-back">&larr; Portfolio</a>
-  <a href="/mcp" class="nav-mcp">All connectors</a>
 </nav>
 
 <div class="page">
@@ -696,27 +696,27 @@ const LANDING_HTML = `<!DOCTYPE html>
     <p class="section-label">Supported libraries</p>
     <h2 class="section-title">The libraries you already use</h2>
     <div class="lib-grid">
-      <span class="lib-tag">tailwindcss</span>
-      <span class="lib-tag">shadcn/ui</span>
-      <span class="lib-tag">@mui/material</span>
-      <span class="lib-tag">@mantine/core</span>
-      <span class="lib-tag">@chakra-ui/react</span>
-      <span class="lib-tag">@nextui-org/react</span>
-      <span class="lib-tag">@radix-ui/themes</span>
-      <span class="lib-tag">@headlessui/react</span>
-      <span class="lib-tag">lucide-react</span>
-      <span class="lib-tag">react-icons</span>
-      <span class="lib-tag">@heroicons/react</span>
-      <span class="lib-tag">framer-motion</span>
-      <span class="lib-tag">@formkit/auto-animate</span>
-      <span class="lib-tag">react-hook-form</span>
-      <span class="lib-tag">zod</span>
-      <span class="lib-tag">zustand</span>
-      <span class="lib-tag">@tanstack/react-query</span>
-      <span class="lib-tag">@tanstack/react-table</span>
-      <span class="lib-tag">recharts</span>
-      <span class="lib-tag">clsx + tailwind-merge</span>
-      <span class="lib-tag">dayjs</span>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Tailwind CSS</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">shadcn/ui</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/mui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">MUI</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/mantine/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Mantine</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/chakraui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Chakra UI</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/nextui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">NextUI</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/radixui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Radix UI</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/headlessui/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Headless UI</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/lucide/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Lucide</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/framer/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Framer Motion</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/reacthookform/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">React Hook Form</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/zod/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Zod</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/reactquery/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Query</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/tanstack/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">TanStack Table</span></div>
+      <div class="lib-item"><img class="lib-icon" src="https://cdn.simpleicons.org/dayjs/706b6b" alt="" onerror="this.style.display='none'"><span class="lib-name">Day.js</span></div>
+      <div class="lib-item"><span class="lib-name">React Icons</span></div>
+      <div class="lib-item"><span class="lib-name">Heroicons</span></div>
+      <div class="lib-item"><span class="lib-name">AutoAnimate</span></div>
+      <div class="lib-item"><span class="lib-name">Zustand</span></div>
+      <div class="lib-item"><span class="lib-name">Recharts</span></div>
+      <div class="lib-item"><span class="lib-name">clsx + tw-merge</span></div>
     </div>
   </section>
 
