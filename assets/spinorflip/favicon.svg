@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#c5b8f5"/>
+      <stop offset="55%" stop-color="#f0eeff"/>
+      <stop offset="100%" stop-color="#f5f5b0"/>
+    </radialGradient>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="url(#bg)"/>
+  <!-- Coin: circle with horizontal line through center, matching the "o" in the logo -->
+  <circle cx="16" cy="16" r="8" fill="none" stroke="#1e3a5f" stroke-width="2"/>
+  <line x1="8" y1="16" x2="24" y2="16" stroke="#1e3a5f" stroke-width="2" stroke-linecap="round"/>
+</svg>
