@@ -209,6 +209,8 @@ body {
   transition: color 0.2s;
 }
 
+.work-tabs .work-tab:first-child { text-align: right; }
+
 .work-tab em { font-style: italic; }
 
 .work-tab.active,
@@ -234,8 +236,9 @@ body {
 
 .company-name {
   font-family: var(--font-serif);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
+  line-height: 1.2;
   color: #000;
   margin-bottom: 8px;
 }
@@ -448,6 +451,19 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 /* Extra bottom space so the Disney+ phone overlay doesn't cover VISIT SITE */
 .company-thumb-wrap--has-disney-phone {
   padding-bottom: 70px;
+}
+
+/* Disney background video: scale proportionally, no bottom crop */
+.company-thumb-wrap--has-disney-phone .company-thumb {
+  height: auto;
+  min-height: 376px;
+}
+
+.company-thumb-wrap--has-disney-phone .company-thumb video {
+  width: 100%;
+  height: auto;
+  object-fit: initial;
+  border-radius: var(--radius-thumb);
 }
 
 .thumb-mobile-shadow {

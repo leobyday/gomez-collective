@@ -534,6 +534,10 @@ const LANDING_HTML = `<!DOCTYPE html>
     .url-copy.copied .icon-copy{display:none}
     .url-copy.copied .icon-check{display:block}
 
+    .hero-cta{margin-top:28px;animation:fadeUp .6s ease both;animation-delay:.85s}
+    .hero-cta-btn{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);text-decoration:none;opacity:.7;transition:opacity .2s;border:none;background:none;cursor:pointer;padding:0}
+    .hero-cta-btn:hover{opacity:1}
+
     .section{padding:64px 0;border-bottom:1px solid var(--divider)}
     .section:last-of-type{border-bottom:none}
     .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:28px;text-align:center}
@@ -546,14 +550,14 @@ const LANDING_HTML = `<!DOCTYPE html>
     .step-body{font-size:16px;color:var(--body);line-height:1.75}
     .step-codes{display:flex;flex-direction:column;gap:6px;margin-top:10px}
     .step-code{display:inline-block;font-family:var(--mono);font-size:13px;background:var(--bg);border:1px solid var(--divider);border-radius:4px;padding:4px 10px;color:var(--text)}
-    .step-copy-wrap{display:inline-flex;align-items:stretch;border:1px solid var(--divider);border-radius:4px;overflow:hidden;margin-top:10px}
-    .step-copy-wrap .step-code{border:none;border-radius:0;margin:0;padding:8px 14px}
-    .step-copy-btn{display:flex;align-items:center;justify-content:center;width:40px;background:var(--text);color:var(--bg);border:none;cursor:pointer;transition:opacity .2s,background .25s;flex-shrink:0;padding:0}
-    .step-copy-btn:hover{opacity:.75}
-    .step-copy-btn.copied{background:var(--olive)}
-    .step-copy-btn .icon-check{display:none}
-    .step-copy-btn.copied .icon-copy{display:none}
-    .step-copy-btn.copied .icon-check{display:block}
+    .code-block{position:relative;margin-top:10px}
+    .code-block .step-code{display:block;padding:12px 14px;padding-right:40px;white-space:pre;overflow-x:auto;border-radius:4px}
+    .code-copy-btn{position:absolute;top:7px;right:7px;display:flex;align-items:center;justify-content:center;width:26px;height:26px;background:none;border:1px solid var(--divider);border-radius:4px;cursor:pointer;color:var(--dim);transition:color .2s,border-color .2s}
+    .code-copy-btn:hover{color:var(--olive);border-color:var(--olive)}
+    .code-copy-btn.copied{color:var(--olive);border-color:var(--olive)}
+    .code-copy-btn .icon-check{display:none}
+    .code-copy-btn.copied .icon-copy{display:none}
+    .code-copy-btn.copied .icon-check{display:block}
 
     .install-tabs{display:flex;gap:0;margin-bottom:32px;border-bottom:1px solid var(--divider)}
     .install-tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--body);background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px 10px 0;cursor:pointer;transition:color .2s;margin-bottom:-1px}
@@ -589,9 +593,7 @@ const LANDING_HTML = `<!DOCTYPE html>
     .free-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);border:1px solid var(--divider);border-radius:4px;padding:3px 10px;margin-left:12px;vertical-align:middle}
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
-    .story-col{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
-    .story-grid.in-view .story-col{opacity:1;transform:translateY(0)}
-    .story-grid.in-view .story-col:last-child{transition-delay:1.5s}
+    .story-col{opacity:1;transform:none}
     .story-col-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-bottom:20px}
     .story-col-label.before{color:var(--text)}
     .story-col-label.after{color:var(--olive)}
@@ -613,14 +615,15 @@ const LANDING_HTML = `<!DOCTYPE html>
     @media(max-width:768px){
       .site-nav,.page,.site-footer{padding-left:20px;padding-right:20px}
       .hero{padding:60px 0;min-height:calc(100vh - 57px)}
-      .hero-icons{gap:14px}
-      .url-box{width:100%;max-width:420px}
-      .url-divider{width:auto;height:1px}
-      .url-copy{width:100%;height:44px}
+      .url-box{max-width:100%}
+      .url-text{font-size:12px;padding:12px 12px}
       .commands-grid{grid-template-columns:1fr}
       .section{padding:48px 0}
       .story-grid{grid-template-columns:1fr;gap:32px}
       .footer-links{flex-wrap:wrap;gap:16px}
+      .step{grid-template-columns:24px 1fr;gap:12px}
+      .install-tabs{gap:0;overflow-x:auto}
+      .install-tab{white-space:nowrap;padding:10px 16px 10px 0}
     }
   </style>
 </head>
@@ -691,6 +694,9 @@ const LANDING_HTML = `<!DOCTYPE html>
         <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </button>
     </div>
+    <div class="hero-cta">
+      <button class="hero-cta-btn" onclick="document.getElementById('install-steps').scrollIntoView({behavior:'smooth'})">How to connect ↓</button>
+    </div>
   </section>
 
   <section class="section">
@@ -747,12 +753,57 @@ const LANDING_HTML = `<!DOCTYPE html>
     <h2 class="section-title">Three steps <span class="free-badge">Free</span></h2>
 
     <div class="install-tabs">
-      <button class="install-tab active" onclick="switchTab('vscode', this)">Claude Code</button>
-      <button class="install-tab" onclick="switchTab('cli', this)">CLI</button>
+      <button class="install-tab active" data-tab="desktop">Claude Desktop</button>
+      <button class="install-tab" data-tab="vscode">Claude Code</button>
+      <button class="install-tab" data-tab="cli">CLI</button>
+    </div>
+
+    <!-- Claude Desktop -->
+    <div class="install-panel active" id="panel-desktop">
+      <div class="steps-list">
+        <div class="step">
+          <p class="step-num">01</p>
+          <div>
+            <p class="step-head">Open your Claude Desktop config file</p>
+            <p class="step-body">Find it at:</p>
+            <div class="step-codes" style="margin-top:8px">
+              <span class="step-code">Mac &nbsp;&nbsp;~/Library/Application Support/Claude/claude_desktop_config.json</span>
+              <span class="step-code">Win &nbsp;&nbsp;%APPDATA%\Claude\claude_desktop_config.json</span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <p class="step-num">02</p>
+          <div>
+            <p class="step-head">Add Librarypass to mcpServers</p>
+            <p class="step-body">Paste this inside the <span style="font-family:var(--mono);font-size:13px">mcpServers</span> object. Create the object if it doesn&rsquo;t exist yet.</p>
+            <div class="code-block">
+              <span class="step-code" style="line-height:1.7">{
+  "mcpServers": {
+    "librarypass": {
+      "url": "https://gomezcollective.com/mcp/librarypass"
+    }
+  }
+}</span>
+              <button class="code-copy-btn" id="desktopCopyBtn" aria-label="Copy config">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <p class="step-num">03</p>
+          <div>
+            <p class="step-head">Restart Claude Desktop</p>
+            <p class="step-body">Quit and reopen the app. A hammer icon in the chat input confirms the server connected.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Claude Code (VS Code extension) -->
-    <div class="install-panel active" id="panel-vscode">
+    <div class="install-panel" id="panel-vscode">
       <div class="steps-list">
         <div class="step">
           <p class="step-num">01</p>
@@ -765,11 +816,11 @@ const LANDING_HTML = `<!DOCTYPE html>
           <p class="step-num">02</p>
           <div>
             <p class="step-head">Paste the connector URL</p>
-            <div class="step-copy-wrap">
+            <div class="code-block">
               <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
-              <button class="step-copy-btn" id="stepCopyBtn" onclick="copyStepUrl()" aria-label="Copy URL">
-                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <button class="code-copy-btn" id="stepCopyBtn" aria-label="Copy URL">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
             </div>
           </div>
@@ -797,11 +848,11 @@ const LANDING_HTML = `<!DOCTYPE html>
           <div>
             <p class="step-head">Add the connector</p>
             <p class="step-body">Run this once in your terminal. Works across all projects.</p>
-            <div class="step-copy-wrap" style="margin-top:10px">
+            <div class="code-block" style="margin-top:10px">
               <span class="step-code">claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass</span>
-              <button class="step-copy-btn" id="cliCopyBtn" onclick="copyCliCmd()" aria-label="Copy command">
-                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <button class="code-copy-btn" id="cliCopyBtn" aria-label="Copy command">
+                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
             </div>
           </div>
@@ -954,36 +1005,19 @@ const LANDING_HTML = `<!DOCTYPE html>
 
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
+  function flashCopied(btnId) {
+    const btn = document.getElementById(btnId)
+    if (!btn) return
+    btn.classList.add('copied')
+    setTimeout(() => btn.classList.remove('copied'), 2000)
+  }
+
   function copyUrl() {
     navigator.clipboard.writeText('https://gomezcollective.com/mcp/librarypass').then(() => {
       const btn = document.getElementById('copyBtn')
-      btn.classList.add('copied')
+      if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 2000) }
       window.va?.track('librarypass_url_copied')
-      setTimeout(() => btn.classList.remove('copied'), 2000)
     })
-  }
-
-  function copyStepUrl() {
-    navigator.clipboard.writeText('https://gomezcollective.com/mcp/librarypass').then(() => {
-      const btn = document.getElementById('stepCopyBtn')
-      btn.classList.add('copied')
-      setTimeout(() => btn.classList.remove('copied'), 2000)
-    })
-  }
-
-  function copyCliCmd() {
-    navigator.clipboard.writeText('claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass').then(() => {
-      const btn = document.getElementById('cliCopyBtn')
-      btn.classList.add('copied')
-      setTimeout(() => btn.classList.remove('copied'), 2000)
-    })
-  }
-
-  function switchTab(id, btn) {
-    document.querySelectorAll('.install-panel').forEach(p => p.classList.remove('active'))
-    document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'))
-    document.getElementById('panel-' + id).classList.add('active')
-    btn.classList.add('active')
   }
 
   function copyPrompt(el) {
@@ -995,28 +1029,39 @@ const LANDING_HTML = `<!DOCTYPE html>
     })
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Animate story columns when scrolled into view
-    const storyGrid = document.querySelector('.story-grid')
-    if (storyGrid) {
-      new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in-view')
-            window.va?.track('librarypass_story_viewed')
-          }
-        })
-      }, { threshold: 0.2 }).observe(storyGrid)
-    }
+  // Script is at bottom of body — DOM is ready, no DOMContentLoaded needed
 
-    // Track install steps viewed
-    const steps = document.querySelector('#install-steps')
-    if (steps) {
-      new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) window.va?.track('librarypass_install_steps_viewed') })
-      }, { threshold: 0.8 }).observe(steps)
-    }
+  // Tabs
+  document.querySelectorAll('.install-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var id = tab.getAttribute('data-tab')
+      document.querySelectorAll('.install-panel').forEach(function(p) { p.classList.remove('active') })
+      document.querySelectorAll('.install-tab').forEach(function(t) { t.classList.remove('active') })
+      document.getElementById('panel-' + id).classList.add('active')
+      tab.classList.add('active')
+    })
   })
+
+  // Copy buttons
+  var copyMap = {
+    stepCopyBtn:    'https://gomezcollective.com/mcp/librarypass',
+    cliCopyBtn:     'claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass',
+    desktopCopyBtn: '{\n  "mcpServers": {\n    "librarypass": {\n      "url": "https://gomezcollective.com/mcp/librarypass"\n    }\n  }\n}',
+  }
+  Object.keys(copyMap).forEach(function(id) {
+    var btn = document.getElementById(id)
+    if (btn) btn.addEventListener('click', function() {
+      navigator.clipboard.writeText(copyMap[id]).then(function() { flashCopied(id) })
+    })
+  })
+
+  // Track install steps viewed
+  var steps = document.querySelector('#install-steps')
+  if (steps) {
+    new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) window.va && window.va.track('librarypass_install_steps_viewed') })
+    }, { threshold: 0.5 }).observe(steps)
+  }
 </script>
 </body>
 </html>`
