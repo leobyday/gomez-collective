@@ -98,7 +98,7 @@
     h1.appendChild(w2)
 
     // Only w1 scrambles; w2 stays visible and unchanged
-    await scrambleTo(w1, 'AI', 480, {
+    await scrambleTo(w1, 'Lead', 480, {
       color: COLOR_GRAY, finalColor: COLOR_GRAY, burstMs: 60,
     })
     await wait(2000)
