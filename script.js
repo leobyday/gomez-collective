@@ -24,7 +24,11 @@ tabs.forEach(tab => {
     setActiveTab(tab.dataset.category);
     const target = document.querySelector(`.company-card[data-category="${tab.dataset.category}"]`);
     if (!target) return;
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Measure the actual sticky nav bottom at click time instead of relying on a static scroll-margin
+    const navRow  = document.querySelector('.work-tabs-row');
+    const navBottom = navRow ? navRow.getBoundingClientRect().bottom : 0;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: targetTop - navBottom - 16, behavior: 'smooth' });
   });
 });
 

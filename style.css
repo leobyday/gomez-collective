@@ -285,7 +285,7 @@ body {
   font-size: 12px;
   font-weight: 400;
   color: var(--color-dim);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   margin-bottom: 18px;
   white-space: nowrap;
   overflow: hidden;
