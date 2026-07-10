@@ -7,6 +7,7 @@
   var COLOR_GOLD     = '#847e65'
   var FONT_GROTESK   = "'Space Grotesk', sans-serif"
   var WEIGHT_GROTESK = '300'
+  var SIZE_GROTESK   = '17px'  // Space Grotesk x-height is larger than serif; scale down to match
 
   function rndCh() { return ALPHA[Math.floor(Math.random() * ALPHA.length)] }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms) }) }
@@ -136,6 +137,7 @@
       tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
       tab.style.fontFamily = FONT_GROTESK
       tab.style.fontWeight = WEIGHT_GROTESK
+      tab.style.fontSize   = SIZE_GROTESK
 
       if (fromLabel) {
         // Phase A: noise → intermediate label, hold 2s
@@ -157,6 +159,7 @@
       tab.innerHTML    = origHTMLs[i]
       tab.style.fontFamily = ''
       tab.style.fontWeight = ''
+      tab.style.fontSize   = ''
       tab.style.lineHeight = ''
       await wait(100)
     }
@@ -173,12 +176,14 @@
         tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
         tab.style.fontFamily = FONT_GROTESK
         tab.style.fontWeight = WEIGHT_GROTESK
+        tab.style.fontSize   = SIZE_GROTESK
       }
 
       function unlockTab() {
         tab.innerHTML    = origHTML
         tab.style.fontFamily = ''
         tab.style.fontWeight = ''
+        tab.style.fontSize   = ''
         tab.style.lineHeight = ''
       }
 

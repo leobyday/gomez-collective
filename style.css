@@ -205,12 +205,15 @@ body {
   font-size: 20px;
   color: var(--color-muted);
   padding: 0;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  line-height: 1;
   white-space: nowrap;
   transition: color 0.2s;
 }
 
-.work-tabs .work-tab:first-child { text-align: right; }
+.work-tabs .work-tab:first-child { justify-content: flex-end; }
 
 .work-tab em { font-style: italic; }
 
