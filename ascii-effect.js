@@ -74,6 +74,8 @@
     var h1 = document.querySelector('.hero-name')
     if (!h1) return
 
+    await wait(1000)
+
     var originalHTML = h1.innerHTML
 
     // Lock line-height before switching fonts to prevent layout jumps
@@ -82,16 +84,16 @@
     h1.style.fontFamily  = FONT_GROTESK
     h1.style.fontWeight  = WEIGHT_GROTESK
 
-    // Phase 1 — noise → "Product Designer", hold 2s
-    await scrambleTo(h1, 'Product Designer', 700, {
+    // Phase 1 — noise → "Lead Designer", hold 2s
+    await scrambleTo(h1, 'Lead Designer', 700, {
       color: COLOR_GRAY, finalColor: COLOR_GRAY, burstMs: 0,
     })
     await wait(2000)
 
-    // Phase 2 — rebuild h1 with two word spans, scramble only "Product" → "AI"
+    // Phase 2 — rebuild h1 with two word spans, scramble only "Lead" → "AI"
     var w1 = document.createElement('span')
     var w2 = document.createElement('span')
-    w1.textContent = 'Product'; w1.style.color = COLOR_GRAY
+    w1.textContent = 'Lead'; w1.style.color = COLOR_GRAY
     w2.textContent = 'Designer'; w2.style.color = COLOR_GRAY
     h1.innerHTML = ''
     h1.appendChild(w1)
@@ -99,7 +101,7 @@
     h1.appendChild(w2)
 
     // Only w1 scrambles; w2 stays visible and unchanged
-    await scrambleTo(w1, 'Lead', 480, {
+    await scrambleTo(w1, 'AI', 480, {
       color: COLOR_GRAY, finalColor: COLOR_GRAY, burstMs: 60,
     })
     await wait(2000)
@@ -133,7 +135,8 @@
       var text      = tab.textContent.trim()
       var fromLabel = tab.getAttribute('data-scramble-from') || null
 
-      // Lock line-height before font switch (white-space:nowrap handles wrapping)
+      // Lock width + line-height before font switch so tab stays flush left
+      tab.style.minWidth   = tab.offsetWidth + 'px'
       tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
       tab.style.fontFamily = FONT_GROTESK
       tab.style.fontWeight = WEIGHT_GROTESK
@@ -163,6 +166,7 @@
       tab.style.fontSize   = ''
       tab.style.lineHeight = ''
       tab.style.transform  = ''
+      tab.style.minWidth   = ''
       await wait(100)
     }
 
@@ -175,6 +179,7 @@
       var pendingOut = false
 
       function lockTab() {
+        tab.style.minWidth   = tab.offsetWidth + 'px'
         tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
         tab.style.fontFamily = FONT_GROTESK
         tab.style.fontWeight = WEIGHT_GROTESK
@@ -189,6 +194,7 @@
         tab.style.fontSize   = ''
         tab.style.lineHeight = ''
         tab.style.transform  = ''
+        tab.style.minWidth   = ''
       }
 
       tab.addEventListener('mouseenter', function () {
@@ -235,49 +241,57 @@
       var nameEl = card.querySelector('.company-name')
       if (!nameEl) return
 
-      var realName  = nameEl.textContent.trim()
-      var fromLabel = card.getAttribute('data-scramble-from') || null
-      var fired     = false
+      var realName     = card.getAttribute('name') || nameEl.textContent.trim()
+      var origNameHTML = nameEl.innerHTML
+      var fromLabel    = card.getAttribute('data-scramble-from') || null
+      var fired        = false
 
       var obs = new IntersectionObserver(function (entries) {
         if (fired || !entries[0].isIntersecting) return
         fired = true
         obs.disconnect()
-        animateCard(nameEl, realName, fromLabel, card)
+        animateCard(nameEl, realName, origNameHTML, fromLabel, card)
       }, { threshold: 0.85 })
 
       obs.observe(card)
     })
   }
 
-  async function animateCard(nameEl, realName, fromLabel, card) {
+  async function animateCard(nameEl, realName, origNameHTML, fromLabel, card) {
     // Lock width, height, and line-height before font switch to pin the baseline
     nameEl.style.width      = nameEl.offsetWidth + 'px'
     nameEl.style.height     = nameEl.offsetHeight + 'px'
     nameEl.style.lineHeight = window.getComputedStyle(nameEl).lineHeight
-    nameEl.style.fontFamily = FONT_GROTESK
-    nameEl.style.fontWeight = WEIGHT_GROTESK
-    nameEl.style.fontSize   = SIZE_GROTESK
+    nameEl.style.fontFamily  = FONT_GROTESK
+    nameEl.style.fontWeight  = WEIGHT_GROTESK
+    nameEl.style.fontSize    = SIZE_GROTESK
+    nameEl.style.transform   = 'translateY(-2px)'
+    nameEl.style.display     = 'block'  // override flex so char spans don't inherit gap:10px
 
     if (fromLabel) {
-      // Phase A: noise → descriptor label
+      // Phase A: noise → descriptor label (Grotesk, gray)
       await scrambleTo(nameEl, fromLabel, 640, {
         color: COLOR_GRAY, finalColor: COLOR_GRAY, burstMs: 0,
       })
       await wait(240)
-      // Snap directly to real name in default serif — no second scramble pass
+      // Phase B: descriptor → real name (Grotesk, gray → gold) — matches subnav
+      await scrambleTo(nameEl, realName, 640, {
+        color: COLOR_GRAY, finalColor: COLOR_GOLD, burstMs: 80,
+      })
     } else {
       await scrambleTo(nameEl, realName, 760, {
         color: COLOR_GRAY, finalColor: COLOR_GOLD, burstMs: 0,
       })
     }
 
-    // Restore clean text + let CSS control the colour
-    nameEl.textContent      = realName
-    nameEl.style.fontFamily = ''
-    nameEl.style.fontWeight = ''
-    nameEl.style.fontSize   = ''
-    nameEl.style.lineHeight = ''
+    // Restore original markup (preserves badge spans) + let CSS control the colour
+    nameEl.innerHTML         = origNameHTML
+    nameEl.style.fontFamily  = ''
+    nameEl.style.fontWeight  = ''
+    nameEl.style.fontSize    = ''
+    nameEl.style.transform   = ''
+    nameEl.style.lineHeight  = ''
+    nameEl.style.display     = ''
     nameEl.style.height     = ''
     nameEl.style.width      = ''
     nameEl.style.color      = ''
