@@ -257,6 +257,7 @@
     nameEl.style.lineHeight = window.getComputedStyle(nameEl).lineHeight
     nameEl.style.fontFamily = FONT_GROTESK
     nameEl.style.fontWeight = WEIGHT_GROTESK
+    nameEl.style.fontSize   = SIZE_GROTESK
 
     if (fromLabel) {
       // Phase A: noise → descriptor label
@@ -264,10 +265,7 @@
         color: COLOR_GRAY, finalColor: COLOR_GRAY, burstMs: 0,
       })
       await wait(240)
-      // Phase B: descriptor → real name, gray → gold
-      await scrambleTo(nameEl, realName, 640, {
-        color: COLOR_GRAY, finalColor: COLOR_GOLD, burstMs: 80,
-      })
+      // Snap directly to real name in default serif — no second scramble pass
     } else {
       await scrambleTo(nameEl, realName, 760, {
         color: COLOR_GRAY, finalColor: COLOR_GOLD, burstMs: 0,
@@ -278,6 +276,7 @@
     nameEl.textContent      = realName
     nameEl.style.fontFamily = ''
     nameEl.style.fontWeight = ''
+    nameEl.style.fontSize   = ''
     nameEl.style.lineHeight = ''
     nameEl.style.height     = ''
     nameEl.style.width      = ''
