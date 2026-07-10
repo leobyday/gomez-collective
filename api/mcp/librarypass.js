@@ -559,8 +559,8 @@ const LANDING_HTML = `<!DOCTYPE html>
     .code-copy-btn.copied .icon-copy{display:none}
     .code-copy-btn.copied .icon-check{display:block}
 
-    .install-tabs{display:flex;gap:0;margin-bottom:32px;border-bottom:1px solid var(--divider)}
-    .install-tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--body);background:none;border:none;border-bottom:2px solid transparent;padding:10px 20px 10px 0;cursor:pointer;transition:color .2s;margin-bottom:-1px}
+    .install-tabs{display:flex;gap:40px;margin-bottom:32px;border-bottom:1px solid var(--divider)}
+    .install-tab{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--body);background:none;border:none;border-bottom:2px solid transparent;padding:10px 0;cursor:pointer;transition:color .2s;margin-bottom:-1px}
     .install-tab.active{color:var(--text);border-bottom-color:var(--text)}
     .install-tab:hover:not(.active){color:var(--text)}
     .install-panel{display:none}
@@ -622,8 +622,8 @@ const LANDING_HTML = `<!DOCTYPE html>
       .story-grid{grid-template-columns:1fr;gap:32px}
       .footer-links{flex-wrap:wrap;gap:16px}
       .step{grid-template-columns:24px 1fr;gap:12px}
-      .install-tabs{gap:0;overflow-x:auto}
-      .install-tab{white-space:nowrap;padding:10px 16px 10px 0}
+      .install-tabs{gap:24px;overflow-x:auto}
+      .install-tab{white-space:nowrap;padding:10px 0}
     }
   </style>
 </head>
@@ -753,9 +753,9 @@ const LANDING_HTML = `<!DOCTYPE html>
     <h2 class="section-title">Three steps <span class="free-badge">Free</span></h2>
 
     <div class="install-tabs">
-      <button class="install-tab active" data-tab="desktop">Claude Desktop</button>
-      <button class="install-tab" data-tab="vscode">Claude Code</button>
-      <button class="install-tab" data-tab="cli">CLI</button>
+      <button type="button" class="install-tab active" data-tab="desktop">Claude Desktop</button>
+      <button type="button" class="install-tab" data-tab="vscode">Claude Code</button>
+      <button type="button" class="install-tab" data-tab="cli">CLI</button>
     </div>
 
     <!-- Claude Desktop -->
@@ -1031,16 +1031,21 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   // Script is at bottom of body — DOM is ready, no DOMContentLoaded needed
 
-  // Tabs
-  document.querySelectorAll('.install-tab').forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      var id = tab.getAttribute('data-tab')
+  // Tabs — event delegation on the container
+  var installTabs = document.querySelector('.install-tabs')
+  if (installTabs) {
+    installTabs.addEventListener('click', function(e) {
+      var btn = e.target.closest('.install-tab')
+      if (!btn) return
+      var id = btn.getAttribute('data-tab')
+      var panel = document.getElementById('panel-' + id)
+      if (!panel) return
       document.querySelectorAll('.install-panel').forEach(function(p) { p.classList.remove('active') })
       document.querySelectorAll('.install-tab').forEach(function(t) { t.classList.remove('active') })
-      document.getElementById('panel-' + id).classList.add('active')
-      tab.classList.add('active')
+      panel.classList.add('active')
+      btn.classList.add('active')
     })
-  })
+  }
 
   // Copy buttons
   var copyMap = {

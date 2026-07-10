@@ -132,8 +132,7 @@
       var text      = tab.textContent.trim()
       var fromLabel = tab.getAttribute('data-scramble-from') || null
 
-      // Lock width and line-height before font switch to prevent layout jumps
-      tab.style.width      = tab.offsetWidth + 'px'
+      // Lock line-height before font switch (white-space:nowrap handles wrapping)
       tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
       tab.style.fontFamily = FONT_GROTESK
       tab.style.fontWeight = WEIGHT_GROTESK
@@ -159,7 +158,6 @@
       tab.style.fontFamily = ''
       tab.style.fontWeight = ''
       tab.style.lineHeight = ''
-      tab.style.width      = ''
       await wait(100)
     }
 
@@ -172,7 +170,6 @@
       var pendingOut = false
 
       function lockTab() {
-        tab.style.width      = tab.offsetWidth + 'px'
         tab.style.lineHeight = window.getComputedStyle(tab).lineHeight
         tab.style.fontFamily = FONT_GROTESK
         tab.style.fontWeight = WEIGHT_GROTESK
@@ -183,7 +180,6 @@
         tab.style.fontFamily = ''
         tab.style.fontWeight = ''
         tab.style.lineHeight = ''
-        tab.style.width      = ''
       }
 
       tab.addEventListener('mouseenter', function () {

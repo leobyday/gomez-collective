@@ -206,6 +206,7 @@ body {
   color: var(--color-muted);
   padding: 0;
   text-align: left;
+  white-space: nowrap;
   transition: color 0.2s;
 }
 
@@ -241,6 +242,23 @@ body {
   line-height: 1.2;
   color: #000;
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.company-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+  border: 1px solid var(--color-olive);
+  border-radius: 3px;
+  padding: 2px 6px;
+  line-height: 1.4;
+  flex-shrink: 0;
 }
 
 .company-category {
@@ -256,7 +274,20 @@ body {
   font-size: 16px;
   color: var(--color-text);
   line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.company-lang {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-dim);
+  letter-spacing: 0.04em;
   margin-bottom: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
 }
 
 .company-divider {
@@ -365,6 +396,20 @@ body {
 .company-thumb--media video {
   height: 376px;
   object-position: top;
+}
+
+/* Spin or Flip: scale video down 20% so full frame is visible */
+.company-thumb--video-sm,
+.company-thumb--video-sm video {
+  height: 301px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Claude Scaffolding: anchor screenshot to top-left */
+.company-thumb--topleft img {
+  object-fit: cover;
+  object-position: top left;
 }
 
 /* AminoChain: video at 75% width, proportional height, centered */
@@ -711,6 +756,17 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   }
 
   .back-to-top { align-self: flex-start; }
+
+  /* 3-tab subnav: scrollable on small screens */
+  .work-tabs { gap: 24px; overflow-x: auto; padding-bottom: 2px; }
+
+  /* Media thumb: let height be natural on mobile */
+  .company-thumb--media,
+  .company-thumb--media img,
+  .company-thumb--media video { height: auto; min-height: 200px; }
+
+  /* Lang tags: allow wrap on mobile */
+  .company-lang { white-space: normal; }
 }
 
 /* ─── Page load animations ───────────────────────────── */
