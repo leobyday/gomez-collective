@@ -3,83 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>leo@gomezcollective.com &#8212; ssh</title>
+  <title>Leo Gomez &#8212; Product Designer · Design Engineer</title>
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Gomez Collective palette, adapted for dark terminal */
-      --gc-gold:     #c4a830;
-      --gc-gold-dim: rgba(196, 168, 48, 0.12);
-      --gc-olive:    #9a9270;
-      --glow:        0 0 8px  rgba(196, 168, 48, 0.4);
-      --glow-s:      0 0 14px rgba(196, 168, 48, 0.65);
+      --accent:      #455066;
+      --accent-deep: #2f3a4d;
+      --ink:         #3a4356;
+      --ink-soft:    #5b6577;
+      --faint:       #6b7386;
+      --line:        rgba(58,67,86,0.13);
+      --glass-bg:    rgba(255,255,255,0.42);
+      --glass-bdr:   rgba(255,255,255,0.62);
 
-      /* macOS outer window */
-      --mac-bg:    #1a1a1a;
-      --mac-bar:   linear-gradient(180deg, #3c3c3e 0%, #2c2c2e 100%);
-      --mac-bdr:   #111;
-
-      /* Inner SSH window */
-      --in-bg:     #101210;
-      --in-bar:    #181a18;
-      --in-bdr:    #252925;
-
-      /* Text */
-      --text:      #b0bcae;
-      --text-dim:  #424842;
-      --text-bg:   #3c3c3c;
-      --bright:    #dde9db;
-
-      --font:  'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
-      --fs:    13px;
-      --lh:    1.75;
+      --font-display: 'Jura', 'Trebuchet MS', sans-serif;
+      --font-mono:    'JetBrains Mono', 'Cascadia Code', monospace;
+      --fs:  13px;
+      --lh:  1.75;
     }
 
     html, body { height: 100%; }
 
     body {
-      font-family: var(--font);
+      font-family: var(--font-mono);
       font-size: var(--fs);
       line-height: var(--lh);
-      color: var(--text);
-      background: #080808;
+      color: var(--ink);
+      background: #b8ccd8 url('assets/08_SSH/BG.gif') center/cover no-repeat fixed;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100dvh;
-      padding: 24px 16px;
+      padding: 28px 16px;
       -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Scanlines ──────────────────────────────────────── */
-    .scanlines {
-      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-      background: repeating-linear-gradient(
-        0deg, transparent 0, transparent 3px,
-        rgba(0,0,0,0.022) 3px, rgba(0,0,0,0.022) 4px
-      );
     }
 
     /* ── macOS outer Terminal window ────────────────────── */
     .macos-win {
-      width: 860px;
+      width: 820px;
       max-width: 100%;
       border-radius: 10px;
       overflow: hidden;
-      background: var(--mac-bg);
-      border: 1px solid #0a0a0a;
+      background: rgba(22,22,24,0.88);
+      border: 1px solid rgba(0,0,0,0.5);
       box-shadow:
-        0 0 0 1px rgba(255,255,255,0.06),
-        0 32px 90px rgba(0,0,0,0.95);
+        0 0 0 1px rgba(255,255,255,0.07),
+        0 28px 80px rgba(30,50,80,0.45);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
     }
 
     .macos-bar {
-      background: var(--mac-bar);
+      background: linear-gradient(180deg, #3c3c3e 0%, #2c2c2e 100%);
       border-bottom: 1px solid #111;
       padding: 11px 14px;
       display: flex;
@@ -97,35 +77,36 @@
     .macos-label {
       flex: 1;
       text-align: center;
+      font-family: var(--font-display);
       font-size: 12px;
       color: #888;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .reconnect-btn {
+      font-family: var(--font-mono);
       font-size: 11px;
       color: #555;
       cursor: pointer;
       letter-spacing: 0.06em;
       flex-shrink: 0;
-      font-family: var(--font);
       transition: color 0.2s;
     }
-    .reconnect-btn:hover { color: var(--gc-gold); }
+    .reconnect-btn:hover { color: #9ab; }
 
-    /* ── Terminal content area (with canvas behind) ─────── */
+    /* ── Terminal content area (transparent over BG.gif) ── */
     .term-bg {
       position: relative;
-      min-height: 520px;
-      padding: 14px 18px 18px;
+      min-height: 500px;
+      padding: 20px 18px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      background: var(--mac-bg);
+      gap: 12px;
+      background: rgba(140,165,190,0.10);
       overflow: hidden;
     }
 
@@ -136,89 +117,90 @@
       pointer-events: none;
     }
 
-    /* ── Shell context text (before / after inner window) ── */
+    /* ── Shell context text (outer terminal area) ──────── */
     .shell-ctx {
       align-self: flex-start;
       position: relative;
       z-index: 1;
       font-size: 12px;
-      color: var(--text-bg);
+      color: rgba(40,55,80,0.5);
       line-height: 1.65;
     }
 
-    .s-line  { display: block; }
-    .s-pmt   { color: #4a4a4a; }
-    .s-cur   {
+    .s-line { display: block; }
+    .s-pmt  { color: rgba(40,55,80,0.4); }
+    .s-cur  {
       display: inline-block;
       width: 7px; height: 13px;
-      background: #4a4a4a;
+      background: rgba(40,55,80,0.45);
       vertical-align: text-bottom;
       animation: sc-blink 1s step-end infinite;
     }
     @keyframes sc-blink { 0%,100%{opacity:1} 50%{opacity:0} }
     @media (prefers-reduced-motion: reduce) { .s-cur { animation: none; } }
 
-    /* ── Inner SSH window ───────────────────────────────── */
+    /* ── Inner SSH window — frosted glass ──────────────── */
     .inner-win {
       position: relative;
       z-index: 2;
-      width: 660px;
+      width: 640px;
       max-width: 100%;
-      background: var(--in-bg);
-      border: 1px solid var(--in-bdr);
-      border-radius: 8px;
+      background: var(--glass-bg);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      backdrop-filter: blur(22px) saturate(150%);
+      border: 1px solid var(--glass-bdr);
+      border-radius: 12px;
       overflow: hidden;
       box-shadow:
-        0 0 0 1px rgba(196,168,48,0.07),
-        0 14px 44px rgba(0,0,0,0.7),
-        0 0 70px rgba(196,168,48,0.035);
-      transition: opacity 0.4s ease;
+        0 20px 60px rgba(40,60,90,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.7);
+      transition: opacity 0.45s ease;
     }
 
     .inner-bar {
-      background: var(--in-bar);
-      border-bottom: 1px solid var(--in-bdr);
-      padding: 11px 14px;
+      background: rgba(255,255,255,0.28);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       user-select: none;
     }
 
     .inner-dots { display: flex; gap: 7px; }
-    .inner-dot  { width: 11px; height: 11px; border-radius: 50%; opacity: 0.82; }
-    .in-r { background: #ff5f57; }
-    .in-y { background: #ffbd2e; }
-    .in-g { background: #28c840; }
+    .inner-dot  { width: 11px; height: 11px; border-radius: 50%; opacity: 0.85; }
+    .in-r { background: #e0928d; }
+    .in-y { background: #e5c07a; }
+    .in-g { background: #a9c48f; }
 
     .inner-title {
       margin-left: auto;
-      font-size: 11px;
-      color: var(--text-dim);
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--faint);
       letter-spacing: 0.05em;
     }
 
-    /* ── Interactive terminal area ──────────────────────── */
+    /* ── Interactive terminal content ──────────────────── */
     .term {
-      padding: 18px 22px 22px;
+      padding: 20px 24px 24px;
       min-height: 300px;
       max-height: 50vh;
       overflow-y: auto;
-      text-shadow: 0 0 5px rgba(196,168,48,0.08);
     }
 
     .term::-webkit-scrollbar { width: 3px; }
     .term::-webkit-scrollbar-track { background: transparent; }
-    .term::-webkit-scrollbar-thumb { background: var(--in-bdr); }
+    .term::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
 
     .term-footer {
-      border-top: 1px solid var(--in-bdr);
-      background: var(--in-bar);
-      padding: 7px 22px;
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.22);
+      padding: 7px 24px;
     }
 
     .hint {
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--faint);
       letter-spacing: 0.04em;
     }
 
@@ -226,18 +208,17 @@
     .L  { display: block; white-space: pre-wrap; word-break: break-word; }
     .Lg { display: block; height: calc(var(--fs) * var(--lh)); }
 
-    .dim    { color: var(--text-dim); }
-    .bright { color: var(--bright); }
-    .gold   { color: var(--gc-gold); text-shadow: var(--glow); }
-    .olive  { color: var(--gc-olive); }
-    .pmt    { color: var(--gc-gold); text-shadow: var(--glow); }
+    .dim    { color: var(--faint); }
+    .bright { color: var(--ink); font-weight: 600; }
+    .accent { color: var(--accent); }
+    .soft   { color: var(--ink-soft); }
+    .pmt    { color: var(--accent); }
 
-    /* ── Blinking cursor ────────────────────────────────── */
+    /* ── Cursor ──────────────────────────────────────────── */
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
     .cursor {
       display: inline-block;
-      color: var(--gc-gold);
-      text-shadow: var(--glow);
+      color: var(--accent);
       animation: blink 1.1s step-end infinite;
     }
     @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
@@ -247,50 +228,49 @@
 
     .mitem {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 10px;
-      padding: 3px 8px;
-      border-radius: 3px;
+      padding: 5px 10px;
+      border-left: 2px solid transparent;
       cursor: pointer;
-      transition: background 0.08s;
+      transition: background 0.1s, border-color 0.1s;
+      border-radius: 0 5px 5px 0;
     }
-    .mitem:hover { background: rgba(196,168,48,0.04); }
-    .mitem.sel   { background: rgba(196,168,48,0.09); }
+    .mitem:hover { background: rgba(69,80,102,0.07); }
+    .mitem.sel {
+      background: rgba(69,80,102,0.10);
+      border-left-color: var(--accent);
+    }
 
-    .mcaret {
-      color: var(--gc-gold);
-      text-shadow: var(--glow);
-      width: 12px;
-      flex-shrink: 0;
-      font-weight: 700;
-    }
-    .mitem.sel .mlabel { color: var(--bright); text-shadow: var(--glow); }
+    .mcaret { color: var(--accent); width: 12px; flex-shrink: 0; font-weight: 700; }
+    .mlabel { color: var(--ink); font-size: 15px; }
+    .mitem.sel .mlabel { color: var(--accent-deep); font-weight: 600; }
 
     /* ── Section content ────────────────────────────────── */
     .sect-title {
-      color: var(--gc-gold);
-      font-weight: 700;
-      text-shadow: var(--glow-s);
-      letter-spacing: 0.12em;
+      font-family: var(--font-display);
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
-    .gc-link {
-      color: var(--gc-gold);
-      text-shadow: var(--glow);
+    .ac-link {
+      color: var(--accent);
       text-decoration: none;
     }
-    .gc-link:hover { text-decoration: underline; }
+    .ac-link:hover { text-decoration: underline; }
 
     .back-btn {
       background: none;
       border: none;
       font: inherit;
       cursor: pointer;
-      color: var(--text-dim);
+      color: var(--accent);
       padding: 0;
       letter-spacing: inherit;
     }
-    .back-btn:hover { color: var(--gc-gold); }
+    .back-btn:hover { color: var(--accent-deep); }
 
     /* ── Mobile ─────────────────────────────────────────── */
     @media (max-width: 680px) {
@@ -298,15 +278,14 @@
       .macos-win  { width: 100%; border-radius: 0; }
       .inner-win  { width: 100%; border-radius: 0; border-left: 0; border-right: 0; }
       .term       { max-height: 56dvh; min-height: 260px; }
-      .term-bg    { padding: 10px 10px 14px; min-height: 420px; }
-      :root       { --fs: 11.5px; }
+      .term-bg    { padding: 12px 10px 16px; min-height: 420px; }
+      :root       { --fs: 12px; }
       .macos-label { font-size: 10px; }
+      .mlabel     { font-size: 14px; }
     }
   </style>
 </head>
 <body>
-
-<div class="scanlines"></div>
 
 <div class="macos-win">
 
@@ -321,10 +300,10 @@
     <span class="reconnect-btn" id="reconnect-btn">Reconnect</span>
   </div>
 
-  <!-- Terminal content area -->
+  <!-- Terminal content area — transparent so BG.gif shows through -->
   <div class="term-bg" id="term-bg">
 
-    <!-- Character rain background -->
+    <!-- Subtle character rain over the sky -->
     <canvas id="bg-canvas"></canvas>
 
     <!-- Shell context: before inner window -->
@@ -332,7 +311,7 @@
       <span class="s-line"><span class="s-pmt">leo@Leos-MacBook-Pro ~ % </span><span id="ssh-type"></span></span>
     </div>
 
-    <!-- Inner SSH window -->
+    <!-- Inner SSH window — frosted glass -->
     <div class="inner-win" id="inner-win" style="opacity:0">
       <div class="inner-bar">
         <div class="inner-dots">
@@ -348,7 +327,7 @@
       </div>
     </div>
 
-    <!-- Shell context: after inner window (always visible below) -->
+    <!-- Shell context: after inner window -->
     <div class="shell-ctx" id="post-ctx" style="opacity:0;transition:opacity 0.6s">
       <span class="s-line">Connection to gomezcollective.com closed.</span>
       <span class="s-line"><span class="s-pmt">leo@Leos-MacBook-Pro ~ % </span><span class="s-cur"></span></span>
@@ -364,87 +343,64 @@
 const DATA = {
 
   meta: {
-    name:     'Leo Gomez',
-    title:    'Lead Product Designer & Design Engineer',
-    location: 'San Francisco, CA',
+    name:    'Leo Gomez',
+    title:   'Product Designer · Design Engineer',
+    tagline: 'I research, design, build in code, and ship.',
   },
 
   sections: [
-    'Experience',
+    'Pre-seed Experience',
     'Key Projects',
     'Passion Projects',
     'Skills',
-    'Impact',
-    'Contact',
+    'Impact & Outcomes',
+    'Contact & Links',
   ],
 
   experience: [
     {
-      company:  'Roku',
-      role:     'Lead Product Designer',
-      period:   '2021 – Present',
-      location: 'San Jose, CA',
-      bullets: [
-        'Led UX for international expansion across 50+ markets in Latin America, Europe, and APAC.',
-        'Designed Audio Tracks, Subtitles, and Channel Scan for DVB, ATSC, and ISDB standards.',
-        'Owned end-to-end design for Multiview: simultaneous multi-stream for live sports.',
-        'Partnered with engineering, legal, and local ops on regional compliance and localization.',
-      ],
-    },
-    {
       company:  'AminoChain',
-      role:     'Lead Designer',
-      period:   '2023',
-      location: 'Remote',
+      role:     'Founding Designer',
+      period:   'Dec 2024 – Feb 2026',
       bullets: [
-        'Designed a health data marketplace from 0 to 1, enabling patients to share genomic data.',
-        'Built the full product design system, marketing site, and onboarding flows.',
-        'Translated complex Web3 concepts into accessible UI working directly with founders.',
+        'Built a data-dense procurement platform and donor mobile app supporting 50+ providers and 500K+ biosamples before Series A.',
+        'Drove the web-to-native pivot after surfacing privacy constraints with engineering.',
       ],
     },
     {
-      company:  'Disney+',
-      role:     'Senior Product Designer',
-      period:   '2019 – 2021',
-      location: 'Los Angeles, CA',
+      company:  'Symmetry (Stealth)',
+      role:     'Founding Designer',
+      period:   '2026',
       bullets: [
-        'Designed the core streaming player across iOS, Android, web, and connected TV.',
-        'Ran A/B experiments on watch-time, content discovery, and subscriber retention.',
-        'Collaborated with Marvel, Pixar, and Star Wars teams on content launch experiences.',
+        'Employee #4. Defined brand, product, and design system for Beta 1 in 3 months across four surfaces: Chrome extension, web dashboard, chat, and desktop app.',
+        'Introduced Claude Code as a team delivery process.',
       ],
     },
     {
-      company:  'Faire',
-      role:     'Product Designer',
-      period:   '2018 – 2019',
-      location: 'San Francisco, CA',
+      company:  'Gomez Collective',
+      role:     'Independent',
+      period:   'Ongoing',
       bullets: [
-        'Designed retailer tools for the wholesale marketplace: search, orders, and inventory.',
-        'Contributed to early brand identity and homepage personalization.',
+        'Shipping AI-native products end to end, including working MCP integrations. Design, code, deploy.',
       ],
     },
   ],
 
   keyProjects: [
     {
-      name: 'Roku International',
-      tags: ['UX', 'Research', 'Systems', 'Engineering'],
-      desc: 'End-to-end internationalization spanning 50+ markets. Localized onboarding, channel scan, and audio track selection for DVB, ATSC, and ISDB standards with unique data structures and UI constraints per region.',
+      name: 'Roku — Home & Search',
+      tags: ['+18% OTA engagement'],
+      desc: 'Led the Home screen redesign and drove experiment programs that measurably lifted engagement across a device in millions of living rooms.',
     },
     {
-      name: 'AminoChain Marketplace',
-      tags: ['0 to 1', 'Web3', 'Design System'],
-      desc: 'Built from scratch: contributor onboarding, consent flows, researcher search, and token-based compensation. Created the first design system for the company.',
+      name: 'Disney+ International',
+      tags: ['9M to 200M', '40+ markets', '2 years'],
+      desc: 'First designer for the international launch. Took Disney+ beyond the US across 40+ markets, owning the design system and CJK typography that made a US product feel native everywhere.',
     },
     {
-      name: 'Disney+ Player',
-      tags: ['Consumer', 'A/B Testing', 'Cross-platform'],
-      desc: 'Core video player across 6 platforms. Shipped improvements to scrubbing, chapter nav, and accessibility. Ran experiments across tens of millions of subscribers.',
-    },
-    {
-      name: 'Roku Multiview',
-      tags: ['Innovation', 'Sports', 'Hardware'],
-      desc: 'Simultaneous multi-stream layout for live sports: grid customization, PiP controls, and audio routing across up to 4 concurrent streams.',
+      name: 'Spotify — Watch & Car',
+      tags: ['Most-requested feature, 2016'],
+      desc: 'Shipped the iOS Watch app the audience had asked for most that year, and the original Car Mode still in use today.',
     },
   ],
 
@@ -452,43 +408,43 @@ const DATA = {
     {
       name: 'Spin or Flip',
       url:  'https://www.spinorflip.com/',
-      tags: ['Web3', 'Game', 'React'],
-      desc: 'A provably fair on-chain coin flip game. Designed and built the full product: UI, smart contract integration, and a token-gated learn-to-earn tutorial.',
+      tags: ['Full-stack', 'MCP', 'Live'],
+      desc: 'A decision wheel shipped end to end: frontend, backend, auth, payments, an API, and an MCP server that lets Claude construct the wheel mid-conversation. Every layer is mine.',
     },
     {
-      name: 'Claude Scaffolding',
-      url:  'https://github.com/leobyday/Claude-Scaffolding',
-      tags: ['AI', 'Developer Tool', 'Open Source'],
-      desc: 'A prompt framework for spinning up AI-assisted projects with Claude. Open source, used by designers entering AI development.',
+      name: 'DataRelief',
+      url:  null,
+      tags: ['MCP Connector', 'Humanitarian'],
+      desc: 'Connects Claude to curated humanitarian crisis data so donors can ask where a dollar has the most impact. A non-suppressable stale-data warning is baked into every response.',
     },
     {
-      name: 'Librarypass',
-      url:  'https://gomezcollective.com/mcp/librarypass',
-      tags: ['MCP', 'AI', 'Design Tool'],
-      desc: 'An MCP connector giving Claude live access to React and UI library data: install scaffolds, component docs, and changelogs. No guessing versions.',
+      name: 'Project Scaffolding Skill',
+      url:  null,
+      tags: ['Claude Code', 'Open Source'],
+      desc: 'A reusable setup that spins up a project with enough context to build: PRD, UX principles, and design system docs as separate files, with constraints captured up front so an agent starts from a real point of view.',
     },
   ],
 
   skills: {
-    Design:  ['Figma', 'Prototyping', 'Design Systems', 'User Research', 'Motion Design', 'Interaction Design'],
-    Code:    ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Vercel', 'MCP'],
-    Methods: ['0 to 1 Product Design', 'Design Sprints', 'A/B Experimentation', 'Cross-functional Leadership'],
-    Tools:   ['Linear', 'Notion', 'GitHub', 'Framer', 'ProtoPie'],
+    Design: ['Product thinking', 'Interaction design', 'Systems design', 'AI experience design', 'Prototyping', 'Visual craft', 'Design systems', 'Internationalization'],
+    Build:  ['Claude Code', 'HTML', 'CSS', 'JavaScript', 'React & Next.js', 'MCP servers', 'Vercel', 'Figma'],
+    Domain: ['Regulated healthtech', 'Clinical workflows', 'Consumer products at scale', 'High-stakes operator interfaces'],
   },
 
   impact: [
-    { metric: '50+ markets',  context: 'international expansion shipped at Roku' },
-    { metric: '8 platforms',  context: 'consumer, enterprise, embedded, and AI' },
-    { metric: '100M+ users',  context: 'reached across Roku and Disney+ products' },
-    { metric: '3 startups',   context: 'joined early, scaled design from the ground up' },
-    { metric: '0 to 1',      context: 'two products built from blank canvas to launch' },
+    { metric: '8 platforms',    context: 'web, mobile, wearables, car, TV, desktop, Chrome ext., MCPs' },
+    { metric: 'Hundreds of M',  context: 'reached via Disney+, Spotify, Roku, Samsung, and Meta' },
+    { metric: '0 to 1, 3x',    context: 'founding designer across multiple pre-seed startups' },
+    { metric: 'Built with AI',  context: 'live products with working MCP integrations, using Claude Code' },
+    { metric: 'Range',          context: 'most designers go deep on one surface — mine is the transfer between them' },
   ],
 
   contact: {
     email:    'leogomezd@gmail.com',
     site:     'https://gomezcollective.com',
-    github:   'https://github.com/leobyday',
+    product:  'https://www.spinorflip.com',
     linkedin: 'https://linkedin.com/in/leogomez',
+    cta:      'Open to Staff / Principal design and design-engineering roles. Say hello.',
   },
 
 };
@@ -497,15 +453,14 @@ const DATA = {
    LOGIC — no need to edit below
    ══════════════════════════════════════════════════════════════════ */
 
-const term      = document.getElementById('term');
-const hintEl    = document.getElementById('hint');
-const innerWin  = document.getElementById('inner-win');
-const preCtx    = document.getElementById('pre-ctx');
-const postCtx   = document.getElementById('post-ctx');
-const sshType   = document.getElementById('ssh-type');
-const termBg    = document.getElementById('term-bg');
-const SECTS     = DATA.sections;
-const noAnim    = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const term     = document.getElementById('term');
+const hintEl   = document.getElementById('hint');
+const innerWin = document.getElementById('inner-win');
+const postCtx  = document.getElementById('post-ctx');
+const sshType  = document.getElementById('ssh-type');
+const termBg   = document.getElementById('term-bg');
+const SECTS    = DATA.sections;
+const noAnim   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let state    = 'booting';
 let menuIdx  = 0;
@@ -515,85 +470,76 @@ let skipBoot = false;
 
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-function L(cls, html)   { return `<span class="L ${cls}">${html}</span>`; }
-function Lg()           { return '<span class="Lg"></span>'; }
-function div(n = 38)    { return L('dim', '─'.repeat(n)); }
-function sectHd(t)      { return [Lg(), `<span class="L sect-title">${t}</span>`, div(), Lg()]; }
+function L(cls, html) { return `<span class="L ${cls}">${html}</span>`; }
+function Lg()         { return '<span class="Lg"></span>'; }
+function div(n = 40)  { return L('dim', '─'.repeat(n)); }
+function sectHd(t)    { return [Lg(), `<span class="L sect-title">${t}</span>`, div(), Lg()]; }
 
-// ── Canvas character rain (GC gold) ─────────────────────────
+// ── Canvas character rain (slate-blue, over the sky GIF) ─────
 
 (function initCanvas() {
   const canvas = document.getElementById('bg-canvas');
   const ctx    = canvas.getContext('2d');
-
-  const GC_CHARS = 'GOMEZCOLLECTIVE0123456789!@#$?/\\|<>abcdefghijklmnopqrstuvwxyz';
-  const FS = 13;
-
+  const CHARS  = 'GOMEZCOLLECTIVE0123456789!@#$?/\\|<>abcdefghijklmnopqrstuvwxyz';
+  const FS     = 13;
   let cols, drops;
 
   function resize() {
-    const r = termBg.getBoundingClientRect();
+    const r   = termBg.getBoundingClientRect();
     canvas.width  = r.width;
     canvas.height = r.height;
     cols  = Math.floor(canvas.width / FS);
     drops = Array.from({ length: cols }, () => ({
-      y:      Math.random() * -80,
-      speed:  0.15 + Math.random() * 0.35,
-      trail:  Array.from({ length: 14 }, () => GC_CHARS[Math.floor(Math.random() * GC_CHARS.length)]),
-      tick:   0,
+      y:     Math.random() * -80,
+      speed: 0.12 + Math.random() * 0.28,
+      trail: Array.from({ length: 14 }, () => CHARS[Math.floor(Math.random() * CHARS.length)]),
+      tick:  0,
     }));
   }
 
   let last = 0;
-
   function draw(ts) {
     if (!noAnim) requestAnimationFrame(draw);
     const dt = Math.min(ts - last, 50);
     last = ts;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = `${FS}px 'JetBrains Mono', monospace`;
 
     drops.forEach((d, i) => {
       d.y    += d.speed * (dt / 16);
       d.tick += dt;
-
       if (d.y * FS > canvas.height + 60) {
         d.y    = -Math.random() * 40;
-        d.speed = 0.15 + Math.random() * 0.35;
+        d.speed = 0.12 + Math.random() * 0.28;
       }
-
-      if (d.tick > 120 + Math.random() * 180) {
-        const ri = Math.floor(Math.random() * d.trail.length);
-        d.trail[ri] = GC_CHARS[Math.floor(Math.random() * GC_CHARS.length)];
+      if (d.tick > 130 + Math.random() * 200) {
+        d.trail[Math.floor(Math.random() * d.trail.length)] = CHARS[Math.floor(Math.random() * CHARS.length)];
         d.tick = 0;
       }
-
       for (let j = 0; j < d.trail.length; j++) {
-        const charY = (d.y - j) * FS;
-        if (charY < -FS || charY > canvas.height) continue;
-        const alpha = Math.max(0, (d.trail.length - j) / d.trail.length) * 0.09;
-        ctx.fillStyle = `rgba(196,168,48,${alpha.toFixed(3)})`;
-        ctx.fillText(d.trail[j], i * FS, charY);
+        const cy = (d.y - j) * FS;
+        if (cy < -FS || cy > canvas.height) continue;
+        const alpha = Math.max(0, (d.trail.length - j) / d.trail.length) * 0.07;
+        ctx.fillStyle = `rgba(58,67,100,${alpha.toFixed(3)})`;
+        ctx.fillText(d.trail[j], i * FS, cy);
       }
     });
   }
 
   resize();
   window.addEventListener('resize', resize);
-
   if (!noAnim) requestAnimationFrame(draw);
 })();
 
 // ── Boot sequence ────────────────────────────────────────────
 
 async function boot() {
-  state     = 'booting';
-  skipBoot  = false;
+  state    = 'booting';
+  skipBoot = false;
   innerWin.style.opacity = '0';
   postCtx.style.opacity  = '0';
   term.innerHTML         = '';
-  hintEl.textContent     = 'click to skip';
+  hintEl.textContent     = 'click anywhere to skip';
   sshType.textContent    = '';
 
   if (noAnim) { revealMenu(); return; }
@@ -610,7 +556,6 @@ async function boot() {
   await wait(500);
   if (skipBoot) { revealMenu(); return; }
 
-  // Show inner window with boot sequence
   innerWin.style.opacity = '1';
 
   term.innerHTML = L('dim', 'Connecting to gomezcollective.com…');
@@ -621,16 +566,14 @@ async function boot() {
   await wait(400);
   if (skipBoot) { revealMenu(); return; }
 
-  term.innerHTML += L('gold', 'Connected. Welcome.');
+  term.innerHTML += L('accent', 'Connected. Welcome.');
   await wait(900);
   if (skipBoot) { revealMenu(); return; }
 
   showMenu();
 }
 
-termBg.addEventListener('click', () => {
-  if (state === 'booting') { skipBoot = true; }
-});
+termBg.addEventListener('click', () => { if (state === 'booting') skipBoot = true; });
 
 function revealMenu() {
   innerWin.style.opacity = '1';
@@ -642,15 +585,16 @@ function revealMenu() {
 function showMenu() {
   state   = 'menu';
   menuIdx = 0;
-  hintEl.textContent = '↑/↓ or j/k navigate  •  enter select';
+  hintEl.textContent = '↑/↓ j/k navigate  •  enter / → open';
 
   term.innerHTML = [
     Lg(),
     L('dim',    'Connected to gomezcollective.com'),
     div(),
     Lg(),
-    L('bright', DATA.meta.name),
-    L('olive',  DATA.meta.title),
+    `<span class="L bright">${DATA.meta.name}</span>`,
+    `<span class="L soft">${DATA.meta.title}</span>`,
+    `<span class="L dim">${DATA.meta.tagline}</span>`,
     Lg(),
     '<div class="mlist" id="mlist"></div>',
     Lg(),
@@ -673,10 +617,7 @@ function renderMenu() {
   }).join('');
 
   list.querySelectorAll('.mitem').forEach(el => {
-    el.addEventListener('click', () => {
-      menuIdx = +el.dataset.i;
-      openSection();
-    });
+    el.addEventListener('click', () => { menuIdx = +el.dataset.i; openSection(); });
   });
 }
 
@@ -685,7 +626,6 @@ function updateMenu() {
     const sel = i === menuIdx;
     el.classList.toggle('sel', sel);
     el.querySelector('.mcaret').textContent = sel ? '›' : ' ';
-    el.querySelector('.mlabel').style.color = '';
     if (sel) el.scrollIntoView({ block: 'nearest' });
   });
 }
@@ -694,13 +634,13 @@ function updateMenu() {
 
 async function openSection() {
   state = 'section';
-  hintEl.textContent = 'b / esc / q  •  back   ↑/↓ scroll';
+  hintEl.textContent = '← h b esc/q  back  •  ↑/↓ scroll';
 
   const lines = buildSection(SECTS[menuIdx]);
   const closer = [
     Lg(),
     div(),
-    `<span class="L"><span class="pmt">$ </span><button class="back-btn" id="back-btn">cd ..</button><span class="cursor">█</span></span>`,
+    `<span class="L"><span class="pmt">$ </span><button class="back-btn" id="back-btn">‹ back to menu</button><span class="cursor"> █</span></span>`,
   ];
 
   if (noAnim) {
@@ -728,21 +668,21 @@ async function openSection() {
 
 function buildSection(name) {
   const map = {
-    'Experience':       buildExp,
-    'Key Projects':     buildKeyProj,
-    'Passion Projects': buildPassion,
-    'Skills':           buildSkills,
-    'Impact':           buildImpact,
-    'Contact':          buildContact,
+    'Pre-seed Experience': buildExp,
+    'Key Projects':        buildKeyProj,
+    'Passion Projects':    buildPassion,
+    'Skills':              buildSkills,
+    'Impact & Outcomes':   buildImpact,
+    'Contact & Links':     buildContact,
   };
   return (map[name] || (() => [L('dim', 'Not found.')]))();
 }
 
 function buildExp() {
-  const ls = sectHd('EXPERIENCE');
+  const ls = sectHd('PRE-SEED EXPERIENCE');
   DATA.experience.forEach(e => {
     ls.push(L('', `<span class="bright">${e.company}</span>  <span class="dim">${e.period}</span>`));
-    ls.push(L('dim', `${e.role}  ·  ${e.location}`));
+    ls.push(L('dim', `${e.role}`));
     e.bullets.forEach(b => ls.push(L('', `  · ${b}`)));
     ls.push(Lg());
   });
@@ -752,7 +692,7 @@ function buildExp() {
 function buildKeyProj() {
   const ls = sectHd('KEY PROJECTS');
   DATA.keyProjects.forEach((p, i) => {
-    ls.push(L('', `<span class="gold">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
+    ls.push(L('', `<span class="accent">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
     ls.push(L('dim', `       ${p.tags.join(' · ')}`));
     ls.push(L('', `       ${p.desc}`));
     ls.push(Lg());
@@ -763,10 +703,10 @@ function buildKeyProj() {
 function buildPassion() {
   const ls = sectHd('PASSION PROJECTS');
   DATA.passionProjects.forEach((p, i) => {
-    ls.push(L('', `<span class="gold">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
+    ls.push(L('', `<span class="accent">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
     ls.push(L('dim', `       ${p.tags.join(' · ')}`));
     ls.push(L('', `       ${p.desc}`));
-    if (p.url) ls.push(L('', `       <a class="gc-link" href="${p.url}" target="_blank" rel="noopener">${p.url.replace('https://','')}</a>`));
+    if (p.url) ls.push(L('', `       <a class="ac-link" href="${p.url}" target="_blank" rel="noopener">${p.url.replace('https://','')}</a>`));
     ls.push(Lg());
   });
   return ls;
@@ -775,7 +715,7 @@ function buildPassion() {
 function buildSkills() {
   const ls = sectHd('SKILLS');
   Object.entries(DATA.skills).forEach(([cat, items]) => {
-    ls.push(L('bright', cat.toUpperCase()));
+    ls.push(L('bright', cat));
     items.forEach(item => ls.push(L('', `  – ${item}`)));
     ls.push(Lg());
   });
@@ -783,29 +723,31 @@ function buildSkills() {
 }
 
 function buildImpact() {
-  const ls = sectHd('IMPACT');
+  const ls = sectHd('IMPACT & OUTCOMES');
   DATA.impact.forEach(r =>
-    ls.push(L('', `  <span class="gold" style="display:inline-block;min-width:108px">${r.metric}</span><span class="dim">${r.context}</span>`))
+    ls.push(L('', `  <span class="accent" style="display:inline-block;min-width:120px">${r.metric}</span><span class="dim">${r.context}</span>`))
   );
   ls.push(Lg());
   return ls;
 }
 
 function buildContact() {
-  const ls = sectHd('CONTACT');
-  const c   = DATA.contact;
+  const ls = sectHd('CONTACT & LINKS');
+  const c  = DATA.contact;
   const row = (label, val, href) =>
-    L('', `  <span class="dim" style="display:inline-block;min-width:76px">${label}</span>` +
-      `<a class="gc-link" href="${href}" target="${href.startsWith('mailto') ? '_self':'_blank'}" rel="noopener">${val}</a>`);
-  ls.push(row('Email',    c.email,                         `mailto:${c.email}`));
-  ls.push(row('Site',     c.site.replace('https://',''),    c.site));
-  ls.push(row('GitHub',   c.github.replace('https://',''),  c.github));
-  ls.push(row('LinkedIn', c.linkedin.replace('https://',''),c.linkedin));
+    L('', `  <span class="dim" style="display:inline-block;min-width:84px">${label}</span>` +
+      `<a class="ac-link" href="${href}" target="${href.startsWith('mailto') ? '_self' : '_blank'}" rel="noopener">${val}</a>`);
+  ls.push(row('Portfolio',    c.site.replace('https://',''),    c.site));
+  ls.push(row('Email',        c.email,                          `mailto:${c.email}`));
+  ls.push(row('Live product', c.product.replace('https://',''), c.product));
+  ls.push(row('LinkedIn',     c.linkedin.replace('https://',''),c.linkedin));
+  ls.push(Lg());
+  ls.push(L('dim', c.cta));
   ls.push(Lg());
   return ls;
 }
 
-// ── Keyboard handler ─────────────────────────────────────────
+// ── Keyboard ─────────────────────────────────────────────────
 
 document.addEventListener('keydown', e => {
   if (state === 'menu') {
@@ -817,19 +759,19 @@ document.addEventListener('keydown', e => {
       e.preventDefault();
       menuIdx = (menuIdx + 1) % SECTS.length;
       updateMenu();
-    } else if (e.key === 'Enter') {
+    } else if (e.key === 'Enter' || e.key === 'ArrowRight' || e.key === 'l') {
       e.preventDefault();
       openSection();
     }
   } else if (state === 'section') {
-    if (e.key === 'Escape' || e.key === 'q' || e.key === 'b') {
+    if (e.key === 'Escape' || e.key === 'q' || e.key === 'b' || e.key === 'ArrowLeft' || e.key === 'h') {
       e.preventDefault();
       showMenu();
     }
   }
 });
 
-// ── Reconnect button ─────────────────────────────────────────
+// ── Reconnect ────────────────────────────────────────────────
 
 document.getElementById('reconnect-btn').addEventListener('click', () => {
   sshType.textContent = '';
