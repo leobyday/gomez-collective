@@ -750,7 +750,7 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   <section class="section" id="install-steps">
     <p class="section-label">Getting started</p>
-    <h2 class="section-title">Three steps <span class="free-badge">Free</span></h2>
+    <h2 class="section-title">Connect <span class="free-badge">Free</span></h2>
 
     <div class="install-tabs">
       <button type="button" class="install-tab active" data-tab="desktop">Claude Desktop</button>
@@ -808,32 +808,30 @@ const LANDING_HTML = `<!DOCTYPE html>
         <div class="step">
           <p class="step-num">01</p>
           <div>
-            <p class="step-head">Open Settings &rarr; Connectors &rarr; Add custom connector</p>
-            <p class="step-body">In the Claude Code panel in VS Code, click the settings icon and go to Connectors.</p>
+            <p class="step-head">Open Settings &rarr; MCP Servers &rarr; Add</p>
           </div>
         </div>
         <div class="step">
           <p class="step-num">02</p>
           <div>
-            <p class="step-head">Paste the connector URL</p>
-            <div class="code-block">
-              <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
-              <button class="code-copy-btn" id="stepCopyBtn" aria-label="Copy URL">
-                <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="step">
-          <p class="step-num">03</p>
-          <div>
-            <p class="step-head">Ask Claude to use Librarypass</p>
-            <p class="step-body">Claude picks up the tools automatically. Just describe what you need.</p>
-            <div class="step-codes">
-              <span class="step-code">Use librarypass to recommend a stack for my dashboard</span>
-              <span class="step-code">Use librarypass to install shadcn</span>
-              <span class="step-code">Use librarypass to get docs for the shadcn dialog</span>
+            <p class="step-head">Enter these two values</p>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+              <div class="code-block">
+                <span style="font-family:var(--mono);font-size:11px;color:var(--body);min-width:44px;display:inline-block">Name</span>
+                <span class="step-code">librarypass</span>
+                <button class="code-copy-btn" id="vscodeCopyName" aria-label="Copy name">
+                  <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+              <div class="code-block">
+                <span style="font-family:var(--mono);font-size:11px;color:var(--body);min-width:44px;display:inline-block">URL</span>
+                <span class="step-code">https://gomezcollective.com/mcp/librarypass</span>
+                <button class="code-copy-btn" id="vscodeCopyUrl" aria-label="Copy URL">
+                  <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1049,7 +1047,8 @@ const LANDING_HTML = `<!DOCTYPE html>
 
   // Copy buttons
   var copyMap = {
-    stepCopyBtn:    'https://gomezcollective.com/mcp/librarypass',
+    vscodeCopyName: 'librarypass',
+    vscodeCopyUrl:  'https://gomezcollective.com/mcp/librarypass',
     cliCopyBtn:     'claude mcp add librarypass --transport http https://gomezcollective.com/mcp/librarypass',
     desktopCopyBtn: '{\n  "mcpServers": {\n    "librarypass": {\n      "url": "https://gomezcollective.com/mcp/librarypass"\n    }\n  }\n}',
   }

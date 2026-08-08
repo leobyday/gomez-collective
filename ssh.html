@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>leo@gomezcollective.com &#8212; ssh</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Gomez Collective palette, adapted for dark terminal */
+      --gc-gold:     #c4a830;
+      --gc-gold-dim: rgba(196, 168, 48, 0.12);
+      --gc-olive:    #9a9270;
+      --glow:        0 0 8px  rgba(196, 168, 48, 0.4);
+      --glow-s:      0 0 14px rgba(196, 168, 48, 0.65);
+
+      /* macOS outer window */
+      --mac-bg:    #1a1a1a;
+      --mac-bar:   linear-gradient(180deg, #3c3c3e 0%, #2c2c2e 100%);
+      --mac-bdr:   #111;
+
+      /* Inner SSH window */
+      --in-bg:     #101210;
+      --in-bar:    #181a18;
+      --in-bdr:    #252925;
+
+      /* Text */
+      --text:      #b0bcae;
+      --text-dim:  #424842;
+      --text-bg:   #3c3c3c;
+      --bright:    #dde9db;
+
+      --font:  'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+      --fs:    13px;
+      --lh:    1.75;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--font);
+      font-size: var(--fs);
+      line-height: var(--lh);
+      color: var(--text);
+      background: #080808;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Scanlines ──────────────────────────────────────── */
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg, transparent 0, transparent 3px,
+        rgba(0,0,0,0.022) 3px, rgba(0,0,0,0.022) 4px
+      );
+    }
+
+    /* ── macOS outer Terminal window ────────────────────── */
+    .macos-win {
+      width: 860px;
+      max-width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--mac-bg);
+      border: 1px solid #0a0a0a;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 32px 90px rgba(0,0,0,0.95);
+    }
+
+    .macos-bar {
+      background: var(--mac-bar);
+      border-bottom: 1px solid #111;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      gap: 10px;
+    }
+
+    .mac-dots { display: flex; gap: 8px; flex-shrink: 0; }
+    .mac-dot  { width: 12px; height: 12px; border-radius: 50%; }
+    .mac-r { background: #ff5f57; }
+    .mac-y { background: #ffbd2e; }
+    .mac-g { background: #28c840; }
+
+    .macos-label {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .reconnect-btn {
+      font-size: 11px;
+      color: #555;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+    .reconnect-btn:hover { color: var(--gc-gold); }
+
+    /* ── Terminal content area (with canvas behind) ─────── */
+    .term-bg {
+      position: relative;
+      min-height: 520px;
+      padding: 14px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      background: var(--mac-bg);
+      overflow: hidden;
+    }
+
+    #bg-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Shell context text (before / after inner window) ── */
+    .shell-ctx {
+      align-self: flex-start;
+      position: relative;
+      z-index: 1;
+      font-size: 12px;
+      color: var(--text-bg);
+      line-height: 1.65;
+    }
+
+    .s-line  { display: block; }
+    .s-pmt   { color: #4a4a4a; }
+    .s-cur   {
+      display: inline-block;
+      width: 7px; height: 13px;
+      background: #4a4a4a;
+      vertical-align: text-bottom;
+      animation: sc-blink 1s step-end infinite;
+    }
+    @keyframes sc-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @media (prefers-reduced-motion: reduce) { .s-cur { animation: none; } }
+
+    /* ── Inner SSH window ───────────────────────────────── */
+    .inner-win {
+      position: relative;
+      z-index: 2;
+      width: 660px;
+      max-width: 100%;
+      background: var(--in-bg);
+      border: 1px solid var(--in-bdr);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(196,168,48,0.07),
+        0 14px 44px rgba(0,0,0,0.7),
+        0 0 70px rgba(196,168,48,0.035);
+      transition: opacity 0.4s ease;
+    }
+
+    .inner-bar {
+      background: var(--in-bar);
+      border-bottom: 1px solid var(--in-bdr);
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+    }
+
+    .inner-dots { display: flex; gap: 7px; }
+    .inner-dot  { width: 11px; height: 11px; border-radius: 50%; opacity: 0.82; }
+    .in-r { background: #ff5f57; }
+    .in-y { background: #ffbd2e; }
+    .in-g { background: #28c840; }
+
+    .inner-title {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Interactive terminal area ──────────────────────── */
+    .term {
+      padding: 18px 22px 22px;
+      min-height: 300px;
+      max-height: 50vh;
+      overflow-y: auto;
+      text-shadow: 0 0 5px rgba(196,168,48,0.08);
+    }
+
+    .term::-webkit-scrollbar { width: 3px; }
+    .term::-webkit-scrollbar-track { background: transparent; }
+    .term::-webkit-scrollbar-thumb { background: var(--in-bdr); }
+
+    .term-footer {
+      border-top: 1px solid var(--in-bdr);
+      background: var(--in-bar);
+      padding: 7px 22px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Typography helpers ─────────────────────────────── */
+    .L  { display: block; white-space: pre-wrap; word-break: break-word; }
+    .Lg { display: block; height: calc(var(--fs) * var(--lh)); }
+
+    .dim    { color: var(--text-dim); }
+    .bright { color: var(--bright); }
+    .gold   { color: var(--gc-gold); text-shadow: var(--glow); }
+    .olive  { color: var(--gc-olive); }
+    .pmt    { color: var(--gc-gold); text-shadow: var(--glow); }
+
+    /* ── Blinking cursor ────────────────────────────────── */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor {
+      display: inline-block;
+      color: var(--gc-gold);
+      text-shadow: var(--glow);
+      animation: blink 1.1s step-end infinite;
+    }
+    @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+    /* ── Menu ───────────────────────────────────────────── */
+    .mlist { margin: 4px 0; }
+
+    .mitem {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.08s;
+    }
+    .mitem:hover { background: rgba(196,168,48,0.04); }
+    .mitem.sel   { background: rgba(196,168,48,0.09); }
+
+    .mcaret {
+      color: var(--gc-gold);
+      text-shadow: var(--glow);
+      width: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .mitem.sel .mlabel { color: var(--bright); text-shadow: var(--glow); }
+
+    /* ── Section content ────────────────────────────────── */
+    .sect-title {
+      color: var(--gc-gold);
+      font-weight: 700;
+      text-shadow: var(--glow-s);
+      letter-spacing: 0.12em;
+    }
+
+    .gc-link {
+      color: var(--gc-gold);
+      text-shadow: var(--glow);
+      text-decoration: none;
+    }
+    .gc-link:hover { text-decoration: underline; }
+
+    .back-btn {
+      background: none;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      color: var(--text-dim);
+      padding: 0;
+      letter-spacing: inherit;
+    }
+    .back-btn:hover { color: var(--gc-gold); }
+
+    /* ── Mobile ─────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      body { padding: 0; align-items: flex-end; }
+      .macos-win  { width: 100%; border-radius: 0; }
+      .inner-win  { width: 100%; border-radius: 0; border-left: 0; border-right: 0; }
+      .term       { max-height: 56dvh; min-height: 260px; }
+      .term-bg    { padding: 10px 10px 14px; min-height: 420px; }
+      :root       { --fs: 11.5px; }
+      .macos-label { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<div class="macos-win">
+
+  <!-- macOS Terminal title bar -->
+  <div class="macos-bar">
+    <div class="mac-dots">
+      <span class="mac-dot mac-r"></span>
+      <span class="mac-dot mac-y"></span>
+      <span class="mac-dot mac-g"></span>
+    </div>
+    <span class="macos-label">leo &#8212; Gomez Collective &#8212; -zsh &#8212; 80&#215;24</span>
+    <span class="reconnect-btn" id="reconnect-btn">Reconnect</span>
+  </div>
+
+  <!-- Terminal content area -->
+  <div class="term-bg" id="term-bg">
+
+    <!-- Character rain background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Shell context: before inner window -->
+    <div class="shell-ctx" id="pre-ctx">
+      <span class="s-line"><span class="s-pmt">leo@Leos-MacBook-Pro ~ % </span><span id="ssh-type"></span></span>
+    </div>
+
+    <!-- Inner SSH window -->
+    <div class="inner-win" id="inner-win" style="opacity:0">
+      <div class="inner-bar">
+        <div class="inner-dots">
+          <span class="inner-dot in-r"></span>
+          <span class="inner-dot in-y"></span>
+          <span class="inner-dot in-g"></span>
+        </div>
+        <span class="inner-title">leo@gomezcollective &#8212; ssh</span>
+      </div>
+      <div class="term" id="term"></div>
+      <div class="term-footer">
+        <span class="hint" id="hint"></span>
+      </div>
+    </div>
+
+    <!-- Shell context: after inner window (always visible below) -->
+    <div class="shell-ctx" id="post-ctx" style="opacity:0;transition:opacity 0.6s">
+      <span class="s-line">Connection to gomezcollective.com closed.</span>
+      <span class="s-line"><span class="s-pmt">leo@Leos-MacBook-Pro ~ % </span><span class="s-cur"></span></span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   DATA — edit this block freely; logic starts after the divider
+   ══════════════════════════════════════════════════════════════════ */
+const DATA = {
+
+  meta: {
+    name:     'Leo Gomez',
+    title:    'Lead Product Designer & Design Engineer',
+    location: 'San Francisco, CA',
+  },
+
+  sections: [
+    'Experience',
+    'Key Projects',
+    'Passion Projects',
+    'Skills',
+    'Impact',
+    'Contact',
+  ],
+
+  experience: [
+    {
+      company:  'Roku',
+      role:     'Lead Product Designer',
+      period:   '2021 – Present',
+      location: 'San Jose, CA',
+      bullets: [
+        'Led UX for international expansion across 50+ markets in Latin America, Europe, and APAC.',
+        'Designed Audio Tracks, Subtitles, and Channel Scan for DVB, ATSC, and ISDB standards.',
+        'Owned end-to-end design for Multiview: simultaneous multi-stream for live sports.',
+        'Partnered with engineering, legal, and local ops on regional compliance and localization.',
+      ],
+    },
+    {
+      company:  'AminoChain',
+      role:     'Lead Designer',
+      period:   '2023',
+      location: 'Remote',
+      bullets: [
+        'Designed a health data marketplace from 0 to 1, enabling patients to share genomic data.',
+        'Built the full product design system, marketing site, and onboarding flows.',
+        'Translated complex Web3 concepts into accessible UI working directly with founders.',
+      ],
+    },
+    {
+      company:  'Disney+',
+      role:     'Senior Product Designer',
+      period:   '2019 – 2021',
+      location: 'Los Angeles, CA',
+      bullets: [
+        'Designed the core streaming player across iOS, Android, web, and connected TV.',
+        'Ran A/B experiments on watch-time, content discovery, and subscriber retention.',
+        'Collaborated with Marvel, Pixar, and Star Wars teams on content launch experiences.',
+      ],
+    },
+    {
+      company:  'Faire',
+      role:     'Product Designer',
+      period:   '2018 – 2019',
+      location: 'San Francisco, CA',
+      bullets: [
+        'Designed retailer tools for the wholesale marketplace: search, orders, and inventory.',
+        'Contributed to early brand identity and homepage personalization.',
+      ],
+    },
+  ],
+
+  keyProjects: [
+    {
+      name: 'Roku International',
+      tags: ['UX', 'Research', 'Systems', 'Engineering'],
+      desc: 'End-to-end internationalization spanning 50+ markets. Localized onboarding, channel scan, and audio track selection for DVB, ATSC, and ISDB standards with unique data structures and UI constraints per region.',
+    },
+    {
+      name: 'AminoChain Marketplace',
+      tags: ['0 to 1', 'Web3', 'Design System'],
+      desc: 'Built from scratch: contributor onboarding, consent flows, researcher search, and token-based compensation. Created the first design system for the company.',
+    },
+    {
+      name: 'Disney+ Player',
+      tags: ['Consumer', 'A/B Testing', 'Cross-platform'],
+      desc: 'Core video player across 6 platforms. Shipped improvements to scrubbing, chapter nav, and accessibility. Ran experiments across tens of millions of subscribers.',
+    },
+    {
+      name: 'Roku Multiview',
+      tags: ['Innovation', 'Sports', 'Hardware'],
+      desc: 'Simultaneous multi-stream layout for live sports: grid customization, PiP controls, and audio routing across up to 4 concurrent streams.',
+    },
+  ],
+
+  passionProjects: [
+    {
+      name: 'Spin or Flip',
+      url:  'https://www.spinorflip.com/',
+      tags: ['Web3', 'Game', 'React'],
+      desc: 'A provably fair on-chain coin flip game. Designed and built the full product: UI, smart contract integration, and a token-gated learn-to-earn tutorial.',
+    },
+    {
+      name: 'Claude Scaffolding',
+      url:  'https://github.com/leobyday/Claude-Scaffolding',
+      tags: ['AI', 'Developer Tool', 'Open Source'],
+      desc: 'A prompt framework for spinning up AI-assisted projects with Claude. Open source, used by designers entering AI development.',
+    },
+    {
+      name: 'Librarypass',
+      url:  'https://gomezcollective.com/mcp/librarypass',
+      tags: ['MCP', 'AI', 'Design Tool'],
+      desc: 'An MCP connector giving Claude live access to React and UI library data: install scaffolds, component docs, and changelogs. No guessing versions.',
+    },
+  ],
+
+  skills: {
+    Design:  ['Figma', 'Prototyping', 'Design Systems', 'User Research', 'Motion Design', 'Interaction Design'],
+    Code:    ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'Vercel', 'MCP'],
+    Methods: ['0 to 1 Product Design', 'Design Sprints', 'A/B Experimentation', 'Cross-functional Leadership'],
+    Tools:   ['Linear', 'Notion', 'GitHub', 'Framer', 'ProtoPie'],
+  },
+
+  impact: [
+    { metric: '50+ markets',  context: 'international expansion shipped at Roku' },
+    { metric: '8 platforms',  context: 'consumer, enterprise, embedded, and AI' },
+    { metric: '100M+ users',  context: 'reached across Roku and Disney+ products' },
+    { metric: '3 startups',   context: 'joined early, scaled design from the ground up' },
+    { metric: '0 to 1',      context: 'two products built from blank canvas to launch' },
+  ],
+
+  contact: {
+    email:    'leogomezd@gmail.com',
+    site:     'https://gomezcollective.com',
+    github:   'https://github.com/leobyday',
+    linkedin: 'https://linkedin.com/in/leogomez',
+  },
+
+};
+
+/* ══════════════════════════════════════════════════════════════════
+   LOGIC — no need to edit below
+   ══════════════════════════════════════════════════════════════════ */
+
+const term      = document.getElementById('term');
+const hintEl    = document.getElementById('hint');
+const innerWin  = document.getElementById('inner-win');
+const preCtx    = document.getElementById('pre-ctx');
+const postCtx   = document.getElementById('post-ctx');
+const sshType   = document.getElementById('ssh-type');
+const termBg    = document.getElementById('term-bg');
+const SECTS     = DATA.sections;
+const noAnim    = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let state    = 'booting';
+let menuIdx  = 0;
+let skipBoot = false;
+
+// ── Utilities ────────────────────────────────────────────────
+
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+function L(cls, html)   { return `<span class="L ${cls}">${html}</span>`; }
+function Lg()           { return '<span class="Lg"></span>'; }
+function div(n = 38)    { return L('dim', '─'.repeat(n)); }
+function sectHd(t)      { return [Lg(), `<span class="L sect-title">${t}</span>`, div(), Lg()]; }
+
+// ── Canvas character rain (GC gold) ─────────────────────────
+
+(function initCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  const GC_CHARS = 'GOMEZCOLLECTIVE0123456789!@#$?/\\|<>abcdefghijklmnopqrstuvwxyz';
+  const FS = 13;
+
+  let cols, drops;
+
+  function resize() {
+    const r = termBg.getBoundingClientRect();
+    canvas.width  = r.width;
+    canvas.height = r.height;
+    cols  = Math.floor(canvas.width / FS);
+    drops = Array.from({ length: cols }, () => ({
+      y:      Math.random() * -80,
+      speed:  0.15 + Math.random() * 0.35,
+      trail:  Array.from({ length: 14 }, () => GC_CHARS[Math.floor(Math.random() * GC_CHARS.length)]),
+      tick:   0,
+    }));
+  }
+
+  let last = 0;
+
+  function draw(ts) {
+    if (!noAnim) requestAnimationFrame(draw);
+    const dt = Math.min(ts - last, 50);
+    last = ts;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = `${FS}px 'JetBrains Mono', monospace`;
+
+    drops.forEach((d, i) => {
+      d.y    += d.speed * (dt / 16);
+      d.tick += dt;
+
+      if (d.y * FS > canvas.height + 60) {
+        d.y    = -Math.random() * 40;
+        d.speed = 0.15 + Math.random() * 0.35;
+      }
+
+      if (d.tick > 120 + Math.random() * 180) {
+        const ri = Math.floor(Math.random() * d.trail.length);
+        d.trail[ri] = GC_CHARS[Math.floor(Math.random() * GC_CHARS.length)];
+        d.tick = 0;
+      }
+
+      for (let j = 0; j < d.trail.length; j++) {
+        const charY = (d.y - j) * FS;
+        if (charY < -FS || charY > canvas.height) continue;
+        const alpha = Math.max(0, (d.trail.length - j) / d.trail.length) * 0.09;
+        ctx.fillStyle = `rgba(196,168,48,${alpha.toFixed(3)})`;
+        ctx.fillText(d.trail[j], i * FS, charY);
+      }
+    });
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (!noAnim) requestAnimationFrame(draw);
+})();
+
+// ── Boot sequence ────────────────────────────────────────────
+
+async function boot() {
+  state     = 'booting';
+  skipBoot  = false;
+  innerWin.style.opacity = '0';
+  postCtx.style.opacity  = '0';
+  term.innerHTML         = '';
+  hintEl.textContent     = 'click to skip';
+  sshType.textContent    = '';
+
+  if (noAnim) { revealMenu(); return; }
+
+  await wait(400);
+
+  const cmd = 'ssh leo@gomezcollective.com';
+  for (let i = 0; i < cmd.length; i++) {
+    if (skipBoot) { revealMenu(); return; }
+    sshType.textContent = cmd.slice(0, i + 1);
+    await wait(36 + Math.random() * 20);
+  }
+
+  await wait(500);
+  if (skipBoot) { revealMenu(); return; }
+
+  // Show inner window with boot sequence
+  innerWin.style.opacity = '1';
+
+  term.innerHTML = L('dim', 'Connecting to gomezcollective.com…');
+  await wait(650);
+  if (skipBoot) { revealMenu(); return; }
+
+  term.innerHTML += L('dim', 'Authenticating…');
+  await wait(400);
+  if (skipBoot) { revealMenu(); return; }
+
+  term.innerHTML += L('gold', 'Connected. Welcome.');
+  await wait(900);
+  if (skipBoot) { revealMenu(); return; }
+
+  showMenu();
+}
+
+termBg.addEventListener('click', () => {
+  if (state === 'booting') { skipBoot = true; }
+});
+
+function revealMenu() {
+  innerWin.style.opacity = '1';
+  showMenu();
+}
+
+// ── Menu ─────────────────────────────────────────────────────
+
+function showMenu() {
+  state   = 'menu';
+  menuIdx = 0;
+  hintEl.textContent = '↑/↓ or j/k navigate  •  enter select';
+
+  term.innerHTML = [
+    Lg(),
+    L('dim',    'Connected to gomezcollective.com'),
+    div(),
+    Lg(),
+    L('bright', DATA.meta.name),
+    L('olive',  DATA.meta.title),
+    Lg(),
+    '<div class="mlist" id="mlist"></div>',
+    Lg(),
+  ].join('');
+
+  renderMenu();
+  term.scrollTop = 0;
+  postCtx.style.opacity = '1';
+}
+
+function renderMenu() {
+  const list = document.getElementById('mlist');
+  if (!list) return;
+  list.innerHTML = SECTS.map((s, i) => {
+    const sel = i === menuIdx;
+    return `<div class="mitem${sel ? ' sel' : ''}" data-i="${i}">
+      <span class="mcaret">${sel ? '›' : ' '}</span>
+      <span class="mlabel">${s}</span>
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.mitem').forEach(el => {
+    el.addEventListener('click', () => {
+      menuIdx = +el.dataset.i;
+      openSection();
+    });
+  });
+}
+
+function updateMenu() {
+  document.querySelectorAll('.mitem').forEach((el, i) => {
+    const sel = i === menuIdx;
+    el.classList.toggle('sel', sel);
+    el.querySelector('.mcaret').textContent = sel ? '›' : ' ';
+    el.querySelector('.mlabel').style.color = '';
+    if (sel) el.scrollIntoView({ block: 'nearest' });
+  });
+}
+
+// ── Sections ─────────────────────────────────────────────────
+
+async function openSection() {
+  state = 'section';
+  hintEl.textContent = 'b / esc / q  •  back   ↑/↓ scroll';
+
+  const lines = buildSection(SECTS[menuIdx]);
+  const closer = [
+    Lg(),
+    div(),
+    `<span class="L"><span class="pmt">$ </span><button class="back-btn" id="back-btn">cd ..</button><span class="cursor">█</span></span>`,
+  ];
+
+  if (noAnim) {
+    term.innerHTML = lines.join('') + closer.join('');
+    document.getElementById('back-btn')?.addEventListener('click', showMenu);
+    term.scrollTop = 0;
+    return;
+  }
+
+  term.innerHTML = '';
+  term.scrollTop = 0;
+
+  for (const l of lines) {
+    if (state !== 'section') return;
+    term.innerHTML += l;
+    term.scrollTop = term.scrollHeight;
+    await wait(16);
+  }
+
+  term.innerHTML += closer.join('');
+  document.getElementById('back-btn')?.addEventListener('click', showMenu);
+}
+
+// ── Section builders ─────────────────────────────────────────
+
+function buildSection(name) {
+  const map = {
+    'Experience':       buildExp,
+    'Key Projects':     buildKeyProj,
+    'Passion Projects': buildPassion,
+    'Skills':           buildSkills,
+    'Impact':           buildImpact,
+    'Contact':          buildContact,
+  };
+  return (map[name] || (() => [L('dim', 'Not found.')]))();
+}
+
+function buildExp() {
+  const ls = sectHd('EXPERIENCE');
+  DATA.experience.forEach(e => {
+    ls.push(L('', `<span class="bright">${e.company}</span>  <span class="dim">${e.period}</span>`));
+    ls.push(L('dim', `${e.role}  ·  ${e.location}`));
+    e.bullets.forEach(b => ls.push(L('', `  · ${b}`)));
+    ls.push(Lg());
+  });
+  return ls;
+}
+
+function buildKeyProj() {
+  const ls = sectHd('KEY PROJECTS');
+  DATA.keyProjects.forEach((p, i) => {
+    ls.push(L('', `<span class="gold">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
+    ls.push(L('dim', `       ${p.tags.join(' · ')}`));
+    ls.push(L('', `       ${p.desc}`));
+    ls.push(Lg());
+  });
+  return ls;
+}
+
+function buildPassion() {
+  const ls = sectHd('PASSION PROJECTS');
+  DATA.passionProjects.forEach((p, i) => {
+    ls.push(L('', `<span class="gold">[${String(i+1).padStart(2,'0')}]</span>  <span class="bright">${p.name}</span>`));
+    ls.push(L('dim', `       ${p.tags.join(' · ')}`));
+    ls.push(L('', `       ${p.desc}`));
+    if (p.url) ls.push(L('', `       <a class="gc-link" href="${p.url}" target="_blank" rel="noopener">${p.url.replace('https://','')}</a>`));
+    ls.push(Lg());
+  });
+  return ls;
+}
+
+function buildSkills() {
+  const ls = sectHd('SKILLS');
+  Object.entries(DATA.skills).forEach(([cat, items]) => {
+    ls.push(L('bright', cat.toUpperCase()));
+    items.forEach(item => ls.push(L('', `  – ${item}`)));
+    ls.push(Lg());
+  });
+  return ls;
+}
+
+function buildImpact() {
+  const ls = sectHd('IMPACT');
+  DATA.impact.forEach(r =>
+    ls.push(L('', `  <span class="gold" style="display:inline-block;min-width:108px">${r.metric}</span><span class="dim">${r.context}</span>`))
+  );
+  ls.push(Lg());
+  return ls;
+}
+
+function buildContact() {
+  const ls = sectHd('CONTACT');
+  const c   = DATA.contact;
+  const row = (label, val, href) =>
+    L('', `  <span class="dim" style="display:inline-block;min-width:76px">${label}</span>` +
+      `<a class="gc-link" href="${href}" target="${href.startsWith('mailto') ? '_self':'_blank'}" rel="noopener">${val}</a>`);
+  ls.push(row('Email',    c.email,                         `mailto:${c.email}`));
+  ls.push(row('Site',     c.site.replace('https://',''),    c.site));
+  ls.push(row('GitHub',   c.github.replace('https://',''),  c.github));
+  ls.push(row('LinkedIn', c.linkedin.replace('https://',''),c.linkedin));
+  ls.push(Lg());
+  return ls;
+}
+
+// ── Keyboard handler ─────────────────────────────────────────
+
+document.addEventListener('keydown', e => {
+  if (state === 'menu') {
+    if (e.key === 'ArrowUp' || e.key === 'k') {
+      e.preventDefault();
+      menuIdx = (menuIdx - 1 + SECTS.length) % SECTS.length;
+      updateMenu();
+    } else if (e.key === 'ArrowDown' || e.key === 'j') {
+      e.preventDefault();
+      menuIdx = (menuIdx + 1) % SECTS.length;
+      updateMenu();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      openSection();
+    }
+  } else if (state === 'section') {
+    if (e.key === 'Escape' || e.key === 'q' || e.key === 'b') {
+      e.preventDefault();
+      showMenu();
+    }
+  }
+});
+
+// ── Reconnect button ─────────────────────────────────────────
+
+document.getElementById('reconnect-btn').addEventListener('click', () => {
+  sshType.textContent = '';
+  boot();
+});
+
+// ── Init ─────────────────────────────────────────────────────
+boot();
+</script>
+</body>
+</html>
