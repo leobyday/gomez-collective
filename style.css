@@ -33,7 +33,7 @@
   --space-xl:         60px;
   --space-section:    80px;
 
-  --hero-collapsed-h: 78px;
+  --hero-collapsed-h: 88px;
   --subnav-h:         56px;
 }
 
@@ -43,6 +43,7 @@ body {
   background-color: var(--color-bg);
   min-height: 100vh;
   padding: 40px 80px;
+  overflow-x: hidden;
 }
 
 .page {
@@ -53,35 +54,34 @@ body {
 /* ─── Hero ───────────────────────────────────────────── */
 
 .hero {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  will-change: transform;
+  /* scrolls away naturally — not sticky */
 }
 
 .hero-card {
   background: var(--color-surface);
   border-radius: var(--radius-card);
-  padding: 36px 52px 40px;
-  transition: padding 0.45s ease, box-shadow 0.45s ease;
+  padding: 60px 52px 72px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 180px);
+  transition: padding 0.45s ease, box-shadow 0.45s ease, min-height 0.5s ease;
 }
 
 .hero-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 28px;
-  transition: margin-bottom 0.45s ease;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .hero-name {
   font-family: var(--font-serif);
-  font-size: 34px;
+  font-size: 44px;
   font-weight: 400;
   font-style: normal;
   color: var(--color-gold);
   line-height: 1;
+  margin-top: auto;
+  margin-bottom: 20px;
 }
 
 .hero-name em { font-style: italic; }
@@ -137,11 +137,11 @@ body {
 .hero-bio {
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 16px;
+  font-size: 20px;
   color: var(--color-text);
-  line-height: 2;
+  line-height: 1.75;
   overflow: hidden;
-  max-height: 400px;
+  max-height: 600px;
   transition: max-height 0.5s ease, opacity 0.4s ease;
 }
 
@@ -153,20 +153,7 @@ body {
   display: none;
 }
 
-/* ─── Hero collapsed state ───────────────────────────── */
-
-.hero--collapsed .hero-card {
-  padding-top: 22px;
-  padding-bottom: 22px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-}
-
-.hero--collapsed .hero-header { margin-bottom: 0; }
-
-.hero--collapsed .hero-bio {
-  max-height: 0;
-  opacity: 0;
-}
+/* (hero no longer collapses — it scrolls away) */
 
 /* ─── Work section ───────────────────────────────────── */
 
@@ -179,18 +166,17 @@ body {
   display: flex;
   justify-content: center;
   position: sticky;
-  top: var(--hero-collapsed-h);
+  top: 0;
   z-index: 99;
-  padding: 36px 0 40px;
+  padding: 20px 0 24px;
   background: rgba(236, 241, 243, 0.65);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  transition: padding 0.52s ease;
+  /* Break out of page max-width to span full viewport */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
 }
 
-.hero--collapsed ~ .work-section .work-tabs-row {
-  padding: 16px 0 20px;
-}
 
 .work-tabs {
   display: flex;
@@ -225,8 +211,10 @@ body {
   gap: 73px;
   align-items: flex-start;
   transition: opacity 0.35s ease;
-  scroll-margin-top: calc(var(--hero-collapsed-h) + var(--subnav-h) + 16px);
+  scroll-margin-top: calc(var(--subnav-h) + 60px);
 }
+
+.work-tabs-row + company-card { margin-top: 20px; }
 
 .company-card ~ .company-card { margin-top: 130px; }
 
@@ -683,13 +671,17 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 /* ─── Responsive ─────────────────────────────────────── */
 
 @media (max-width: 768px) {
+  :root { --hero-collapsed-h: 80px; }
+
   body { padding: 20px 16px; }
 
-  .hero-card { padding: 24px 20px 28px; }
+  .hero-card { padding: 36px 20px 40px; min-height: calc(80vh - 80px); }
 
-  .hero-header { margin-bottom: 20px; }
+  .hero-header { margin-bottom: 24px; }
 
-  .hero-name { font-size: 26px; }
+  .hero-name { font-size: 36px; }
+
+  .hero-bio { font-size: 20px; }
 
   .btn-plus {
     width: 32px;
@@ -781,9 +773,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .hero-bio,
 .work-tabs-row,
 .hero-actions .social-icon,
-.hero-actions .btn-plus,
-.work-section .company-card:nth-child(2) .company-desc,
-.work-section .company-card:nth-child(2) .company-right {
+.hero-actions .btn-plus {
   animation: fadeUp 0.8s ease both;
 }
 
@@ -794,5 +784,4 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .hero-actions > :nth-child(3) { animation-delay: 1.8s; }
 .hero-actions > :nth-child(4) { animation-delay: 1.95s; }
 .work-tabs-row                { animation-delay: 2.2s; }
-.work-section .company-card:nth-child(2) .company-desc  { animation-delay: 2.2s; }
-.work-section .company-card:nth-child(2) .company-right { animation-delay: 2.6s; }
+

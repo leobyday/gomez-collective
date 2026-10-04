@@ -47,18 +47,13 @@ setTimeout(() => {
   });
 }, 3500);
 
-// ─── Scroll: hero collapse + card + shadow fade ───────────
+// ─── Scroll: card opacity + shadow fade ──────────────────
 
-const hero  = document.querySelector('.hero');
-const cards = document.querySelectorAll('.company-card');
+const cards    = document.querySelectorAll('.company-card');
+const firstCard = document.querySelector('.work-section > company-card');
 
-// Hysteresis thresholds — prevents jitter at the boundary
-const COLLAPSE_AT = 60;
-const EXPAND_AT   = 20;
-let isCollapsed = false;
 let rafPending  = false;
-// Lock prevents re-toggling while the CSS transition is still running
-let transitionTimer = null;
+let hasScrolled = false;
 
 function setCardOpacity(card, opacity) {
   card.style.opacity = opacity < 1 ? opacity : '';
@@ -69,21 +64,9 @@ function setCardOpacity(card, opacity) {
 
 function updateScrollState() {
   rafPending = false;
-  const scrollY = window.scrollY;
 
-  if (!transitionTimer) {
-    if (!isCollapsed && scrollY > COLLAPSE_AT) {
-      isCollapsed = true;
-      hero.classList.add('hero--collapsed');
-      transitionTimer = setTimeout(() => { transitionTimer = null; }, 520);
-    } else if (isCollapsed && scrollY < EXPAND_AT) {
-      isCollapsed = false;
-      hero.classList.remove('hero--collapsed');
-      transitionTimer = setTimeout(() => { transitionTimer = null; }, 520);
-    }
-  }
-
-  const heroBottom = hero.getBoundingClientRect().bottom;
+  const navRow   = document.querySelector('.work-tabs-row');
+  const navBottom = navRow ? navRow.getBoundingClientRect().bottom : 0;
   const vh = window.innerHeight;
 
   // Auto-switch tab based on which category is most prominent in view
@@ -91,12 +74,18 @@ function updateScrollState() {
   let topmostTop = Infinity;
 
   cards.forEach(card => {
+    // Keep first card hidden until user scrolls
+    if (card === firstCard && !hasScrolled) {
+      setCardOpacity(card, 0);
+      return;
+    }
+
     const rect = card.getBoundingClientRect();
 
     const fadeInStart  = vh + 20;
     const fadeInEnd    = vh - 80;
-    const fadeOutStart = heroBottom + 60;
-    const fadeOutEnd   = heroBottom;
+    const fadeOutStart = navBottom + 60;
+    const fadeOutEnd   = navBottom;
 
     let opacity;
 
@@ -125,6 +114,7 @@ function updateScrollState() {
 }
 
 window.addEventListener('scroll', () => {
+  hasScrolled = true;
   if (!rafPending) {
     rafPending = true;
     requestAnimationFrame(updateScrollState);
