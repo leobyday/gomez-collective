@@ -251,7 +251,7 @@
         fired = true
         obs.disconnect()
         animateCard(nameEl, realName, origNameHTML, fromLabel, card)
-      }, { threshold: 0.85 })
+      }, { threshold: 0.5 })
 
       obs.observe(card)
     })
@@ -296,13 +296,7 @@
     nameEl.style.width      = ''
     nameEl.style.color      = ''
 
-    // Fade in the thumbnail and start the lottie (if any) after the title settles
-    if (card) {
-      var thumb = card.querySelector('.company-thumb')
-      if (thumb) thumb.style.opacity = '1'
-      var lottie = card.querySelector('dotlottie-player')
-      if (lottie) lottie.play()
-    }
+    // Thumbnail reveal is handled by its own IntersectionObserver (set up in init)
   }
 
   // ─── Boot ─────────────────────────────────────────────────────────────────────
@@ -313,15 +307,26 @@
       var lottie = card.querySelector('dotlottie-player')
       if (!lottie) return
       var thumb = card.querySelector('.company-thumb')
-      if (thumb) {
-        thumb.style.opacity   = '0'
-        thumb.style.transition = 'opacity 0.7s ease'
-      }
+      if (!thumb) return
+
+      thumb.style.opacity    = '0'
+      thumb.style.transition = 'opacity 0.7s ease'
+
       if (typeof lottie.stop === 'function') {
         lottie.stop()
       } else {
         lottie.addEventListener('ready', function () { lottie.stop() }, { once: true })
       }
+
+      // Reveal thumbnail as soon as its area enters the viewport —
+      // independent of the title animation so each card shows on its own scroll position
+      var thumbObs = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return
+        thumbObs.disconnect()
+        thumb.style.opacity = '1'
+        if (typeof lottie.play === 'function') lottie.play()
+      }, { threshold: 0.1 })
+      thumbObs.observe(thumb)
     })
     runHero()
     // initCards is called by runTabs() after the full intro sequence
