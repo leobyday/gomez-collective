@@ -1,5 +1,8 @@
 # Gomez Collective — Site Reference for Claude
 
+## Skills
+- **Text animation** — `.claude/skills/text-animation.md` — the scramble animation used on the hero, subnav tabs, and product card titles. Read this before touching any animation code.
+
 ## Live domain
 https://gomezcollective.com
 
@@ -113,6 +116,30 @@ All assets live in `assets/`. They must be **git committed** before deploying �
 | `thumb` | Thumbnail layout variant: `media` / `fit` / `phones` / `lottie` / `spotify` / `phone-only` |
 | `data-category` | Filter bucket: `startups` / `consumer` / `design-engineering` |
 | `data-scramble-from` | Intermediate label shown during scramble animation |
+
+---
+
+## Quality bar — before every deploy
+
+### CSS scope
+| File | Affects |
+|---|---|
+| `style.css` | **Every page** — changes here must be verified on homepage AND at least one interior page |
+| `referrals.css` | `/referrals` only — safe to edit without checking other pages |
+| `faire.css` | `/faire` only |
+
+### Page types to spot-check after any CSS or shared HTML change
+1. **Homepage** (`/`) — expanded hero, subnav tabs, cards
+2. **Any case study** (e.g. `/roku`) — collapsed hero nav, case study layout
+3. **Referrals** (`/referrals`) — standalone `ref-nav`, no shared hero
+
+### Hero variants — do not confuse
+- **Expanded** (`index.html` only) — full-height hero card, `min-height: calc(100vh - 180px)`, bio visible
+- **Collapsed** (all interior pages: roku, aminochain, symmetry, disneyplus, international, referrals-era) — `hero--collapsed` class on `<section>`, overridden in `style.css` to 88px tall, name left / icons right
+- **Referrals nav** (`referrals.html`) — completely separate `<nav class="ref-nav">` styled in `referrals.css`, no shared hero classes
+
+### Resume filename
+Always check `assets/` for the current resume PDF name before linking. Update all pages at once — the filename appears in: `index.html`, `roku.html`, `aminochain.html`, `disneyplus.html`, `symmetry.html`, `international.html`, `referrals.html` (two places: nav icon + Links section).
 
 ---
 
