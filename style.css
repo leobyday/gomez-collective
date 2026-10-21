@@ -153,7 +153,28 @@ body {
   display: none;
 }
 
-/* (hero no longer collapses — it scrolls away) */
+/* ─── Collapsed hero (interior pages) ───────────────── */
+
+.hero--collapsed .hero-card {
+  min-height: 0;
+  height: var(--hero-collapsed-h);
+  padding: 0 52px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero--collapsed .hero-header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.hero--collapsed .hero-name {
+  margin: 0;
+  font-size: 24px;
+}
 
 /* ─── Work section ───────────────────────────────────── */
 
@@ -676,6 +697,10 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   body { padding: 20px 16px; }
 
   .hero-card { padding: 36px 20px 40px; min-height: calc(80vh - 80px); }
+
+  .hero--collapsed .hero-card { padding: 0 20px; height: var(--hero-collapsed-h); min-height: 0; }
+
+  .hero--collapsed .hero-name { font-size: 20px; }
 
   .hero-header { margin-bottom: 24px; }
 
