@@ -1861,6 +1861,55 @@
   .nv-donor-gif { width: 100%; }
 }
 
+/* ─── Hero image variant (Roku etc.) ─────────────────── */
+
+.nv-hero-img {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+
+.nv-hero-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Top group subnav (HOMESCREEN / INTERNATIONAL) ──── */
+
+.nv-top-subnav {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid var(--color-divider);
+  margin-top: 3rem;
+  margin-bottom: 0;
+}
+
+.nv-top-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nv-top-btn.active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-gold);
+}
+
+.nv-top-btn:hover {
+  color: var(--color-text);
+}
+
 /* ─── Content footer ──────────────────────────────────── */
 
 .nv-content .case-footer {
