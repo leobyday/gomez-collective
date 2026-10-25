@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Review — SandboxAQ · Leo Gomez Blum</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" href="assets/Emoji.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400;500&family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js" type="module"></script>
+
+  <style>
+    /* ── Lock light mode ── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #ecf1f3;
+        --color-surface: #ffffff;
+        --color-text: #3d3838;
+        --color-muted: #979797;
+        --color-divider: #d9d9d9;
+        --color-gold: #af9315;
+      }
+    }
+
+    body { background: var(--color-bg); }
+
+    /* ── Nav: sticky over hero ── */
+    .sbaq-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* ── Hero: fills viewport, sticky so cards scroll over it ── */
+    .sbaq-hero {
+      position: sticky;
+      top: 0;
+      z-index: 0;
+      height: calc(100vh - var(--hero-collapsed-h, 88px));
+      background: var(--color-bg);
+      display: flex;
+      align-items: center;
+    }
+
+    .sbaq-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-inline: 52px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .sbaq-hero-inner { padding-inline: 20px; }
+    }
+
+    .sbaq-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1f4337;
+      margin-bottom: 1.5rem;
+    }
+
+    .sbaq-hero h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(2rem, 4.8vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--color-text);
+      max-width: 22ch;
+      margin-bottom: 1.75rem;
+    }
+
+    .sbaq-hero p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--color-text);
+      max-width: 42rem;
+      margin-bottom: 1rem;
+    }
+
+    .sbaq-hero p:last-of-type { margin-bottom: 0; }
+
+    /* Animate each child in document order */
+    .sbaq-hero-inner > * {
+      opacity: 0;
+      animation: sbaq-up 0.6s ease forwards;
+    }
+
+    .sbaq-hero-inner > *:nth-child(1) { animation-delay: 0.1s; }
+    .sbaq-hero-inner > *:nth-child(2) { animation-delay: 0.28s; }
+    .sbaq-hero-inner > *:nth-child(3) { animation-delay: 0.46s; }
+    .sbaq-hero-inner > *:nth-child(4) { animation-delay: 0.62s; }
+
+    @keyframes sbaq-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sbaq-hero-inner > * { opacity: 1; animation: none; }
+    }
+
+    /* ── Cards section: scrolls up over sticky hero ── */
+    .sbaq-content {
+      position: relative;
+      z-index: 10;
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-divider);
+    }
+
+    .sbaq-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-inline: 52px;
+    }
+
+    @media (max-width: 768px) {
+      .sbaq-wrap { padding-inline: 20px; }
+    }
+
+    /* ── Cards grid ── */
+    .sbaq-cards {
+      padding: 3.5rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 52rem) {
+      .sbaq-cards { grid-template-columns: 1fr; }
+    }
+
+    .sbaq-card { display: flex; flex-direction: column; gap: 1rem; }
+
+    /* AminoChain: full natural proportions, no crop, no background */
+    .sbaq-thumb {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .sbaq-thumb video {
+      width: 100%;
+      height: auto;
+      object-fit: initial;
+      display: block;
+    }
+
+    /* Symmetry: exact homepage company-thumb-wrap--lottie treatment */
+    .sbaq-lottie-outer {
+      filter: drop-shadow(0px 10px 24px rgba(0,0,0,.28)) drop-shadow(0px 2px 6px rgba(0,0,0,.14));
+    }
+
+    .sbaq-lottie-outer dotlottie-player {
+      background: transparent !important;
+    }
+
+    .sbaq-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .sbaq-card h2 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: 1.35rem;
+      line-height: 1.3;
+      color: var(--color-text);
+    }
+
+    .sbaq-card p {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--color-text);
+      flex: 1;
+    }
+
+    .sbaq-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+      margin-top: auto;
+    }
+
+    .sbaq-link:hover { color: var(--color-text); }
+    .sbaq-link svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+    /* ── Footer ── */
+    .sbaq-footer {
+      border-top: 1px solid var(--color-divider);
+      padding: 24px 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .sbaq-footer-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--color-muted);
+    }
+
+    .sbaq-footer-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ── Scroll reveal for cards ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav: appears immediately, sticks to top ── -->
+  <div class="sbaq-nav">
+    <div class="page case-page">
+      <section class="hero hero--collapsed">
+        <div class="hero-card">
+          <div class="hero-header">
+            <a href="/" class="hero-name" style="text-decoration:none;">I'm<em> Leo G</em>omez Blum</a>
+            <div class="hero-actions">
+              <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+                <img src="assets/Linkedin.png" alt="LinkedIn" loading="lazy">
+              </a>
+              <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
+                <img src="assets/Mail.png" alt="Email" loading="lazy">
+              </a>
+              <a href="assets/Leo's Resume Q4 2026.pdf" class="social-icon social-icon--resume" aria-label="Resume" target="_blank" rel="noopener">
+                <img src="assets/File text.png" alt="Resume" loading="lazy">
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ── Hero: full viewport, sticky — cards scroll over it ── -->
+  <div class="sbaq-hero">
+    <div class="sbaq-hero-inner">
+      <p class="sbaq-label">Portfolio Review — SandboxAQ</p>
+      <h1>Human-in-the-loop is an expectation, not a fallback</h1>
+      <p>When it comes to AI, human-in-the-loop is how models get better, not just how they stay safe. Every correction a domain expert makes is a training signal. Every decision a researcher overrides becomes a constraint that sharpens the next output. The products that win in high-stakes domains are the ones that put people in the right place within the process, turning their judgment into higher-quality data, stronger models, and outputs worth trusting.</p>
+      <p>I design and build 0-to-1 products at that intersection: complex systems where AI does the heavy computation and people bring the judgment that data alone can't provide. The two case studies below show that work.</p>
+    </div>
+  </div>
+
+  <!-- ── Cards: scroll up over hero ── -->
+  <div class="sbaq-content">
+    <div class="sbaq-wrap">
+
+      <div class="sbaq-cards">
+
+        <!-- AminoChain -->
+        <div class="sbaq-card reveal" id="amino-card">
+          <div class="sbaq-thumb">
+            <video id="amino-video" muted loop playsinline>
+              <source src="assets/00_Thumbnails/Demo_video.mp4" type="video/mp4">
+            </video>
+          </div>
+          <p class="sbaq-category">Biotech · Web3 · Clinical</p>
+          <h2>AminoChain</h2>
+          <p>Founding designer for a biomedical specimen marketplace connecting researchers, biobanks, and donors. Designed across web, mobile, and clinical workflows, from data-dense procurement tools to a donor engagement app. HIPAA and IRB experience.</p>
+          <a href="https://gomezcollective.com/aminochain" class="sbaq-link" target="_blank" rel="noopener">
+            View case study
+            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 6H9.5M6.5 3L9.5 6L6.5 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Symmetry -->
+        <div class="sbaq-card reveal" id="sym-card" style="transition-delay: 3s;">
+          <div class="sbaq-lottie-outer">
+            <div class="company-thumb">
+              <dotlottie-player
+                id="sym-lottie"
+                src="assets/00_Thumbnails/Symmetry-search-bar.json"
+                style="width:100%;height:370px;">
+              </dotlottie-player>
+            </div>
+          </div>
+          <p class="sbaq-category">AI · SaaS · Conversational UI</p>
+          <h2>Symmetry</h2>
+          <p>Founding designer for a multi-platform AI knowledge tool. Designed a chat agent experience across Chrome extension, web dashboard, and desktop app, from eng prototype to Beta 1 in 3 months.</p>
+          <a href="https://gomezcollective.com/symmetry" class="sbaq-link" target="_blank" rel="noopener" onclick="sessionStorage.setItem('sym_auth','1')">
+            View case study
+            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 6H9.5M6.5 3L9.5 6L6.5 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="sbaq-footer">
+        <span class="sbaq-footer-label">Prepared for SandboxAQ · October 2026</span>
+        <div class="sbaq-footer-icons">
+          <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+            <img src="assets/Linkedin.png" alt="LinkedIn" loading="lazy">
+          </a>
+          <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
+            <img src="assets/Mail.png" alt="Email" loading="lazy">
+          </a>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── Scroll reveal (cards only) ── */
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+    })();
+
+    /* ── AminoChain video: play once after reveal, then hover-only ── */
+    (function () {
+      var card  = document.getElementById('amino-card');
+      var video = document.getElementById('amino-video');
+      if (!card || !video) return;
+
+      function attachHover() {
+        card.addEventListener('mouseenter', function () { video.currentTime = 0; video.play(); });
+        card.addEventListener('mouseleave', function () { video.pause(); video.currentTime = 0; });
+      }
+
+      card.addEventListener('transitionend', function onReveal(e) {
+        if (e.propertyName !== 'opacity') return;
+        card.removeEventListener('transitionend', onReveal);
+        video.currentTime = 0;
+        video.play();
+        video.addEventListener('ended', function () {
+          video.pause();
+          video.currentTime = 0;
+          attachHover();
+        }, { once: true });
+      });
+    })();
+
+    /* ── Symmetry Lottie: play once after reveal, then hover-only ── */
+    (function () {
+      var card   = document.getElementById('sym-card');
+      var player = document.getElementById('sym-lottie');
+      if (!card || !player) return;
+
+      function ready(fn) {
+        if (player.getLottie && player.getLottie()) { fn(); }
+        else { player.addEventListener('ready', fn, { once: true }); }
+      }
+
+      function attachHover() {
+        card.addEventListener('mouseenter', function () { player.seek(0); player.play(); });
+        card.addEventListener('mouseleave', function () { player.stop(); });
+      }
+
+      ready(function () {
+        player.stop();
+        card.addEventListener('transitionend', function onReveal(e) {
+          if (e.propertyName !== 'opacity') return;
+          card.removeEventListener('transitionend', onReveal);
+          player.seek(0);
+          player.play();
+          player.addEventListener('complete', function () {
+            player.stop();
+            attachHover();
+          }, { once: true });
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
