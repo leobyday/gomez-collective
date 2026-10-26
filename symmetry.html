@@ -34,15 +34,18 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="case.css">
   <script>
-    if (sessionStorage.getItem('sym_auth') !== '1') {
+    var _p = new URLSearchParams(location.search);
+    if (sessionStorage.getItem('sym_auth') !== '1' && _p.get('ref') !== 'sbaq') {
       window.location.replace('index.html');
     }
   </script>
 </head>
 <body>
+
+  <!-- ─── Nav wrapper ──────────────────────────────────── -->
   <div class="page case-page">
 
-    <!-- ─── Nav (always collapsed) ──────────────────── -->
+    <!-- ─── Collapsed hero ───────────────────────────── -->
     <section class="hero hero--collapsed">
       <div class="hero-card">
         <div class="hero-header">
@@ -62,102 +65,89 @@
       </div>
     </section>
 
-    <main>
+    <!-- ─── Case nav (prev / next) ───────────────────── -->
+    <nav class="case-nav">
+      <a href="/" class="case-nav-link">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 12L6 8L10 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All work
+      </a>
+      <a href="aminochain.html" class="case-nav-link">
+        AminoChain
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 12L10 8L6 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </nav>
 
-      <!-- ─── Nav ───────────────────────────────────── -->
-      <nav class="case-nav">
-        <a href="/" class="case-nav-link">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 12L6 8L10 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          All work
-        </a>
-        <a href="aminochain.html" class="case-nav-link">
-          AminoChain
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 12L10 8L6 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </nav>
+  </div>
 
-      <!-- ─── Section 1 — Two column ────────────────── -->
-      <div class="case-s1">
+  <!-- ─── Narrative shell ──────────────────────────────── -->
+  <div class="nv-shell">
 
-        <!-- Row 1, Col 1: hero image -->
-        <div class="case-hero-images">
-          <div class="case-hero-img-wrap case-hero-img--hero">
-            <div class="case-hero-shadow"></div>
-            <img src="assets/01_Symmetry/Hero Image.png" alt="Symmetry — hero">
+    <!-- Sticky TOC -->
+    <aside class="nv-sidenav">
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#month1">Month 1</a></li>
+        <li><a href="#month2">Month 2</a></li>
+        <li><a href="#month3">Month 3</a></li>
+        <li><a href="#desktop">Desktop App</a></li>
+      </ol>
+    </aside>
+
+    <main class="nv-content">
+
+      <!-- ─── Hero ─────────────────────────────────────── -->
+      <section class="nv-hero reveal" id="top">
+        <div class="nv-hero-img" style="max-width: 75%;">
+          <img src="assets/01_Symmetry/Hero Image.png" alt="Symmetry — AI knowledge tool" loading="lazy">
+        </div>
+        <h1 class="nv-hero-title">Symmetry</h1>
+        <p class="nv-lede">Symmetry is a SaaS AI tool that captures and surfaces LLM-generated work knowledge through a conversational chat agent, available across Chrome extension, web dashboard, and desktop app.</p>
+        <div class="nv-meta">
+          <div class="nv-meta-item">
+            <span class="nv-meta-key">Role</span>
+            <span class="nv-meta-val">Lead Designer, Design Engineer</span>
+          </div>
+          <div class="nv-meta-item">
+            <span class="nv-meta-key">Tools</span>
+            <span class="nv-meta-val">Figma, Claude, Vercel, Electron</span>
+          </div>
+          <div class="nv-meta-item">
+            <span class="nv-meta-key">Surfaces</span>
+            <span class="nv-meta-val">Chrome Extension, Web Dashboard, Desktop App</span>
           </div>
         </div>
+      </section>
 
-        <!-- Row 1, Col 2: name + overview -->
-        <div class="case-company-info">
+      <!-- ─── Overview ─────────────────────────────────── -->
+      <section class="nv-sec reveal" id="overview">
+        <p class="nv-label">OVERVIEW</p>
+        <h2>Joined as founding designer. Started from a project without a brand, design system or AI cross-functional process</h2>
+        <div class="nv-body">
+          <p>Defined all three from scratch across four platforms simultaneously. Designed the core AI chat interface, passive injection via Chrome extension, active retrieval through the web dashboard, and a persistent desktop agent.</p>
+          <p>Navigated the tension between deterministic and probabilistic knowledge surfacing across surfaces, balancing user trust with the inherent uncertainty of LLM-generated context.</p>
+        </div>
+      </section>
 
-          <div class="case-info-block">
-            <h1 class="case-company-name">Symmetry</h1>
-            <p class="case-info-body">Symmetry is a SaaS AI tool that captures and surfaces LLM-generated work knowledge through a conversational chat agent, available across Chrome extension, web dashboard, and desktop app.</p>
-          </div>
-
-          <div class="case-info-block">
-            <h2 class="case-info-heading">Overview</h2>
-            <p class="case-info-body">Joined as employee #4, inheriting an engineering prototype with no brand, no design system, and no process. Defined all three from scratch across four platforms simultaneously.</p>
-            <p class="case-info-body" style="margin-top:12px;">Designed the core AI chat interface, passive injection via Chrome extension, active retrieval through the web dashboard, and a persistent desktop agent, navigating the tension between deterministic and probabilistic knowledge surfacing across surfaces.</p>
-          </div>
-
+      <!-- ─── Month 1 ───────────────────────────────────── -->
+      <section class="nv-sec reveal" id="month1">
+        <p class="nv-label">MONTH 1</p>
+        <h2>Alignment and Foundation</h2>
+        <div class="nv-body">
+          <p>Joined a series of workshops led by the CEO and CTO to understand each part of the product, the team's goals, and what was being built across all four surfaces. Used that context to map user intents and ICPs per platform, define KPIs for each phase, and build a roadmap from Beta 1 through GA. Established a design-to-engineering process from scratch, introducing Claude Code to accelerate delivery across surfaces.</p>
         </div>
 
-        <!-- Row 2, Col 1: tools — same grid row as Timelines/Role -->
-        <div class="case-info-block case-info-block--tools">
-          <h2 class="case-info-heading">Tools</h2>
-          <div class="case-tools-grid case-tools-grid--3">
-
-            <div class="case-tool-col">
-              <img class="case-tool-icon" src="assets/Figma-logo_.svg" alt="Figma" loading="lazy">
-              <p class="case-tool-label">For Product Design, Branding and Design System</p>
-            </div>
-
-            <div class="case-tool-col">
-              <div class="case-tool-icons">
-                <img class="case-tool-icon" src="assets/Claude.png" alt="Claude" loading="lazy">
-                <img class="case-tool-icon" src="assets/vercel.png" alt="Vercel" loading="lazy">
-              </div>
-              <p class="case-tool-label">Prototyping working in staging/production.</p>
-            </div>
-
-            <div class="case-tool-col">
-              <img class="case-tool-icon" src="assets/electron.avif" alt="Electron" loading="lazy">
-              <p class="case-tool-label">for the Desktop app</p>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Row 2, Col 2: timelines + role -->
-        <div class="case-meta-row">
-          <div class="case-meta-col">
-            <h2 class="case-meta-heading">Timelines</h2>
-            <p class="case-meta-value">3 Months</p>
-          </div>
-          <div class="case-meta-col">
-            <h2 class="case-meta-heading">Role</h2>
-            <p class="case-meta-value">Lead Designer<br>and Design Engineer</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ─── Multiview — Month 1 ─────────────────────────── -->
-      <div class="multiview case-carousel-group">
-        <p class="multiview__title">Month 1 | Alignment &amp; Foundation</p>
-        <p class="multiview__subtitle">Joined a series of workshops led by the CEO and CTO to understand each part of the product, the team's goals, and what was being built across all four surfaces. Used that context to map user intents and ICPs per platform, define KPIs for each phase, and build a roadmap from Beta 1 through GA. Established a design-to-engineering process from scratch, introducing Claude Code to accelerate delivery across surfaces.</p>
-        <nav class="case-subnav" aria-label="Month 1 views">
-          <button class="case-subnav-btn" data-view="m1-definition">Definition</button>
-          <button class="case-subnav-btn" data-view="m1-scope">Scope and timelines</button>
-          <button class="case-subnav-btn" data-view="m1-process">AI process</button>
-          <button class="case-subnav-btn" data-view="m1-connectors">Ongoing conversations</button>
-        </nav>
-        <div class="case-carousel case-carousel--fluid" role="region" aria-label="Month 1 carousel">
+        <div class="multiview case-carousel-group">
+          <nav class="case-subnav" aria-label="Month 1 views">
+            <button class="case-subnav-btn" data-view="m1-definition">Definition</button>
+            <button class="case-subnav-btn" data-view="m1-scope">Scope and timelines</button>
+            <button class="case-subnav-btn" data-view="m1-process">AI process</button>
+            <button class="case-subnav-btn" data-view="m1-connectors">Ongoing conversations</button>
+          </nav>
+          <div class="case-carousel case-carousel--fluid" role="region" aria-label="Month 1 carousel">
             <div class="case-carousel-panel case-carousel-panel--single" data-view="m1-definition">
               <div class="case-panel-images">
                 <img class="case-carousel-img" src="assets/01_Symmetry/Product /Symmetry Products.jpg" alt="Month 1 — Definition" loading="lazy">
@@ -178,185 +168,193 @@
                 <img class="case-carousel-img" src="assets/01_Symmetry/Product /Defining Connectors.jpg" alt="Month 1 — Ongoing conversations" loading="lazy">
               </div>
             </div>
-        </div>
-      </div>
-
-      <!-- ─── Multiview — Month 2 ─────────────────────────── -->
-      <div class="multiview case-carousel-group">
-        <p class="multiview__title">Month 2 | Agent definition</p>
-        <nav class="case-subnav" aria-label="Month 2 views">
-          <button class="case-subnav-btn" data-view="m2-agent-design">Agent Design</button>
-          <button class="case-subnav-btn" data-view="m2-sym-design">Sym Design</button>
-          <button class="case-subnav-btn" data-view="m2-sym-chat">Sym in Chat</button>
-        </nav>
-        <div class="case-carousel case-carousel--fluid" role="region" aria-label="Month 2 carousel">
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="m2-agent-design">
-            <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/01_Symmetry/Agent/Agent.jpg" alt="Month 2 — Agent Design" loading="lazy">
-            </div>
-          </div>
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="m2-sym-design">
-            <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/01_Symmetry/Agent/02_Sym Design.png" alt="Month 2 — Sym Design" loading="lazy">
-            </div>
-          </div>
-          <div class="case-carousel-panel" data-view="m2-sym-chat">
-            <div class="chrome-toggle">
-              <button class="chrome-mode-btn active" data-mode="dark">Dark Mode</button>
-              <button class="chrome-mode-btn" data-mode="light">Light Mode</button>
-            </div>
-            <div class="chrome-panels-wrap">
-              <div class="chrome-mode-panel active" data-mode="dark">
-                <div class="case-panel-images">
-                  <img class="case-carousel-img" src="assets/01_Symmetry/Agent/03_Chat_DarkMode.jpg" alt="Sym in Chat — Dark Mode" loading="lazy">
-                </div>
-              </div>
-              <div class="chrome-mode-panel" data-mode="light">
-                <div class="case-panel-images">
-                  <img class="case-carousel-img" src="assets/01_Symmetry/Agent/03_Chat_LightMode.png" alt="Sym in Chat — Light Mode" loading="lazy">
-                </div>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- ─── Multiview — Month 3 ─────────────────────────── -->
-      <div class="multiview case-carousel-group">
-        <p class="multiview__title">Month 3 | Scaling the system</p>
+      <!-- ─── Month 2 ───────────────────────────────────── -->
+      <section class="nv-sec reveal" id="month2">
+        <p class="nv-label">MONTH 2</p>
+        <h2>Agent definition</h2>
 
-        <nav class="case-subnav" aria-label="Case study views">
-          <button class="case-subnav-btn" data-view="design-system">Design system</button>
-          <button class="case-subnav-btn" data-view="onboarding">Onboarding</button>
-          <button class="case-subnav-btn" data-view="chrome">Chrome Extension</button>
-          <button class="case-subnav-btn" data-view="chat">Chat</button>
-          <button class="case-subnav-btn" data-view="dashboard">Dashboard</button>
-        </nav>
-
-        <div class="case-carousel" role="region" aria-label="Design views carousel">
-
-          <!-- Design system -->
-          <div class="case-carousel-panel case-carousel-panel--single" data-view="design-system">
-            <p class="case-panel-title">Tailwind CSS</p>
-            <div class="case-panel-images">
-              <img class="case-carousel-img" src="assets/01_Symmetry/Design System/Colors.png" alt="Symmetry design system — colors" loading="lazy">
-            </div>
-          </div>
-
-          <!-- Onboarding: cycling modal (upper right) + search bar (bottom) -->
-          <div class="case-carousel-panel" data-view="onboarding">
-            <div class="case-onboarding-stage">
-              <div class="case-modal-stack">
-                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open.png" alt="Onboarding — modal 1" loading="lazy">
-                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open2.png" alt="Onboarding — modal 2" loading="lazy">
-                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open3.png" alt="Onboarding — modal 3" loading="lazy">
-                <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open4.png" alt="Onboarding — modal 4" loading="lazy">
-              </div>
-              <div class="case-search-bar-wrap">
-                <img class="case-search-bar-img" src="assets/01_Symmetry/Onboarding/search.png" alt="Onboarding — search bar" loading="lazy">
+        <div class="multiview case-carousel-group">
+          <nav class="case-subnav" aria-label="Month 2 views">
+            <button class="case-subnav-btn" data-view="m2-agent-design">Agent Design</button>
+            <button class="case-subnav-btn" data-view="m2-sym-design">Sym Design</button>
+            <button class="case-subnav-btn" data-view="m2-sym-chat">Sym in Chat</button>
+          </nav>
+          <div class="case-carousel case-carousel--fluid" role="region" aria-label="Month 2 carousel">
+            <div class="case-carousel-panel case-carousel-panel--single" data-view="m2-agent-design">
+              <div class="case-panel-images">
+                <img class="case-carousel-img" src="assets/01_Symmetry/Agent/Agent.jpg" alt="Month 2 — Agent Design" loading="lazy">
               </div>
             </div>
-          </div>
-
-          <!-- Chrome Extension -->
-          <div class="case-carousel-panel" data-view="chrome">
-
-            <div class="chrome-toggle">
-              <button class="chrome-mode-btn active" data-mode="dark">Dark Mode</button>
-              <button class="chrome-mode-btn" data-mode="light">Light Mode</button>
+            <div class="case-carousel-panel case-carousel-panel--single" data-view="m2-sym-design">
+              <div class="case-panel-images">
+                <img class="case-carousel-img" src="assets/01_Symmetry/Agent/02_Sym Design.png" alt="Month 2 — Sym Design" loading="lazy">
+              </div>
             </div>
-
-            <div class="chrome-panels-wrap">
-
-            <!-- Dark mode -->
-            <div class="chrome-mode-panel active" data-mode="dark">
-              <div class="chrome-pills-layout">
-                <div class="chrome-pills-main">
-                  <div class="chrome-row">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-logged-out.png" alt="Logged out" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-active.png" alt="Active" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-inactive.png" alt="Inactive" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-system-out.png" alt="System Out" loading="lazy">
-                  </div>
-                  <div class="chrome-pills-sub">
-                    <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/default-thinking.png" alt="Thinking" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-matched.png" alt="Matched" loading="lazy">
-                    <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/dark/default-expanded.png" alt="Expanded" loading="lazy">
+            <div class="case-carousel-panel" data-view="m2-sym-chat">
+              <div class="chrome-toggle">
+                <button class="chrome-mode-btn active" data-mode="dark">Dark Mode</button>
+                <button class="chrome-mode-btn" data-mode="light">Light Mode</button>
+              </div>
+              <div class="chrome-panels-wrap">
+                <div class="chrome-mode-panel active" data-mode="dark">
+                  <div class="case-panel-images">
+                    <img class="case-carousel-img" src="assets/01_Symmetry/Agent/03_Chat_DarkMode.jpg" alt="Sym in Chat — Dark Mode" loading="lazy">
                   </div>
                 </div>
-                <div class="chrome-pills-incognito">
-                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-default.png" alt="Incognito default" loading="lazy">
-                  <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/incognito-thinking.png" alt="Incognito thinking" loading="lazy">
-                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-matched.png" alt="Incognito matched" loading="lazy">
-                  <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/dark/incognito-expanded.png" alt="Incognito expanded" loading="lazy">
+                <div class="chrome-mode-panel" data-mode="light">
+                  <div class="case-panel-images">
+                    <img class="case-carousel-img" src="assets/01_Symmetry/Agent/03_Chat_LightMode.png" alt="Sym in Chat — Light Mode" loading="lazy">
+                  </div>
                 </div>
               </div>
             </div>
-
-            <!-- Light mode -->
-            <div class="chrome-mode-panel" data-mode="light">
-              <div class="chrome-pills-layout">
-                <div class="chrome-pills-main chrome-pills-main--light">
-                  <div class="chrome-row">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-logged-out.png" alt="Logged out" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-active.png" alt="Active" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-inactive.png" alt="Inactive" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-system-out.png" alt="System Out" loading="lazy">
-                  </div>
-                  <div class="chrome-pills-sub">
-                    <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-active.png" alt="Thinking" loading="lazy">
-                    <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-active.png" alt="Matched" loading="lazy">
-                    <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/light/expanded-active.png" alt="Expanded" loading="lazy">
-                  </div>
-                </div>
-                <div class="chrome-pills-incognito">
-                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-incognito.png" alt="Incognito default" loading="lazy">
-                  <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-incognito.png" alt="Incognito thinking" loading="lazy">
-                  <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-incognito.png" alt="Incognito matched" loading="lazy">
-                  <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/light/expanded-incognito.png" alt="Incognito expanded" loading="lazy">
-                </div>
-              </div>
-            </div>
-
-            </div><!-- /.chrome-panels-wrap -->
-
           </div>
-
-          <!-- Chat -->
-          <div class="case-carousel-panel" data-view="chat">
-            <div class="case-phone-row">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/1.png" alt="Chat — screen 1" loading="lazy">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/2.png" alt="Chat — screen 2" loading="lazy">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/3.png" alt="Chat — screen 3" loading="lazy">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/4.png" alt="Chat — screen 4" loading="lazy">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/5.png" alt="Chat — screen 5" loading="lazy">
-              <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/6.png" alt="Chat — screen 6" loading="lazy">
-            </div>
-          </div>
-
-          <!-- Dashboard: cycling chat screenshots -->
-          <div class="case-carousel-panel" data-view="dashboard">
-            <div class="case-dash-wrap">
-              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Multi-line.png" alt="Dashboard — multi-line" loading="lazy">
-              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Thinking.png" alt="Dashboard — thinking" loading="lazy">
-              <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - With Prompt.png" alt="Dashboard — with prompt" loading="lazy">
-            </div>
-          </div>
-
         </div>
-      </div>
+      </section>
 
-      <!-- ─── Section 4 — Video ─────────────────────── -->
-      <div class="case-s4">
-        <p class="case-panel-title">Desktop App prototype</p>
+      <!-- ─── Month 3 ───────────────────────────────────── -->
+      <section class="nv-sec reveal" id="month3">
+        <p class="nv-label">MONTH 3</p>
+        <h2>Scaling the system</h2>
+
+        <div class="multiview case-carousel-group">
+          <nav class="case-subnav" aria-label="Month 3 views">
+            <button class="case-subnav-btn" data-view="design-system">Design system</button>
+            <button class="case-subnav-btn" data-view="onboarding">Onboarding</button>
+            <button class="case-subnav-btn" data-view="chrome">Chrome Extension</button>
+            <button class="case-subnav-btn" data-view="chat">Chat</button>
+            <button class="case-subnav-btn" data-view="dashboard">Dashboard</button>
+          </nav>
+
+          <div class="case-carousel" role="region" aria-label="Month 3 carousel">
+
+            <!-- Design system -->
+            <div class="case-carousel-panel case-carousel-panel--single" data-view="design-system">
+              <p class="case-panel-title">Tailwind CSS</p>
+              <div class="case-panel-images">
+                <img class="case-carousel-img" src="assets/01_Symmetry/Design System/Colors.png" alt="Symmetry design system — colors" loading="lazy">
+              </div>
+            </div>
+
+            <!-- Onboarding -->
+            <div class="case-carousel-panel" data-view="onboarding">
+              <div style="transform: scale(0.75); transform-origin: top center; margin-bottom: -93px;">
+              <div class="case-onboarding-stage">
+                <div class="case-modal-stack">
+                  <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open.png" alt="Onboarding — modal 1" loading="lazy">
+                  <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open2.png" alt="Onboarding — modal 2" loading="lazy">
+                  <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open3.png" alt="Onboarding — modal 3" loading="lazy">
+                  <img class="case-cycle-modal" src="assets/01_Symmetry/Onboarding/Modal open4.png" alt="Onboarding — modal 4" loading="lazy">
+                </div>
+                <div class="case-search-bar-wrap">
+                  <img class="case-search-bar-img" src="assets/01_Symmetry/Onboarding/search.png" alt="Onboarding — search bar" loading="lazy">
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!-- Chrome Extension -->
+            <div class="case-carousel-panel" data-view="chrome">
+              <div class="chrome-toggle">
+                <button class="chrome-mode-btn active" data-mode="dark">Dark Mode</button>
+                <button class="chrome-mode-btn" data-mode="light">Light Mode</button>
+              </div>
+              <div class="chrome-panels-wrap">
+
+                <!-- Dark mode -->
+                <div class="chrome-mode-panel active" data-mode="dark">
+                  <div class="chrome-pills-layout">
+                    <div class="chrome-pills-main">
+                      <div class="chrome-row">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-logged-out.png" alt="Logged out" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-active.png" alt="Active" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-inactive.png" alt="Inactive" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-system-out.png" alt="System Out" loading="lazy">
+                      </div>
+                      <div class="chrome-pills-sub">
+                        <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/default-thinking.png" alt="Thinking" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/default-matched.png" alt="Matched" loading="lazy">
+                        <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/dark/default-expanded.png" alt="Expanded" loading="lazy">
+                      </div>
+                    </div>
+                    <div class="chrome-pills-incognito">
+                      <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-default.png" alt="Incognito default" loading="lazy">
+                      <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/dark/incognito-thinking.png" alt="Incognito thinking" loading="lazy">
+                      <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/dark/incognito-matched.png" alt="Incognito matched" loading="lazy">
+                      <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/dark/incognito-expanded.png" alt="Incognito expanded" loading="lazy">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Light mode -->
+                <div class="chrome-mode-panel" data-mode="light">
+                  <div class="chrome-pills-layout">
+                    <div class="chrome-pills-main chrome-pills-main--light">
+                      <div class="chrome-row">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-logged-out.png" alt="Logged out" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-active.png" alt="Active" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-inactive.png" alt="Inactive" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-system-out.png" alt="System Out" loading="lazy">
+                      </div>
+                      <div class="chrome-pills-sub">
+                        <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-active.png" alt="Thinking" loading="lazy">
+                        <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-active.png" alt="Matched" loading="lazy">
+                        <img class="chrome-pill chrome-pill--expanded" src="assets/01_Symmetry/Chrome extension/light/expanded-active.png" alt="Expanded" loading="lazy">
+                      </div>
+                    </div>
+                    <div class="chrome-pills-incognito">
+                      <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/default-incognito.png" alt="Incognito default" loading="lazy">
+                      <img class="chrome-pill chrome-pill--thinking" src="assets/01_Symmetry/Chrome extension/light/thinking-incognito.png" alt="Incognito thinking" loading="lazy">
+                      <img class="chrome-pill" src="assets/01_Symmetry/Chrome extension/light/matched-incognito.png" alt="Incognito matched" loading="lazy">
+                      <img class="chrome-pill chrome-pill--expanded-incognito" src="assets/01_Symmetry/Chrome extension/light/expanded-incognito.png" alt="Incognito expanded" loading="lazy">
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /.chrome-panels-wrap -->
+            </div>
+
+            <!-- Chat -->
+            <div class="case-carousel-panel" data-view="chat">
+              <div class="case-phone-row">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/1.png" alt="Chat — screen 1" loading="lazy">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/2.png" alt="Chat — screen 2" loading="lazy">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/3.png" alt="Chat — screen 3" loading="lazy">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/4.png" alt="Chat — screen 4" loading="lazy">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/5.png" alt="Chat — screen 5" loading="lazy">
+                <img class="case-phone-img" src="assets/01_Symmetry/Chat/Main Screens/6.png" alt="Chat — screen 6" loading="lazy">
+              </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="case-carousel-panel" data-view="dashboard">
+              <div class="case-dash-wrap" style="width: 100%;">
+                <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Multi-line.png" alt="Dashboard — multi-line" loading="lazy">
+                <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - Thinking.png" alt="Dashboard — thinking" loading="lazy">
+                <img class="case-cycle-img" src="assets/01_Symmetry/Dashboard/Chat - With Prompt.png" alt="Dashboard — with prompt" loading="lazy">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Desktop App ───────────────────────────────── -->
+      <section class="nv-sec reveal" id="desktop">
+        <p class="nv-label">DESKTOP APP</p>
+        <h2>Desktop App prototype</h2>
         <div class="case-video-wrap">
           <video controls muted playsinline>
             <source src="assets/01_Symmetry/VideoDemo.mp4" type="video/mp4">
           </video>
         </div>
-      </div>
+      </section>
 
-      <!-- ─── Footer ────────────────────────────────── -->
+      <!-- ─── Footer ────────────────────────────────────── -->
       <footer class="case-footer">
         <a href="#" class="case-footer-back" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
           ↑ BACK TO TOP
@@ -375,8 +373,44 @@
       </footer>
 
     </main>
-  </div>
+  </div><!-- end nv-shell -->
 
   <script src="case.js"></script>
+  <script>
+    /* ── Scroll-reveal ── */
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) return;
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+    })();
+
+    /* ── Scroll-spy ── */
+    (function () {
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var link = document.querySelector('.nv-sidenav a[href="#' + e.target.id + '"]');
+          if (link) link.classList.toggle('active', e.isIntersecting);
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      document.querySelectorAll('.nv-sec').forEach(function (sec) { spy.observe(sec); });
+    })();
+
+    /* ── Smooth scroll ── */
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('.nv-sidenav a').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(a.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

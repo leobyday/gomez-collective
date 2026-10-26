@@ -421,6 +421,23 @@
         });
       });
     })();
+
+    /* ── Zoom for non-carousel content images ── */
+    (function () {
+      var btnHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4"/><line x1="9.5" y1="9.5" x2="14" y2="14"/></svg>';
+      document.querySelectorAll('.case-s4-images img, .case-phone-img, .nv-donor-gif img').forEach(function (img) {
+        var wrap = document.createElement('div');
+        wrap.className = 'zoom-wrap';
+        img.parentNode.insertBefore(wrap, img);
+        wrap.appendChild(img);
+        var btn = document.createElement('button');
+        btn.className = 'zoom-btn';
+        btn.setAttribute('aria-label', 'Enlarge image');
+        btn.innerHTML = btnHTML;
+        wrap.appendChild(btn);
+        wrap.addEventListener('click', function () { openLightbox(img); });
+      });
+    })();
   </script>
 </body>
 </html>

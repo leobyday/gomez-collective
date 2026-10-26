@@ -83,17 +83,6 @@ const lightboxImg = lightbox.querySelector('.lightbox-img');
 function openLightbox(img) {
   lightboxImg.src = img.src;
   lightboxImg.alt = img.alt || '';
-  lightboxImg.style.width = '';
-  lightboxImg.style.height = '';
-  const setNaturalSize = () => {
-    lightboxImg.style.width  = lightboxImg.naturalWidth  + 'px';
-    lightboxImg.style.height = lightboxImg.naturalHeight + 'px';
-  };
-  if (lightboxImg.naturalWidth) {
-    setNaturalSize();
-  } else {
-    lightboxImg.addEventListener('load', setNaturalSize, { once: true });
-  }
   lightbox.classList.add('active');
   lightbox.scrollTop = 0;
   lightbox.scrollLeft = 0;
@@ -102,7 +91,6 @@ function openLightbox(img) {
 
 function closeLightbox() {
   lightbox.classList.remove('active');
-  lightboxImg.style.width = '';
   document.body.style.overflow = '';
 }
 
