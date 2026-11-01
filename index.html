@@ -522,9 +522,6 @@
             <span class="hterm-hint" id="hterm-hint"></span>
           </div>
 
-          <div class="hterm-shell-post">
-            <span class="hterm-pmt">leo@Leos-MacBook-Pro ~/portfolio % </span><span class="hterm-cur"></span>
-          </div>
         </div>
 
       </div>
@@ -820,6 +817,38 @@
       }
     ];
 
+    var PLATFORM_CARDS = {
+      'Car':              ['Spotify'],
+      'Chrome Extension': ['Symmetry'],
+      'Desktop Apps':     ['Symmetry'],
+      'MCP':              ['Spin or Flip', 'Librarypass', 'Claude Scaffolding'],
+      'Mobile Apps':      ['AminoChain', 'Disney+', 'Spotify', 'Grubhub and Seamless', 'American Express'],
+      'TV':               ['Roku', 'Disney+', 'Spotify'],
+      'Watch':            ['Spotify'],
+      'Web':              ['AminoChain', 'Symmetry', 'Spin or Flip', 'Roku']
+    };
+
+    function filterCards(platformLabel) {
+      var names = PLATFORM_CARDS[platformLabel] || [];
+      document.querySelectorAll('company-card').forEach(function (card) {
+        var cardName = card.getAttribute('name') || '';
+        var match = names.some(function (n) { return cardName.toLowerCase().includes(n.toLowerCase()); });
+        card.style.display = match ? '' : 'none';
+      });
+      var workSection = document.querySelector('.work-section');
+      if (workSection) {
+        setTimeout(function () {
+          workSection.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    }
+
+    function clearFilter() {
+      document.querySelectorAll('company-card').forEach(function (card) {
+        card.style.display = '';
+      });
+    }
+
     var term    = document.getElementById('hterm-term');
     var hintEl  = document.getElementById('hterm-hint');
     var noAnim  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -833,9 +862,9 @@
     /* ── Menu ── */
     function showMenu() {
       htState = 'menu';
+      clearFilter();
       hintEl.textContent = '↑/↓   j/k   navigate ·   enter/→   open';
       term.innerHTML = [
-        Lg(),
         L('', '<span class="ht-name"><em>L</em>eo Gomez Blum</span>'),
         Lg(),
         L('ht-soft', 'Founding product designer and design engineer.'),
@@ -865,7 +894,7 @@
         var sel = i === htIdx;
         return '<div class="ht-mitem' + (sel ? ' sel' : '') + '" data-i="' + i + '">'
           + '<span class="ht-mcaret">' + (sel ? '›' : ' ') + '</span>'
-          + '<span class="ht-mlabel">' + p.label + '</span>'
+          + '<span class="ht-mlabel">' + p.label + (sel ? '<span class="ht-cursor"> █</span>' : '') + '</span>'
           + '</div>';
       }).join('');
       list.querySelectorAll('.ht-mitem').forEach(function (el) {
@@ -878,6 +907,13 @@
         var sel = i === htIdx;
         el.classList.toggle('sel', sel);
         el.querySelector('.ht-mcaret').textContent = sel ? '›' : ' ';
+        var labelEl = el.querySelector('.ht-mlabel');
+        var cursorEl = labelEl.querySelector('.ht-cursor');
+        if (sel && !cursorEl) {
+          labelEl.insertAdjacentHTML('beforeend', '<span class="ht-cursor"> █</span>');
+        } else if (!sel && cursorEl) {
+          cursorEl.remove();
+        }
         if (sel) el.scrollIntoView({ block: 'nearest' });
       });
     }
@@ -887,6 +923,7 @@
       htState = 'section';
       hintEl.textContent = '← / esc   back to platforms';
       var p = PLATFORMS[htIdx];
+      filterCards(PLATFORMS[htIdx].label);
       var lines = [
         Lg(),
         div(),
