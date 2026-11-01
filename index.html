@@ -223,43 +223,326 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300&family=Source+Code+Pro&family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300&family=Source+Code+Pro&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="components/company-card.css">
+  <style>
+    /* ── Homepage Terminal Hero ─────────────────────────── */
+    :root {
+      --ht-accent:      #4077ed;
+      --ht-ink:         rgba(255,255,255,0.85);
+      --ht-soft:        rgba(255,255,255,0.65);
+      --ht-faint:       rgba(255,255,255,0.52);
+      --ht-line:        rgba(255,255,255,0.14);
+      --ht-mono:        'JetBrains Mono','Source Code Pro',monospace;
+    }
+
+    section.hero {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: 0;
+      background: #b8ccd8 url('assets/08_SSH/BG-Only.jpg') center/cover no-repeat;
+    }
+
+    /* Terminal overlay — always above scrolling cards */
+    .terminal-chrome {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 28px 52px;
+      overflow: hidden;
+    }
+    .hterm-outer    { pointer-events: auto; }
+    .hero-top-right { pointer-events: auto; }
+
+    /* Icons: top-right corner — aligned to subnav tab baseline */
+    .hero-top-right {
+      position: absolute;
+      top: 46px;
+      right: 28px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .theme-toggle { display: none !important; }
+    .hero-top-right .social-icon img {
+      width: 18px; height: 18px;
+      filter: brightness(0) opacity(0.60);
+      transition: filter .2s;
+    }
+    .hero-top-right .social-icon:hover img { filter: brightness(0) opacity(0.92); }
+
+    /* Ensure 44px tap targets on mobile */
+    @media (max-width: 768px) {
+      .hero-top-right .social-icon {
+        padding: 13px;
+        margin: -13px 0;
+      }
+      .hero-top-right { gap: 4px; right: 16px; top: 28px; }
+    }
+
+    /* G Lottie — absolute fill, underneath terminal */
+    #g-lottie {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      will-change: transform;
+    }
+
+    /* Push work content below the fixed hero */
+    .work-section {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+      margin-top: calc(100dvh - 40px);
+      padding-bottom: 80px;
+    }
+
+    @media (max-width: 768px) {
+      .work-section { margin-top: calc(100dvh - 20px); }
+    }
+
+    /* Transparent containers — sky shows through */
+    .work-tabs-row {
+      background: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      top: 20px; /* aligns with minimized terminal (MARGIN=20px) on scroll */
+    }
+
+    /* Darker text over the light sky background */
+    .work-tab              { color: rgba(30,25,25,0.60); }
+    .work-tab.active,
+    .work-tab:hover        { color: rgba(30,25,25,0.92); }
+    .company-bio           { font-size: 14px; }
+    .view-more,
+    .company-card .access-label { color: rgba(30,25,25,0.62); }
+
+    .company-card {
+      background: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    /* Terminal above G lottie */
+    .hterm-outer {
+      position: relative;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    /* macOS outer window */
+    .hterm-outer {
+      width: 860px;
+      max-width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(22,22,24,0.90);
+      border: 1px solid rgba(0,0,0,0.5);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.07), 0 32px 90px rgba(30,50,80,0.50);
+    }
+
+    /* Title bar */
+    .hterm-bar {
+      background: linear-gradient(180deg,#3c3c3e 0%,#2c2c2e 100%);
+      border-bottom: 1px solid #111;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+    }
+    .hterm-dots { display:flex; gap:8px; flex-shrink:0; }
+    .hterm-dot  { width:12px; height:12px; border-radius:50%; }
+    .hterm-r    { background:#ff5f57; }
+    .hterm-y    { background:#ffbd2e; }
+    .hterm-g    { background:#28c840; }
+    .hterm-label {
+      flex:1; text-align:center;
+      font-family: var(--ht-mono); font-size:12px;
+      color:#888; letter-spacing:.04em;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+
+    /* Terminal body */
+    .hterm-body {
+      position:relative;
+      height:589px;
+      padding:16px 0 0;
+      display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+      background:rgba(140,165,190,.08);
+      overflow:hidden;
+    }
+    #hterm-canvas { position:absolute; inset:0; z-index:0; pointer-events:none; }
+
+    /* Shell context lines */
+    .hterm-shell-pre, .hterm-shell-post {
+      align-self:flex-start; position:relative; z-index:1;
+      padding-left:18px;
+      font-family:var(--ht-mono); font-size:12px;
+      color:rgba(255,255,255,.35); line-height:1.6;
+    }
+    .hterm-pmt { color:rgba(255,255,255,.25); }
+    .hterm-cur {
+      display:inline-block; width:7px; height:13px;
+      background:rgba(255,255,255,.45); vertical-align:text-bottom;
+      animation:ht-blink 1s step-end infinite;
+    }
+    @keyframes ht-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @media (prefers-reduced-motion:reduce) { .hterm-cur { animation:none; } }
+
+    /* Terminal scrollable content */
+    .hterm-term {
+      position:relative; z-index:2;
+      width:100%;
+      flex:1;
+      padding:20px 24px 24px 18px;
+      overflow-y:auto;
+      font-family:var(--ht-mono); font-size:13px;
+      color:var(--ht-ink); line-height:1.72;
+      box-sizing:border-box;
+    }
+    .hterm-term::-webkit-scrollbar { width:3px; }
+    .hterm-term::-webkit-scrollbar-track { background:transparent; }
+    .hterm-term::-webkit-scrollbar-thumb { background:var(--ht-line); border-radius:2px; }
+
+    .hterm-term-footer {
+      position:relative; z-index:2;
+      width:100%;
+      flex-shrink:0;
+      border-top:1px solid var(--ht-line);
+      background:rgba(255,255,255,.04);
+      padding:7px 24px 7px 18px;
+      box-sizing:border-box;
+    }
+    .hterm-hint { font-family:var(--ht-mono); font-size:11px; color:var(--ht-faint); letter-spacing:.04em; }
+
+    /* Terminal line helpers */
+    .htL  { display:block; white-space:pre-wrap; word-break:break-word; }
+    .htLg { display:block; height:calc(13px * 1.72); }
+    .ht-dim    { color:var(--ht-faint); }
+    .ht-bright { color:var(--ht-ink); font-weight:600; }
+    .ht-accent { color:var(--ht-accent); }
+    .ht-soft   { color:var(--ht-soft); }
+    .ht-name   { font-family:'Sorts Mill Goudy',Georgia,serif; font-size:24px; letter-spacing:0.12em; color:var(--ht-ink); }
+    .ht-name em { font-style:italic; }
+
+    /* Menu */
+    .ht-mlist { margin:4px 0; }
+    .ht-mitem {
+      display:flex; align-items:center; gap:10px;
+      padding:5px 10px;
+      border-left:2px solid transparent;
+      cursor:pointer;
+      transition:background .1s, border-color .1s;
+      border-radius:0 5px 5px 0;
+    }
+    .ht-mitem:hover { background:rgba(255,255,255,.07); }
+    .ht-mitem.sel  { background:rgba(64,119,237,.10); border-left-color:var(--ht-accent); }
+    .ht-mcaret { color:var(--ht-accent); width:12px; flex-shrink:0; font-weight:700; }
+    .ht-mlabel { color:rgba(255,255,255,0.50); font-size:14px; }
+    .ht-mitem.sel .ht-mlabel { color:#fff; font-weight:600; }
+
+    /* Use-case description lines: 2px smaller */
+    .ht-desc { font-size:11px; color:var(--ht-faint); }
+
+    .ht-ac-link { color:var(--ht-accent); text-decoration:none; }
+    .ht-ac-link:hover { color:rgba(255,255,255,.85); text-decoration:underline; }
+
+    .ht-back-btn {
+      background:none; border:none;
+      font-family:var(--ht-mono); font-size:13px;
+      cursor:pointer; color:var(--ht-accent); padding:0;
+    }
+    .ht-back-btn:hover { color:rgba(255,255,255,.85); }
+
+    .ht-cursor {
+      display:inline-block; color:var(--ht-accent);
+      animation:ht-cursor-blink 1.1s step-end infinite;
+    }
+    @keyframes ht-cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @media (prefers-reduced-motion:reduce) { .ht-cursor { animation:none; } }
+
+    /* Mobile */
+    @media (max-width:680px) {
+      .terminal-chrome { padding:0; align-items:flex-end; }
+      .hterm-outer { border-radius:0; }
+      .hterm-body  { height:auto; min-height:340px; padding:10px 0 14px; }
+      .hterm-term  { max-height:52dvh; min-height:240px; }
+      .hterm-label { display:none; }
+    }
+  </style>
   <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 <body>
   <div class="page">
   <main>
 
-    <!-- Hero + subnav (sticky together) -->
-    <section class="hero">
-      <div class="hero-card">
-        <div class="hero-header">
-          <div class="hero-actions">
-            <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
-              <img src="assets/Linkedin.png" alt="LinkedIn">
-            </a>
-            <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
-              <img src="assets/Mail.png" alt="Email">
-            </a>
-            <a href="assets/Leo's Resume Q4 2026.pdf" class="social-icon social-icon--resume" aria-label="Resume" target="_blank" rel="noopener">
-              <img src="assets/File text.png" alt="Resume">
-            </a>
+    <!-- Hero — sky background -->
+    <section class="hero"></section>
+
+    <!-- Terminal chrome — fixed overlay above scrolling cards -->
+    <div class="terminal-chrome">
+      <dotlottie-player id="g-lottie" src="assets/08_SSH/G only.json" autoplay loop></dotlottie-player>
+      <div class="hterm-outer">
+
+        <div class="hterm-bar">
+          <div class="hterm-dots">
+            <span class="hterm-dot hterm-r"></span>
+            <span class="hterm-dot hterm-y"></span>
+            <span class="hterm-dot hterm-g"></span>
+          </div>
+          <span class="hterm-label">leo &#8212; Gomez Collective &#8212; -zsh &#8212; 80&#215;24</span>
+        </div>
+
+        <div class="hterm-body" id="hterm-body">
+          <canvas id="hterm-canvas"></canvas>
+
+          <div class="hterm-shell-pre">
+            <span class="hterm-pmt">leo@Leos-MacBook-Pro ~ % </span>ssh leo@gomezcollective.com
+          </div>
+
+          <div class="hterm-term" id="hterm-term"></div>
+          <div class="hterm-term-footer">
+            <span class="hterm-hint" id="hterm-hint"></span>
+          </div>
+
+          <div class="hterm-shell-post">
+            <span class="hterm-pmt">leo@Leos-MacBook-Pro ~/portfolio % </span><span class="hterm-cur"></span>
           </div>
         </div>
-        <h1 class="hero-name">I'm<em> Leo G</em>omez Blum</h1>
-        <div class="hero-bio">
-          <p>Founding product designer and design engineer.</p>
-          <p>I've designed and shipped for mobile, web, wearables, TV, desktop, in-car, Chrome extensions, and now MCP and agent interfaces.</p>
-          <p>Taking complex products from zero to first customers while owning brand, product, and design systems.<br>
-             AI-native, using Claude Code and agents to go from concept to shipped product.</p>
-          <p>Looking for teams building generative UI and conversational products, especially ones that keep tech human.</p>
-          <p class="footnote">*If you are still questioning the value of design in your company, read this first.</p>
-        </div>
+
       </div>
 
-    </section>
+      <!-- Icons: top-right -->
+      <div class="hero-top-right hero-actions">
+        <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+          <img src="assets/Linkedin.png" alt="LinkedIn">
+        </a>
+        <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
+          <img src="assets/Mail.png" alt="Email">
+        </a>
+        <a href="assets/Leo's Resume Q4 2026.pdf" class="social-icon social-icon--resume" aria-label="Resume" target="_blank" rel="noopener">
+          <img src="assets/File text.png" alt="Resume">
+        </a>
+      </div>
+
+    </div>
 
     <!-- Work section -->
     <div class="work-section" aria-label="Portfolio">
@@ -453,5 +736,340 @@
   <script src="components/company-card.js"></script>
   <script src="script.js"></script>
   <script src="ascii-effect.js"></script>
+
+  <script>
+  /* ── Homepage Terminal Hero ──────────────────────────────────── */
+  (function () {
+
+    var PLATFORMS = [
+      {
+        label: 'Car',
+        work: [
+          { project: 'Spotify — Car Mode', tags: ['Original design', 'Still shipped today'],
+            desc: 'Designed the original Spotify Car Mode. Built for glanceable interaction at 60mph — large touch targets, minimal cognitive load, eyes-up architecture.' }
+        ]
+      },
+      {
+        label: 'Chrome Extension',
+        work: [
+          { project: 'Symmetry', tags: ['Founding Designer', '2026'],
+            desc: 'Designed the AI knowledge tool Chrome extension from engineering prototype to Beta 1 in 3 months. Knowledge capture, semantic search, and AI chat embedded directly in the browser.' }
+        ]
+      },
+      {
+        label: 'Desktop Apps',
+        work: [
+          { project: 'Symmetry', tags: ['macOS', 'Founding Designer'],
+            desc: 'Designed the macOS desktop app alongside the Chrome extension and web dashboard — all three surfaces sharing one design system built from scratch.' }
+        ]
+      },
+      {
+        label: 'MCP',
+        work: [
+          { project: 'Spin or Flip', tags: ['Full-stack', 'Live'], url: 'https://www.spinorflip.com',
+            desc: 'A live decision wheel with a full MCP server. Claude can spin and flip for you mid-conversation via tool call. Every layer is mine: frontend, backend, auth, payments, API.' },
+          { project: 'LibraryPass', tags: ['MCP Connector'], url: 'gomezcollective.com/mcp/librarypass',
+            desc: 'Gives Claude live access to React and UI library data — install scaffolds, component docs, changelogs. Always current, never stale training data.' },
+          { project: 'DataRelief', tags: ['Humanitarian'],
+            desc: 'Connects Claude to curated humanitarian crisis data so donors can ask where a dollar has the most impact. Non-suppressable stale-data warnings baked in.' },
+          { project: 'Claude Scaffolding', tags: ['Open Source'], url: 'github.com/leobyday/Claude-Scaffolding',
+            desc: 'A skill that spins up any project with full context: PRD, UX principles, design system docs. Claude starts from a real point of view before writing a single line.' }
+        ]
+      },
+      {
+        label: 'Mobile Apps',
+        work: [
+          { project: 'AminoChain — Donor App', tags: ['iOS', 'Founding Designer'],
+            desc: 'Designed the donor mobile app for a biomedical specimen marketplace. Join, collect, reward — stripped to what a first-time donor needs. HIPAA and IRB compliant.' },
+          { project: 'Disney+', tags: ['40+ markets', '9M to 200M users'],
+            desc: 'Founding designer for the international mobile launch. Owned design system and CJK typography that made a US product feel native in every market.' },
+          { project: 'Spotify', tags: ['iOS'],
+            desc: 'Mobile work spanning ML-based playlist personalization, car integrations, and the Watch companion app.' },
+          { project: 'Grubhub and Seamless', tags: ['Checkout', 'Growth'],
+            desc: 'Improved checkout conversion and led the 20% tip default initiative — before most apps adopted it.' }
+        ]
+      },
+      {
+        label: 'TV',
+        work: [
+          { project: 'Roku', tags: ['Homescreen', '+18% OTA engagement'],
+            desc: 'Led the Home screen redesign and drove experiment programs that measurably lifted engagement across a device in millions of living rooms.' },
+          { project: 'Disney+', tags: ['Streaming', 'Smart TV'],
+            desc: 'Designed the TV streaming experience for the international launch, scaled to 200M users across 40+ markets in under two years.' }
+        ]
+      },
+      {
+        label: 'Watch',
+        work: [
+          { project: 'Spotify — Apple Watch', tags: ['Most-requested feature of 2016'],
+            desc: 'Designed and shipped the Spotify Watch app — the feature the audience had asked for most that year. Compact, glanceable playback controls for a 38mm screen.' }
+        ]
+      },
+      {
+        label: 'Web',
+        work: [
+          { project: 'AminoChain — Platform', tags: ['B2B', 'Data-dense', 'Founding Designer'],
+            desc: 'Data-dense procurement platform for biobanks and researchers. Complex data navigation across specimen types, availability, pricing, and compliance requirements.' },
+          { project: 'Symmetry — Dashboard', tags: ['SaaS', 'AI'],
+            desc: 'Web dashboard for an AI knowledge tool. Full chat, search, and knowledge management surfaces built from scratch across engineering prototype to Beta 1.' },
+          { project: 'Spin or Flip', tags: ['Full-stack', 'Live'], url: 'https://www.spinorflip.com',
+            desc: 'Shipped end to end: frontend, backend, auth, payments, API, and MCP server. Every layer is mine.' },
+          { project: 'Roku', tags: ['Settings', 'Privacy', 'Search'],
+            desc: 'Settings, Privacy, and Search experiences for a platform reaching millions of users globally. Drove LATAM, APAC, and Europe expansion.' }
+        ]
+      }
+    ];
+
+    var term    = document.getElementById('hterm-term');
+    var hintEl  = document.getElementById('hterm-hint');
+    var noAnim  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var htState = 'menu';
+    var htIdx   = 0;
+
+    function L(cls, html) { return '<span class="htL ' + cls + '">' + html + '</span>'; }
+    function Lg() { return '<span class="htLg"></span>'; }
+    function div() { return L('ht-dim', '─'.repeat(44)); }
+
+    /* ── Menu ── */
+    function showMenu() {
+      htState = 'menu';
+      hintEl.textContent = '↑/↓   j/k   navigate ·   enter/→   open';
+      term.innerHTML = [
+        Lg(),
+        L('', '<span class="ht-name"><em>L</em>eo Gomez Blum</span>'),
+        Lg(),
+        L('ht-soft', 'Founding product designer and design engineer.'),
+        Lg(),
+        L('ht-dim', 'Taking complex products from zero to first customers while owning brand,'),
+        L('ht-dim', 'product, and design systems. AI-native, using Claude Code and agents to'),
+        L('ht-dim', 'go from concept to shipped product.'),
+        Lg(),
+        L('ht-dim', 'Looking for teams building generative UI and conversational products,'),
+        L('ht-dim', 'especially ones that keep tech human.'),
+        Lg(),
+        div(),
+        Lg(),
+        L('ht-dim', 'Select a platform:'),
+        Lg(),
+        '<div class="ht-mlist" id="ht-mlist"></div>',
+        Lg(),
+      ].join('');
+      renderMenu();
+      term.scrollTop = 0;
+    }
+
+    function renderMenu() {
+      var list = document.getElementById('ht-mlist');
+      if (!list) return;
+      list.innerHTML = PLATFORMS.map(function (p, i) {
+        var sel = i === htIdx;
+        return '<div class="ht-mitem' + (sel ? ' sel' : '') + '" data-i="' + i + '">'
+          + '<span class="ht-mcaret">' + (sel ? '›' : ' ') + '</span>'
+          + '<span class="ht-mlabel">' + p.label + '</span>'
+          + '</div>';
+      }).join('');
+      list.querySelectorAll('.ht-mitem').forEach(function (el) {
+        el.addEventListener('click', function () { htIdx = +el.dataset.i; openSection(); });
+      });
+    }
+
+    function updateMenu() {
+      document.querySelectorAll('.ht-mitem').forEach(function (el, i) {
+        var sel = i === htIdx;
+        el.classList.toggle('sel', sel);
+        el.querySelector('.ht-mcaret').textContent = sel ? '›' : ' ';
+        if (sel) el.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    /* ── Section ── */
+    function openSection() {
+      htState = 'section';
+      hintEl.textContent = '← / esc   back to platforms';
+      var p = PLATFORMS[htIdx];
+      var lines = [
+        Lg(),
+        div(),
+        L('ht-bright', p.label.toUpperCase()),
+        div(),
+        Lg(),
+      ];
+      p.work.forEach(function (w, i) {
+        if (i > 0) lines.push(Lg());
+        var num = i < 9 ? '0' + (i + 1) : '' + (i + 1);
+        lines.push(L('', '<span class="ht-accent">[' + num + ']</span>  <span class="ht-bright">' + w.project + '</span>'));
+        if (w.tags && w.tags.length) lines.push(L('ht-dim', '       ' + w.tags.join('  ·  ')));
+        lines.push(L('ht-desc', '       ' + w.desc));
+        if (w.url) lines.push(L('', '       <a class="ht-ac-link" href="' + (w.url.startsWith('http') ? w.url : 'https://' + w.url) + '" target="_blank" rel="noopener">' + w.url.replace('https://','') + '</a>'));
+      });
+      lines.push(Lg());
+      lines.push(div());
+      lines.push(L('', '<span class="ht-accent">$ </span><button class="ht-back-btn" id="ht-back">&#8249; back to platforms</button><span class="ht-cursor"> █</span>'));
+      term.innerHTML = lines.join('');
+      var backBtn = document.getElementById('ht-back');
+      if (backBtn) backBtn.addEventListener('click', showMenu);
+      term.scrollTop = 0;
+    }
+
+    /* ── Keyboard ── */
+    document.addEventListener('keydown', function (e) {
+      if (htState === 'menu') {
+        if (e.key === 'ArrowUp' || e.key === 'k') {
+          e.preventDefault();
+          htIdx = (htIdx - 1 + PLATFORMS.length) % PLATFORMS.length;
+          updateMenu();
+        } else if (e.key === 'ArrowDown' || e.key === 'j') {
+          e.preventDefault();
+          htIdx = (htIdx + 1) % PLATFORMS.length;
+          updateMenu();
+        } else if (e.key === 'Enter' || e.key === 'ArrowRight' || e.key === 'l') {
+          e.preventDefault();
+          openSection();
+        }
+      } else if (htState === 'section') {
+        if (e.key === 'Escape' || e.key === 'q' || e.key === 'b' || e.key === 'ArrowLeft' || e.key === 'h') {
+          e.preventDefault();
+          showMenu();
+        }
+      }
+    });
+
+    /* ── Character rain ── */
+    (function () {
+      var canvas  = document.getElementById('hterm-canvas');
+      var ctx     = canvas.getContext('2d');
+      var body    = document.getElementById('hterm-body');
+      var CHARS   = 'GOMEZCOLLECTIVE0123456789!@#$?/\\|<>abcdefghijklmnopqrstuvwxyz';
+      var FS      = 13;
+      var cols, drops;
+
+      function resize() {
+        var r = body.getBoundingClientRect();
+        canvas.width  = r.width;
+        canvas.height = r.height;
+        cols  = Math.floor(canvas.width / FS);
+        drops = Array.from({ length: cols }, function () {
+          return {
+            y:     Math.random() * -80,
+            speed: 0.12 + Math.random() * 0.28,
+            trail: Array.from({ length: 14 }, function () { return CHARS[Math.floor(Math.random() * CHARS.length)]; }),
+            tick:  0,
+          };
+        });
+      }
+
+      var last = 0;
+      function draw(ts) {
+        if (!noAnim) requestAnimationFrame(draw);
+        var dt = Math.min(ts - last, 50);
+        last = ts;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = FS + 'px "JetBrains Mono",monospace';
+        drops.forEach(function (d, i) {
+          d.y    += d.speed * (dt / 16);
+          d.tick += dt;
+          if (d.y * FS > canvas.height + 60) { d.y = -Math.random() * 40; d.speed = 0.12 + Math.random() * 0.28; }
+          if (d.tick > 130 + Math.random() * 200) { d.trail[Math.floor(Math.random() * d.trail.length)] = CHARS[Math.floor(Math.random() * CHARS.length)]; d.tick = 0; }
+          for (var j = 0; j < d.trail.length; j++) {
+            var cy = (d.y - j) * FS;
+            if (cy < -FS || cy > canvas.height) continue;
+            var alpha = Math.max(0, (d.trail.length - j) / d.trail.length) * 0.07;
+            ctx.fillStyle = 'rgba(58,67,100,' + alpha.toFixed(3) + ')';
+            ctx.fillText(d.trail[j], i * FS, cy);
+          }
+        });
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      if (!noAnim) requestAnimationFrame(draw);
+    })();
+
+    /* Init */
+    showMenu();
+
+  })();
+  </script>
+
+  <!-- Terminal + G shrink-to-corner on scroll -->
+  <script>
+  (function () {
+    var outer    = document.querySelector('.hterm-outer');
+    var gEl      = document.getElementById('g-lottie');
+    var termScroll = document.getElementById('hterm-term');
+    if (!outer) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var MIN_S      = 0.10;
+    var G_S        = 0.10;
+    var GAP        = 8;
+    var MARGIN     = 20;
+    var CONTENT_W  = 1100;
+
+    var cache = {};
+    function measure() {
+      cache.tw = outer.offsetWidth;
+      cache.th = outer.offsetHeight;
+      cache.vw = window.innerWidth;
+      cache.vh = window.innerHeight;
+
+      /* G: left edge aligns with content column left margin */
+      var contentLeft = Math.max(MARGIN, (cache.vw - CONTENT_W) / 2);
+      var gVisW    = cache.vw * G_S;
+      var gVisH    = cache.vh * G_S;
+      cache.gEndCx = contentLeft + gVisW / 2 - gVisW * 0.22 - 15;
+      cache.gEndCy = MARGIN + gVisH / 2 - 10;
+
+      /* Terminal: original horizontal position, vertically centered to G + 5px down */
+      cache.endCx = MARGIN + cache.tw * MIN_S / 2;
+      cache.endCy = cache.gEndCy + 5;
+    }
+
+    function update() {
+      /* On mobile the terminal is full-width at bottom — skip transform */
+      if (cache.vw <= 680) {
+        outer.style.transform = '';
+        if (gEl) gEl.style.transform = '';
+        if (termScroll) termScroll.style.overflowY = 'auto';
+        return;
+      }
+
+      var scrollProg = Math.min(1, Math.max(0, window.scrollY / (cache.vh * 0.90)));
+      var prog = scrollProg < 0.5
+        ? 2 * scrollProg * scrollProg
+        : 1 - Math.pow(-2 * scrollProg + 2, 2) / 2;
+
+      /* Disable terminal internal scroll while page is scrolling */
+      if (termScroll) termScroll.style.overflowY = scrollProg > 0 ? 'hidden' : 'auto';
+
+      /* Terminal */
+      var s  = 1 - prog * (1 - MIN_S);
+      var tx = prog * (cache.endCx - cache.vw / 2);
+      var ty = prog * (cache.endCy - cache.vh / 2);
+      outer.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+
+      /* G Lottie */
+      if (gEl) {
+        var gs  = 1 - prog * (1 - G_S);
+        var gtx = prog * (cache.gEndCx - cache.vw / 2);
+        var gty = prog * (cache.gEndCy - cache.vh / 2);
+        gEl.style.transform = 'translate(' + gtx + 'px,' + gty + 'px) scale(' + gs + ')';
+        gEl.style.transformOrigin = '50% 50%';
+      }
+
+    }
+
+    var raf;
+    window.addEventListener('scroll', function () {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    }, { passive: true });
+
+    window.addEventListener('resize', function () { measure(); update(); });
+
+    measure();
+    update();
+  })();
+  </script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 ## Skills
 - **Text animation** — `.claude/skills/text-animation.md` — the scramble animation used on the hero, subnav tabs, and product card titles. Read this before touching any animation code.
+- **LibraryPass** — `.claude/skills/librarypass.md` — MCP connector for live React/UI library data. Use for any work involving component libraries, install scaffolds, or library recommendations. Never guess library APIs from training data — call the tool.
 
 ## Live domain
 https://gomezcollective.com

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap');
+
 /* ─── Reset ──────────────────────────────────────────── */
 
 *, *::before, *::after {
@@ -5,6 +7,8 @@
   margin: 0;
   padding: 0;
 }
+
+html { font-size: 15px; }
 
 /* ─── Design tokens ──────────────────────────────────── */
 
@@ -20,7 +24,7 @@
   --color-divider:    #d9d9d9;
 
   --font-serif:       'Sorts Mill Goudy', Georgia, serif;
-  --font-sans:        'Jost', sans-serif;
+  --font-sans:        'Geist', 'Jost', sans-serif;
   --font-mono:        'Source Code Pro', monospace;
 
   --radius-card:      10px;
@@ -45,6 +49,90 @@ body {
   padding: 40px 80px;
   overflow-x: hidden;
 }
+
+/* ─── Dark theme ─────────────────────────────────────── */
+
+/* Shadows: replace dark halos with a tight bottom-only lift */
+html[data-theme="dark"] .company-thumb-wrap--lottie {
+  filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.5)) drop-shadow(0px 1px 2px rgba(255, 255, 255, 0.04));
+}
+
+html[data-theme="dark"] .thumb-shadow {
+  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.5));
+  filter: blur(var(--thumb-blur, 18px));
+}
+
+html[data-theme="dark"] .spotify-watch {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+html[data-theme="dark"] .spotify-phone {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+html[data-theme="dark"] .phone-screen {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+}
+
+html[data-theme="dark"] .phone-only-img {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+}
+
+html[data-theme="dark"] {
+  --color-bg:         #161618;
+  --color-surface:    #222226;
+  --color-gold:       #c9a940;
+  --color-olive:      #b5ac90;
+  --color-text:       #f0efec;
+  --color-muted:      #bdbcba;
+  --color-body:       #c0bfbe;
+  --color-dim:        #7a7a84;
+  --color-divider:    #2c2c30;
+}
+
+html[data-theme="dark"] body {
+  background: linear-gradient(160deg, #1c1c20 0%, #131316 55%, #0f0f12 100%) fixed;
+}
+
+/* Hero card: glass surface for contrast against dark gradient */
+html[data-theme="dark"] .hero-card {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* Social icons: invert to white on dark */
+html[data-theme="dark"] .social-icon img {
+  filter: brightness(0) invert(1) opacity(0.8);
+}
+html[data-theme="dark"] .social-icon:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Footer icons */
+html[data-theme="dark"] .case-footer-link img {
+  filter: brightness(0) invert(1) opacity(0.75);
+}
+html[data-theme="dark"] .case-footer-link:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--color-muted);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { color: var(--color-text); }
+.theme-toggle svg { width: 18px; height: 18px; stroke: currentColor; }
 
 .page {
   max-width: 1100px;
@@ -193,6 +281,10 @@ body {
   background: rgba(236, 241, 243, 0.65);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+}
+
+html[data-theme="dark"] .work-tabs-row {
+  background: rgba(19, 19, 22, 0.75);
   /* Break out of page max-width to span full viewport */
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -250,7 +342,7 @@ body {
   font-size: 20px;
   font-weight: 400;
   line-height: 1.2;
-  color: #000;
+  color: var(--color-text);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -809,4 +901,25 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .hero-actions > :nth-child(3) { animation-delay: 1.8s; }
 .hero-actions > :nth-child(4) { animation-delay: 1.95s; }
 .work-tabs-row                { animation-delay: 2.2s; }
+
+/* ─── Mobile: truncate collapsed nav name to "Leo" ────── */
+
+@media (max-width: 520px) {
+  .hero-name {
+    font-size: 0 !important;
+    letter-spacing: 0;
+  }
+  .hero-name em {
+    display: none;
+  }
+  .hero-name::after {
+    content: 'Leo';
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-gold);
+    font-size: 20px;
+    letter-spacing: normal;
+  }
+}
 

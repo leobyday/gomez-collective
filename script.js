@@ -1,3 +1,46 @@
+// ─── Theme toggle ─────────────────────────────────────────
+(function () {
+  var STORAGE_KEY = 'gc-theme';
+  var html = document.documentElement;
+
+  function moonSVG() {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  function sunSVG() {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  }
+
+  function applyTheme(theme, btn) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+    if (btn) btn.innerHTML = theme === 'dark' ? sunSVG() : moonSVG();
+    if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  var saved = localStorage.getItem(STORAGE_KEY) || 'light';
+  html.setAttribute('data-theme', saved);
+
+  function injectToggle() {
+    var actions = document.querySelector('.hero-actions');
+    if (!actions) return;
+    var btn = document.createElement('button');
+    btn.className = 'theme-toggle';
+    btn.innerHTML = saved === 'dark' ? sunSVG() : moonSVG();
+    btn.setAttribute('aria-label', saved === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    btn.addEventListener('click', function () {
+      var current = html.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark', btn);
+    });
+    actions.insertBefore(btn, actions.firstChild);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectToggle);
+  } else {
+    injectToggle();
+  }
+})();
+
 // ─── Shadow blur: scale proportionally to wrapper width ───
 
 function updateShadowBlur() {
@@ -84,8 +127,9 @@ function updateScrollState() {
 
     const fadeInStart  = vh + 20;
     const fadeInEnd    = vh - 80;
-    const fadeOutStart = navBottom + 60;
-    const fadeOutEnd   = navBottom;
+    const cardMid      = rect.top + rect.height * 0.40;
+    const fadeOutStart = navBottom;        // fade begins when card midpoint hits nav (50% off screen)
+    const fadeOutEnd   = navBottom - 60;  // fully faded 60px later
 
     let opacity;
 
@@ -93,8 +137,8 @@ function updateScrollState() {
       opacity = 0;
     } else if (rect.top >= fadeInEnd) {
       opacity = (fadeInStart - rect.top) / (fadeInStart - fadeInEnd);
-    } else if (rect.bottom <= fadeOutStart) {
-      opacity = Math.max(0, (rect.bottom - fadeOutEnd) / (fadeOutStart - fadeOutEnd));
+    } else if (cardMid <= fadeOutStart) {
+      opacity = Math.max(0, (cardMid - fadeOutEnd) / (fadeOutStart - fadeOutEnd));
     } else {
       opacity = 1;
     }
