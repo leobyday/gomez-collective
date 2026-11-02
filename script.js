@@ -127,9 +127,10 @@ function updateScrollState() {
 
     const fadeInStart  = vh + 20;
     const fadeInEnd    = vh - 80;
-    const cardMid      = rect.top + rect.height * 0.40;
-    const fadeOutStart = navBottom;        // fade begins when card midpoint hits nav (50% off screen)
-    const fadeOutEnd   = navBottom - 60;  // fully faded 60px later
+    const isSm = window.innerWidth <= 768;
+    const cardMid      = rect.top + rect.height * (isSm ? 0.70 : 0.40);
+    const fadeOutStart = navBottom;
+    const fadeOutEnd   = navBottom - (isSm ? 120 : 60);
 
     let opacity;
 

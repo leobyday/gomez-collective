@@ -301,7 +301,7 @@ html[data-theme="dark"] .work-tabs-row {
   border: none;
   cursor: pointer;
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: clamp(14px, 2.2vw, 20px);
   color: var(--color-muted);
   padding: 0;
   height: 28px;
@@ -533,8 +533,20 @@ html[data-theme="dark"] .work-tabs-row {
 dotlottie-player { background: transparent !important; margin-top: 1px; }
 
 /* Symmetry: alpha-aware drop-shadow on lottie wrapper */
+/* overflow:hidden can't coexist with filter — clip via the inner .company-thumb instead */
 .company-thumb-wrap--lottie {
   filter: drop-shadow(0px 10px 24px rgba(0, 0, 0, 0.28)) drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.14));
+}
+.company-thumb-wrap--lottie .company-thumb {
+  height: auto; /* override global 326px so margin-bottom trick works */
+  overflow: hidden;
+}
+/* negative margin makes container shorter than player's natural height,
+   so overflow:hidden clips the bottom where the watermark lives */
+.company-thumb-wrap--lottie dotlottie-player {
+  display: block;
+  width: 100%;
+  margin-bottom: -38px;
 }
 
 .company-thumb-wrap { position: relative; }
@@ -824,6 +836,12 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 
   .visit-site-row { justify-content: flex-start; }
 
+  /* Image column appears above description on tablet/mobile */
+  .company-right {
+    order: -1;
+    width: 100%;
+  }
+
   .company-thumb-wrap {
     display: flex;
     justify-content: center;
@@ -870,13 +888,20 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   /* 3-tab subnav: scrollable on small screens */
   .work-tabs { gap: 24px; overflow-x: auto; padding-bottom: 2px; }
 
-  /* Media thumb: let height be natural on mobile */
+  /* Media thumb: scale proportionally, no cropping */
   .company-thumb--media,
   .company-thumb--media img,
   .company-thumb--media video { height: auto; min-height: 200px; }
 
   /* Lang tags: allow wrap on mobile */
   .company-lang { white-space: normal; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Media thumbs scale proportionally at tablet widths too */
+  .company-thumb--media,
+  .company-thumb--media img,
+  .company-thumb--media video { height: auto; min-height: 200px; }
 }
 
 /* ─── Page load animations ───────────────────────────── */
@@ -901,6 +926,23 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .hero-actions > :nth-child(3) { animation-delay: 1.8s; }
 .hero-actions > :nth-child(4) { animation-delay: 1.95s; }
 .work-tabs-row                { animation-delay: 2.2s; }
+
+/* ─── Mobile layout: work section gets solid bg, sky stays behind terminal only ── */
+
+@media (max-width: 680px) {
+  .work-section {
+    background: var(--color-bg);
+  }
+  .work-tabs-row {
+    background: var(--color-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* Cards: reset order — mobile layout is image-first from flex ordering above */
+  .work-tab {
+    font-size: clamp(13px, 3.5vw, 16px);
+  }
+}
 
 /* ─── Mobile: truncate collapsed nav name to "Leo" ────── */
 

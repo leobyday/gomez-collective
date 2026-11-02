@@ -289,14 +289,15 @@
       .hero-top-right { gap: 4px; right: 16px; top: 28px; }
     }
 
-    /* G Lottie — absolute fill, underneath terminal */
+    /* G Lottie — floats in front of terminal (transparent bg so terminal content shows through) */
     #g-lottie {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 3;
+      opacity: 0.07;
       will-change: transform;
     }
 
@@ -347,7 +348,7 @@
 
     /* macOS outer window */
     .hterm-outer {
-      width: 860px;
+      width: clamp(500px, 70vw, 860px);
       max-width: 100%;
       border-radius: 10px;
       overflow: hidden;
@@ -478,13 +479,118 @@
     @keyframes ht-cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
     @media (prefers-reduced-motion:reduce) { .ht-cursor { animation:none; } }
 
-    /* Mobile */
+    /* Hamburger — desktop: hidden */
+    .nav-hamburger { display: none; }
+
+    /* G home button — mobile only */
+    .g-nav-home { display: none; }
+
+    /* Mobile — terminal leaves fixed layer, flows with page */
     @media (max-width:680px) {
-      .terminal-chrome { padding:0; align-items:flex-end; }
-      .hterm-outer { border-radius:0; }
-      .hterm-body  { height:auto; min-height:340px; padding:10px 0 14px; }
-      .hterm-term  { max-height:52dvh; min-height:240px; }
+      /* G home link: top-left, same vertical band as hamburger */
+      .g-nav-home {
+        display: flex;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Sorts Mill Goudy', Georgia, serif;
+        font-size: 28px;
+        font-weight: 400;
+        color: rgba(30,25,25,0.80);
+        text-decoration: none;
+        z-index: 100;
+        pointer-events: auto;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* Align tabs with hamburger center (top:16px + height:44px → center at 38px) */
+      .work-tabs-row {
+        top: 0;
+        padding: 28px 16px 10px;
+      }
+
+      /* Take terminal out of the fixed overlay so cards scroll independently */
+      .terminal-chrome {
+        position: relative;
+        inset: auto;
+        padding: 28dvh 0 0;
+        align-items: flex-end;
+        pointer-events: none;
+        overflow: visible;
+      }
+      /* G: visible and in front, fills terminal-chrome area */
+      #g-lottie { position: absolute; inset: 0; }
+
+      /* Icon nav: fixed top-right, only shows hamburger by default */
+      .hero-top-right {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        gap: 0;
+        align-items: center;
+      }
+      /* Hide individual icons on mobile, show hamburger */
+      .hero-top-right .nav-icon { display: none; }
+      .nav-hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      .nav-hamburger span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: rgba(30,25,25,0.70);
+        border-radius: 2px;
+        transition: transform .2s, opacity .2s;
+      }
+      /* Open state — X */
+      .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+      .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      /* Dropdown panel */
+      .hero-top-right.menu-open .nav-icon {
+        display: flex;
+        position: fixed;
+        right: 16px;
+        flex-direction: column;
+        background: rgba(255,255,255,0.92);
+        border-radius: 10px;
+        padding: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        pointer-events: auto;
+      }
+      .hero-top-right.menu-open .nav-icon:nth-child(1) { top: 68px; }
+      .hero-top-right.menu-open .nav-icon:nth-child(2) { top: 116px; }
+      .hero-top-right.menu-open .nav-icon:nth-child(3) { top: 164px; }
+      .hero-top-right .nav-icon img {
+        width: 22px; height: 22px;
+        filter: brightness(0) opacity(0.65);
+      }
+
+      /* Terminal outer: full-width strip */
+      .hterm-outer {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        pointer-events: auto;
+      }
+      .hterm-body  { height:auto; min-height:300px; padding:10px 0 14px; }
+      .hterm-term  { max-height:46dvh; min-height:220px; }
       .hterm-label { display:none; }
+      /* Work section starts right below terminal, no giant margin-top */
+      .work-section { margin-top: 0 !important; }
     }
   </style>
   <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
@@ -528,18 +634,24 @@
 
       <!-- Icons: top-right -->
       <div class="hero-top-right hero-actions">
-        <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
+        <a href="https://www.linkedin.com/in/leonorgomezblum/" class="social-icon nav-icon" aria-label="LinkedIn" target="_blank" rel="noopener">
           <img src="assets/Linkedin.png" alt="LinkedIn">
         </a>
-        <a href="mailto:leogomezd@gmail.com" class="social-icon" aria-label="Email">
+        <a href="mailto:leogomezd@gmail.com" class="social-icon nav-icon" aria-label="Email">
           <img src="assets/Mail.png" alt="Email">
         </a>
-        <a href="assets/Leo's Resume Q4 2026.pdf" class="social-icon social-icon--resume" aria-label="Resume" target="_blank" rel="noopener">
+        <a href="assets/Leo's Resume Q4 2026.pdf" class="social-icon social-icon--resume nav-icon" aria-label="Resume" target="_blank" rel="noopener">
           <img src="assets/File text.png" alt="Resume">
         </a>
+        <button class="nav-hamburger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
 
     </div>
+
+    <!-- G home button — mobile only, fixed top-left -->
+    <a href="/" class="g-nav-home" aria-label="Go to homepage">G</a>
 
     <!-- Work section -->
     <div class="work-section" aria-label="Portfolio">
@@ -1038,10 +1150,7 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var MIN_S      = 0.10;
-    var G_S        = 0.10;
-    var GAP        = 8;
     var MARGIN     = 20;
-    var CONTENT_W  = 1100;
 
     var cache = {};
     function measure() {
@@ -1050,23 +1159,16 @@
       cache.vw = window.innerWidth;
       cache.vh = window.innerHeight;
 
-      /* G: left edge aligns with content column left margin */
-      var contentLeft = Math.max(MARGIN, (cache.vw - CONTENT_W) / 2);
-      var gVisW    = cache.vw * G_S;
-      var gVisH    = cache.vh * G_S;
-      cache.gEndCx = contentLeft + gVisW / 2 - gVisW * 0.22 - 15;
-      cache.gEndCy = MARGIN + gVisH / 2 - 10;
-
-      /* Terminal: original horizontal position, vertically centered to G + 5px down */
+      /* Terminal end position — top-left corner */
       cache.endCx = MARGIN + cache.tw * MIN_S / 2;
-      cache.endCy = cache.gEndCy + 5;
+      cache.endCy = MARGIN + cache.th * MIN_S / 2;
     }
 
     function update() {
       /* On mobile the terminal is full-width at bottom — skip transform */
       if (cache.vw <= 680) {
         outer.style.transform = '';
-        if (gEl) gEl.style.transform = '';
+        if (gEl) { gEl.style.transform = ""; gEl.style.opacity = "0.07"; }
         if (termScroll) termScroll.style.overflowY = 'auto';
         return;
       }
@@ -1085,13 +1187,11 @@
       var ty = prog * (cache.endCy - cache.vh / 2);
       outer.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
 
-      /* G Lottie */
+      /* G Lottie — syncs exactly with terminal so it never drifts past it */
       if (gEl) {
-        var gs  = 1 - prog * (1 - G_S);
-        var gtx = prog * (cache.gEndCx - cache.vw / 2);
-        var gty = prog * (cache.gEndCy - cache.vh / 2);
-        gEl.style.transform = 'translate(' + gtx + 'px,' + gty + 'px) scale(' + gs + ')';
+        gEl.style.transform = outer.style.transform;
         gEl.style.transformOrigin = '50% 50%';
+        gEl.style.opacity = (0.07 + prog * 0.93).toFixed(3);
       }
 
     }
@@ -1106,6 +1206,28 @@
 
     measure();
     update();
+  })();
+  </script>
+
+  <script>
+  /* Hamburger menu — mobile only */
+  (function () {
+    var btn = document.querySelector('.nav-hamburger');
+    var nav = document.querySelector('.hero-top-right');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () {
+      var open = nav.classList.toggle('menu-open');
+      btn.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    // Close when clicking a link
+    nav.querySelectorAll('.nav-icon').forEach(function (a) {
+      a.addEventListener('click', function () {
+        nav.classList.remove('menu-open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
   })();
   </script>
 </body>
