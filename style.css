@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap');
 
+/*
+ * ─── Breakpoint scale ────────────────────────────────────────────────────────
+ *
+ *  xl  ≥1280px   No query — base styles. Full layout, centered terminal.
+ *  lg  ≤1280px   @media (max-width: 1280px) — small laptops, tight windows.
+ *  md  ≤1024px   @media (max-width: 1024px) — wide tablets, ~1100px viewports.
+ *  sm  ≤768px    @media (max-width: 768px)  — stacked cards, image-first order.
+ *  xs  ≤680px    @media (max-width: 680px)  — mobile. Lives in index.html <style>.
+ *
+ *  See design.md → Responsive for the full spec and rules.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 /* ─── Reset ──────────────────────────────────────────── */
 
 *, *::before, *::after {
@@ -795,6 +808,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 
 /* ─── Responsive ─────────────────────────────────────── */
 
+/* sm — Tablet (≤768px): cards stack, image-first, tab gap tightens */
 @media (max-width: 768px) {
   :root { --hero-collapsed-h: 80px; }
 
@@ -897,6 +911,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   .company-lang { white-space: normal; }
 }
 
+/* md — Mid (769–1024px): proportional image scaling, transitional layout */
 @media (min-width: 769px) and (max-width: 1024px) {
   /* Media thumbs scale proportionally at tablet widths too */
   .company-thumb--media,
@@ -929,6 +944,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 
 /* ─── Mobile layout: work section gets solid bg, sky stays behind terminal only ── */
 
+/* xs — Mobile (≤680px): solid work-section bg, terminal-specific overrides */
 @media (max-width: 680px) {
   .work-section {
     background: var(--color-bg);
@@ -946,6 +962,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 
 /* ─── Mobile: truncate collapsed nav name to "Leo" ────── */
 
+/* xs-narrow (≤520px): sub-breakpoint of xs, minor type tweaks only */
 @media (max-width: 520px) {
   .hero-name {
     font-size: 0 !important;
