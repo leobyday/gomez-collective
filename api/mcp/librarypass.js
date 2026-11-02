@@ -592,6 +592,17 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .free-badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);border:1px solid var(--divider);border-radius:4px;padding:3px 10px;margin-left:12px;vertical-align:middle}
 
+    .skill-block{margin-top:36px;background:var(--surface);border:1px solid var(--divider);border-radius:10px;overflow:hidden}
+    .skill-block-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--divider)}
+    .skill-block-dot{width:8px;height:8px;border-radius:50%;background:var(--olive);flex-shrink:0}
+    .skill-block-title{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive)}
+    .skill-block-body{padding:20px 20px 0}
+    .skill-trigger-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--divider);border:1px solid var(--divider);border-radius:8px;overflow:hidden;margin-top:20px;margin-bottom:24px}
+    .skill-trigger-card{background:var(--surface);padding:16px 20px}
+    .skill-trigger-label{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--olive);margin-bottom:6px}
+    .skill-trigger-desc{font-size:14px;color:var(--body);line-height:1.6}
+    @media(max-width:600px){.skill-trigger-grid{grid-template-columns:1fr}}
+
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
     .story-col{opacity:1;transform:none}
     .story-col-label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-bottom:20px}
@@ -662,6 +673,13 @@ const LANDING_HTML = `<!DOCTYPE html>
         <div class="hero-marquee-item"><span class="hero-icon-name">Heroicons</span></div>
         <div class="hero-marquee-item"><span class="hero-icon-name">AutoAnimate</span></div>
         <div class="hero-marquee-item"><span class="hero-icon-name">clsx</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Border Beam</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Thinking Orbs</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Liquid Gooey</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Voice Glow</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Bot Avatars</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Liquid Metal</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Image Generation FX</span></div>
         <!-- duplicate for seamless loop -->
         <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/tailwindcss/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">Tailwind CSS</span></div>
         <div class="hero-marquee-item"><img class="hero-icon" src="https://cdn.simpleicons.org/shadcnui/706b6b" alt="" onerror="this.style.display='none'"><span class="hero-icon-name">shadcn/ui</span></div>
@@ -684,6 +702,13 @@ const LANDING_HTML = `<!DOCTYPE html>
         <div class="hero-marquee-item"><span class="hero-icon-name">Heroicons</span></div>
         <div class="hero-marquee-item"><span class="hero-icon-name">AutoAnimate</span></div>
         <div class="hero-marquee-item"><span class="hero-icon-name">clsx</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Border Beam</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Thinking Orbs</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Liquid Gooey</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Voice Glow</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Bot Avatars</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Liquid Metal</span></div>
+        <div class="hero-marquee-item"><span class="hero-icon-name">Image Generation FX</span></div>
       </div>
     </div>
     <div class="url-box">
@@ -917,6 +942,93 @@ const LANDING_HTML = `<!DOCTYPE html>
   </section>
 
   <section class="section">
+    <p class="section-label">Claude Code skill</p>
+    <h2 class="section-title">Claude reaches for it without being asked</h2>
+    <div class="story-grid">
+      <div class="story-col">
+        <p class="story-col-label before">MCP only</p>
+        <div class="story-steps">
+          <div class="story-step">
+            <span class="story-num">1</span>
+            <p class="story-text">You ask Claude to &ldquo;add shadcn/ui to the project.&rdquo;</p>
+          </div>
+          <div class="story-step">
+            <span class="story-num">2</span>
+            <p class="story-text">Claude generates install steps from training data, six months old, before the breaking change.</p>
+          </div>
+          <div class="story-step">
+            <span class="story-num">3</span>
+            <p class="story-text">You hit an error. You type <span style="font-family:var(--mono);font-size:13px">/librarypass:install shadcn</span> manually. Now it works.</p>
+          </div>
+        </div>
+      </div>
+      <div class="story-col">
+        <p class="story-col-label after">With the skill</p>
+        <div class="story-steps">
+          <div class="story-step">
+            <span class="story-num">1</span>
+            <p class="story-text">You ask Claude to &ldquo;add shadcn/ui to the project.&rdquo;</p>
+          </div>
+          <div class="story-step">
+            <span class="story-num">2</span>
+            <p class="story-text">Claude reads the skill file. It knows to call <strong>install</strong> instead of guessing from training data.</p>
+          </div>
+          <div class="story-step">
+            <span class="story-num">3</span>
+            <p class="story-text">Live data in. Scaffold done. You&rsquo;re writing product code &mdash; no slash command typed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-header">
+        <span class="skill-block-dot"></span>
+        <span class="skill-block-title">What the skill tells Claude</span>
+      </div>
+      <div class="skill-block-body">
+        <div class="skill-trigger-grid">
+          <div class="skill-trigger-card">
+            <p class="skill-trigger-label">install</p>
+            <p class="skill-trigger-desc">Called automatically when you ask to add or set up a library</p>
+          </div>
+          <div class="skill-trigger-card">
+            <p class="skill-trigger-label">recommend</p>
+            <p class="skill-trigger-desc">Called when you ask which library to use for a use case</p>
+          </div>
+          <div class="skill-trigger-card">
+            <p class="skill-trigger-label">component</p>
+            <p class="skill-trigger-desc">Called when Claude needs props, usage, or import path for a component</p>
+          </div>
+          <div class="skill-trigger-card">
+            <p class="skill-trigger-label">configure</p>
+            <p class="skill-trigger-desc">Called when you ask to theme, dark-mode, or customize a library</p>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--body);padding-bottom:20px;line-height:1.7">The skill file lives in your <span style="font-family:var(--mono);font-size:13px">.claude/skills/</span> directory. It is loaded at the start of every session, so Claude picks up the tool signals with no prompt from you. You can still use slash commands explicitly &mdash; the skill just means you never have to.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <p style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--olive);text-transform:uppercase;margin-bottom:12px">Get the skill file</p>
+      <p style="font-size:15px;color:var(--body);line-height:1.65;margin-bottom:16px">Save to <span style="font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--divider);border-radius:3px;padding:2px 7px">.claude/skills/librarypass.md</span> in your project. Claude reads it at session start and uses the tools proactively from there.</p>
+      <div style="position:relative">
+        <pre id="lpSkillContent" style="font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--bg);border:1px solid var(--divider);border-radius:6px;padding:16px 20px;padding-right:48px;overflow-x:auto;max-height:200px;overflow-y:auto;color:var(--text);white-space:pre-wrap;word-break:break-word;margin:0"></pre>
+        <button class="code-copy-btn" id="lpSkillCopyBtn" aria-label="Copy skill file">
+          <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+      <div style="margin-top:10px;display:flex;align-items:center;justify-content:flex-end">
+        <a href="https://github.com/leobyday/gomez-collective/blob/main/.claude/skills/librarypass.md" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--olive);text-decoration:none;opacity:.75;display:inline-flex;align-items:center;gap:6px" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.75'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <p class="section-label">Supported libraries</p>
     <h2 class="section-title">The libraries you already use</h2>
     <div class="lib-grid">
@@ -941,6 +1053,13 @@ const LANDING_HTML = `<!DOCTYPE html>
       <a class="lib-item" href="https://zustand.docs.pmnd.rs" target="_blank" rel="noopener"><span class="lib-name">Zustand</span></a>
       <a class="lib-item" href="https://recharts.org" target="_blank" rel="noopener"><span class="lib-name">Recharts</span></a>
       <a class="lib-item" href="https://github.com/lukeed/clsx" target="_blank" rel="noopener"><span class="lib-name">clsx + tw-merge</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Border Beam</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Thinking Orbs</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Liquid Gooey</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Voice Glow</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Bot Avatars</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Liquid Metal</span></a>
+      <a class="lib-item" href="https://libraries.dev/" target="_blank" rel="noopener"><span class="lib-name">Image Gen FX</span></a>
     </div>
   </section>
 
@@ -1011,11 +1130,22 @@ const LANDING_HTML = `<!DOCTYPE html>
   }
 
   function copyUrl() {
-    navigator.clipboard.writeText('https://gomezcollective.com/mcp/librarypass').then(() => {
-      const btn = document.getElementById('copyBtn')
-      if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 2000) }
-      window.va?.track('librarypass_url_copied')
-    })
+    var text = 'https://gomezcollective.com/mcp/librarypass'
+    var btn = document.getElementById('copyBtn')
+    function markCopied() {
+      if (btn) { btn.classList.add('copied'); setTimeout(function() { btn.classList.remove('copied') }, 2000) }
+      window.va && window.va.track('librarypass_url_copied')
+    }
+    function fallback() {
+      var ta = document.createElement('textarea')
+      ta.value = text; ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0'
+      document.body.appendChild(ta); ta.select()
+      try { document.execCommand('copy'); markCopied() } catch(e) {}
+      document.body.removeChild(ta)
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(markCopied).catch(fallback)
+    } else { fallback() }
   }
 
   function copyPrompt(el) {
@@ -1057,6 +1187,24 @@ const LANDING_HTML = `<!DOCTYPE html>
     if (btn) btn.addEventListener('click', function() {
       navigator.clipboard.writeText(copyMap[id]).then(function() { flashCopied(id) })
     })
+  })
+
+  // Skill file preview + copy
+  var LP_SKILL = "# LibraryPass Skill\n\nLibraryPass is an MCP connector that gives Claude live access to React and UI library data — always current, never stale training data.\n\n**MCP endpoint:** \`https://gomezcollective.com/mcp/librarypass\`\n\n---\n\n## When to use\n\nUse LibraryPass tools any time the work involves:\n- Choosing a React/UI component library\n- Getting accurate installation commands or scaffolding\n- Looking up specific component APIs or props\n- Checking what version of a library to use\n- Comparing libraries (shadcn vs Radix vs MUI, etc.)\n- Getting changelog or migration information\n\nDo NOT rely on training-data guesses for library APIs or install commands — always call the tool instead.\n\n---\n\n## Available tools (already loaded in session)\n\n| Tool | When to call |\n|---|---|\n| \`mcp__librarypass__list\` | Browse all supported libraries |\n| \`mcp__librarypass__recommend\` | Get a recommendation for a use case |\n| \`mcp__librarypass__install\` | Get installation scaffold for a specific library |\n| \`mcp__librarypass__component\` | Look up a specific component's docs/props |\n| \`mcp__librarypass__configure\` | Configuration and setup help |\n| \`mcp__librarypass__request\` | Free-form library questions |"
+  var lpSkillEl = document.getElementById('lpSkillContent')
+  if (lpSkillEl) lpSkillEl.textContent = LP_SKILL
+  var lpSkillBtn = document.getElementById('lpSkillCopyBtn')
+  if (lpSkillBtn) lpSkillBtn.addEventListener('click', function() {
+    function lpFallback() {
+      var ta = document.createElement('textarea')
+      ta.value = LP_SKILL; ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0'
+      document.body.appendChild(ta); ta.select()
+      try { document.execCommand('copy'); flashCopied('lpSkillCopyBtn') } catch(e) {}
+      document.body.removeChild(ta)
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(LP_SKILL).then(function() { flashCopied('lpSkillCopyBtn') }).catch(lpFallback)
+    } else { lpFallback() }
   })
 
   // Track install steps viewed
