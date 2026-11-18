@@ -512,12 +512,12 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     .page{max-width:900px;margin:0 auto;padding:0 80px 100px}
 
-    .hero{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
+    .hero{min-height:calc(100vh - 157px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 0;border-bottom:1px solid var(--divider)}
     .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--olive);margin-bottom:16px;animation:fadeUp .6s ease both;animation-delay:.1s}
     .hero-headline{font-size:clamp(52px,8vw,96px);font-weight:400;line-height:1;margin-bottom:12px;animation:fadeUp .6s ease both;animation-delay:.25s}
     .hero-headline span{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;letter-spacing:-.01em}
     .nabla-inline{font-family:'Nabla',sans-serif;font-palette:--nabla-sunset;font-size:15px;letter-spacing:-.01em;vertical-align:middle;line-height:1;display:inline-block}
-    .hero-tagline{font-size:18px;color:var(--dark);margin-bottom:0;line-height:1.65;max-width:520px;animation:fadeUp .6s ease both;animation-delay:.4s}
+    .hero-tagline{font-size:18px;color:var(--dark);margin-bottom:0;line-height:1.65;animation:fadeUp .6s ease both;animation-delay:.4s}
     .hero-marquee{width:100%;overflow:hidden;margin:100px 0;-webkit-mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);mask:linear-gradient(to right,transparent,black 12%,black 88%,transparent);animation:fadeUp .6s ease both;animation-delay:.55s}
     .hero-marquee:hover .hero-marquee-track{animation-play-state:paused}
     .hero-marquee-track{display:flex;gap:48px;animation:marquee 56s linear infinite;width:max-content}
@@ -537,6 +537,11 @@ const LANDING_HTML = `<!DOCTYPE html>
     .hero-cta{margin-top:28px;animation:fadeUp .6s ease both;animation-delay:.85s}
     .hero-cta-btn{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);text-decoration:none;opacity:.7;transition:opacity .2s;border:none;background:none;cursor:pointer;padding:0}
     .hero-cta-btn:hover{opacity:1}
+
+    .scroll-down{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 0 8px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;user-select:none}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+    .scroll-down-arrow{font-size:18px;animation:bob 1.6s ease-in-out infinite}
+    @media(prefers-reduced-motion:reduce){.scroll-down-arrow{animation:none}}
 
     .section{padding:64px 0;border-bottom:1px solid var(--divider)}
     .section:last-of-type{border-bottom:none}
@@ -625,7 +630,7 @@ const LANDING_HTML = `<!DOCTYPE html>
 
     @media(max-width:768px){
       .site-nav,.page,.site-footer{padding-left:20px;padding-right:20px}
-      .hero{padding:60px 0;min-height:calc(100vh - 57px)}
+      .hero{padding:60px 0;min-height:calc(100vh - 157px)}
       .url-box{max-width:100%}
       .url-text{font-size:12px;padding:12px 12px}
       .commands-grid{grid-template-columns:1fr}
@@ -723,6 +728,11 @@ const LANDING_HTML = `<!DOCTYPE html>
       <button class="hero-cta-btn" onclick="document.getElementById('install-steps').scrollIntoView({behavior:'smooth'})">How to connect ↓</button>
     </div>
   </section>
+
+  <div class="scroll-down">
+    <span>scroll down</span>
+    <span class="scroll-down-arrow">↓</span>
+  </div>
 
   <section class="section">
     <p class="section-label">Why it exists</p>
