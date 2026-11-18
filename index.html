@@ -259,6 +259,29 @@
       padding: 36px 28px 52px;
       overflow: hidden;
     }
+
+    /* Scroll-down indicator — absolute so it doesn't shift the terminal's center */
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: rgba(40,55,80,0.45);
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      white-space: nowrap;
+    }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(5px)} }
+    .scroll-hint-arrow { font-size: 16px; animation: bob 1.6s ease-in-out infinite; display: block; }
+    @media (prefers-reduced-motion: reduce) { .scroll-hint-arrow { animation: none; } }
     .hterm-outer    { pointer-events: auto; }
     .hero-top-right { pointer-events: auto; }
 
@@ -383,7 +406,7 @@
     /* Terminal body */
     .hterm-body {
       position:relative;
-      height:589px;
+      height:510px;
       padding:16px 0 0;
       display:flex; flex-direction:column; align-items:flex-start; gap:10px;
       background:rgba(140,165,190,.08);
@@ -412,7 +435,7 @@
       position:relative; z-index:2;
       width:100%;
       flex:1;
-      padding:20px 24px 24px 18px;
+      padding:10px 24px 24px 18px;
       overflow-y:auto;
       font-family:var(--ht-mono); font-size:13px;
       color:var(--ht-ink); line-height:1.72;
@@ -434,7 +457,7 @@
     .hterm-hint { font-family:var(--ht-mono); font-size:11px; color:var(--ht-faint); letter-spacing:.04em; }
 
     /* Terminal line helpers */
-    .htL  { display:block; white-space:pre-wrap; word-break:break-word; }
+    .htL  { display:block; white-space:normal; word-break:break-word; }
     .htLg { display:block; height:calc(13px * 1.72); }
     .ht-dim    { color:var(--ht-faint); }
     .ht-bright { color:var(--ht-ink); font-weight:600; }
@@ -461,6 +484,7 @@
 
     /* Use-case description lines: 2px smaller */
     .ht-desc { font-size:11px; color:var(--ht-faint); }
+    .ht-indent { padding-left: 2.2em; }
 
     .ht-ac-link { color:var(--ht-accent); text-decoration:none; }
     .ht-ac-link:hover { color:rgba(255,255,255,.85); text-decoration:underline; }
@@ -485,26 +509,41 @@
     /* G home button — mobile only */
     .g-nav-home { display: none; }
 
+    /* lg — proportionally smaller terminal at narrow laptop widths */
+    @media (max-width: 1280px) {
+      .hterm-outer { width: clamp(460px, 65vw, 820px); }
+    }
+    @media (max-width: 1024px) {
+      .hterm-outer { width: clamp(440px, 62vw, 700px); }
+    }
+
     /* Mobile — terminal leaves fixed layer, flows with page */
     @media (max-width:680px) {
-      /* G home link: top-left, same vertical band as hamburger */
+      /* G home link: transparent tap target over the lottie G */
       .g-nav-home {
         display: flex;
         position: fixed;
-        top: 16px;
-        left: 16px;
-        width: 44px;
-        height: 44px;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Sorts Mill Goudy', Georgia, serif;
-        font-size: 28px;
-        font-weight: 400;
-        color: rgba(30,25,25,0.80);
-        text-decoration: none;
-        z-index: 100;
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 72px;
+        z-index: 102;
         pointer-events: auto;
         -webkit-tap-highlight-color: transparent;
+        color: transparent;
+        font-size: 0;
+      }
+      /* Lottie G: fixed small logo in top-left, replaces text G */
+      #g-lottie {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 72px !important;
+        height: 72px !important;
+        opacity: 0.82 !important;
+        z-index: 101;
       }
       /* Align tabs with hamburger center (top:16px + height:44px → center at 38px) */
       .work-tabs-row {
@@ -630,6 +669,12 @@
 
         </div>
 
+      </div>
+
+      <!-- Scroll down hint -->
+      <div class="scroll-hint" id="scroll-hint">
+        <span>scroll down</span>
+        <span class="scroll-hint-arrow">↓</span>
       </div>
 
       <!-- Icons: top-right -->
@@ -842,6 +887,8 @@
 
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="components/company-card.js"></script>
   <script src="script.js"></script>
   <script src="ascii-effect.js"></script>
@@ -899,7 +946,7 @@
         ]
       },
       {
-        label: 'TV',
+        label: 'tvOS',
         work: [
           { project: 'Roku', tags: ['Homescreen', '+18% OTA engagement'],
             desc: 'Led the Home screen redesign and drove experiment programs that measurably lifted engagement across a device in millions of living rooms.' },
@@ -908,23 +955,27 @@
         ]
       },
       {
-        label: 'Watch',
+        label: 'watchOS',
         work: [
           { project: 'Spotify — Apple Watch', tags: ['Most-requested feature of 2016'],
-            desc: 'Designed and shipped the Spotify Watch app — the feature the audience had asked for most that year. Compact, glanceable playback controls for a 38mm screen.' }
+            desc: 'Designed and shipped the Spotify Watch app — the feature the audience had asked for most that year. Compact, glanceable playback controls for a 38mm screen.' },
+          { project: 'Grubhub and Seamless', tags: ['watchOS'],
+            desc: 'Watch companion for food delivery, letting users track orders and reorder favorites without reaching for their phone.' }
         ]
       },
       {
         label: 'Web',
         work: [
-          { project: 'AminoChain — Platform', tags: ['B2B', 'Data-dense', 'Founding Designer'],
-            desc: 'Data-dense procurement platform for biobanks and researchers. Complex data navigation across specimen types, availability, pricing, and compliance requirements.' },
           { project: 'Symmetry — Dashboard', tags: ['SaaS', 'AI'],
             desc: 'Web dashboard for an AI knowledge tool. Full chat, search, and knowledge management surfaces built from scratch across engineering prototype to Beta 1.' },
+          { project: 'AminoChain — Platform', tags: ['B2B', 'Data-dense', 'Founding Designer'],
+            desc: 'Data-dense procurement platform for biobanks and researchers. Complex data navigation across specimen types, availability, pricing, and compliance requirements.' },
+          { project: 'Disney+', tags: ['40+ markets', '200M users'],
+            desc: 'Web platform for the international launch. Owned the design system and CJK typography work that made a US product feel native in every market.' },
+          { project: 'Grubhub and Seamless', tags: ['Checkout', 'Growth'],
+            desc: 'Improved checkout conversion and led the 20% tip default initiative, before most apps adopted it.' },
           { project: 'Spin or Flip', tags: ['Full-stack', 'Live'], url: 'https://www.spinorflip.com',
-            desc: 'Shipped end to end: frontend, backend, auth, payments, API, and MCP server. Every layer is mine.' },
-          { project: 'Roku', tags: ['Settings', 'Privacy', 'Search'],
-            desc: 'Settings, Privacy, and Search experiences for a platform reaching millions of users globally. Drove LATAM, APAC, and Europe expansion.' }
+            desc: 'Shipped end to end: frontend, backend, auth, payments, API, and MCP server. Every layer is mine.' }
         ]
       }
     ];
@@ -935,9 +986,9 @@
       'Desktop Apps':     ['Symmetry'],
       'MCP':              ['Spin or Flip', 'Librarypass', 'Claude Scaffolding'],
       'Mobile Apps':      ['AminoChain', 'Disney+', 'Spotify', 'Grubhub and Seamless', 'American Express'],
-      'TV':               ['Roku', 'Disney+', 'Spotify'],
-      'Watch':            ['Spotify'],
-      'Web':              ['AminoChain', 'Symmetry', 'Spin or Flip', 'Roku']
+      'tvOS':             ['Roku', 'Disney+'],
+      'watchOS':          ['Spotify', 'Grubhub and Seamless'],
+      'Web':              ['Symmetry', 'AminoChain', 'Disney+', 'Grubhub and Seamless', 'Spin or Flip']
     };
 
     function filterCards(platformLabel) {
@@ -975,25 +1026,15 @@
     function showMenu() {
       htState = 'menu';
       clearFilter();
-      hintEl.textContent = '↑/↓   j/k   navigate ·   enter/→   open';
+      hintEl.textContent = '↑/↓  ·  enter/→  open';
       term.innerHTML = [
         L('', '<span class="ht-name"><em>L</em>eo Gomez Blum</span>'),
-        Lg(),
         L('ht-soft', 'Founding product designer and design engineer.'),
         Lg(),
-        L('ht-dim', 'Taking complex products from zero to first customers while owning brand,'),
-        L('ht-dim', 'product, and design systems. AI-native, using Claude Code and agents to'),
-        L('ht-dim', 'go from concept to shipped product.'),
-        Lg(),
-        L('ht-dim', 'Looking for teams building generative UI and conversational products,'),
-        L('ht-dim', 'especially ones that keep tech human.'),
-        Lg(),
-        div(),
+        L('ht-dim', 'Taking complex products from zero to first customers while owning brand, product, and design systems. AI-native, using Claude Code and agents to go from concept to shipped product.'),
         Lg(),
         L('ht-dim', 'Select a platform:'),
-        Lg(),
         '<div class="ht-mlist" id="ht-mlist"></div>',
-        Lg(),
       ].join('');
       renderMenu();
       term.scrollTop = 0;
@@ -1047,9 +1088,9 @@
         if (i > 0) lines.push(Lg());
         var num = i < 9 ? '0' + (i + 1) : '' + (i + 1);
         lines.push(L('', '<span class="ht-accent">[' + num + ']</span>  <span class="ht-bright">' + w.project + '</span>'));
-        if (w.tags && w.tags.length) lines.push(L('ht-dim', '       ' + w.tags.join('  ·  ')));
-        lines.push(L('ht-desc', '       ' + w.desc));
-        if (w.url) lines.push(L('', '       <a class="ht-ac-link" href="' + (w.url.startsWith('http') ? w.url : 'https://' + w.url) + '" target="_blank" rel="noopener">' + w.url.replace('https://','') + '</a>'));
+        if (w.tags && w.tags.length) lines.push(L('ht-dim ht-indent', w.tags.join('  ·  ')));
+        lines.push(L('ht-desc ht-indent', w.desc));
+        if (w.url) lines.push(L('ht-indent', '<a class="ht-ac-link" href="' + (w.url.startsWith('http') ? w.url : 'https://' + w.url) + '" target="_blank" rel="noopener">' + w.url.replace('https://','') + '</a>'));
       });
       lines.push(Lg());
       lines.push(div());
@@ -1149,8 +1190,8 @@
     if (!outer) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var MIN_S      = 0.10;
-    var MARGIN     = 20;
+    var MIN_S   = 0.10; // terminal scale when minimized
+    var MIN_G_S = 0.08; // G lottie scale when minimized (% of viewport)
 
     var cache = {};
     function measure() {
@@ -1159,16 +1200,21 @@
       cache.vw = window.innerWidth;
       cache.vh = window.innerHeight;
 
-      /* Terminal end position — top-left corner */
-      cache.endCx = MARGIN + cache.tw * MIN_S / 2;
-      cache.endCy = MARGIN + cache.th * MIN_S / 2;
+      /* G → content column left edge (body padding), same row as tabs */
+      var bodyPad = parseInt(getComputedStyle(document.body).paddingLeft) || 80;
+      cache.gEndCx = bodyPad + cache.vw * MIN_G_S / 2;
+      cache.gEndCy = 20 + cache.vh * MIN_G_S / 2;
+
+      /* Terminal → same anchor as G so they stack together */
+      cache.endCx = cache.gEndCx;
+      cache.endCy = cache.gEndCy;
     }
 
     function update() {
-      /* On mobile the terminal is full-width at bottom — skip transform */
+      /* On mobile the terminal is full-width at bottom — skip transform; CSS handles G */
       if (cache.vw <= 680) {
         outer.style.transform = '';
-        if (gEl) { gEl.style.transform = ""; gEl.style.opacity = "0.07"; }
+        if (gEl) { gEl.style.transform = ''; gEl.style.opacity = ''; }
         if (termScroll) termScroll.style.overflowY = 'auto';
         return;
       }
@@ -1181,15 +1227,18 @@
       /* Disable terminal internal scroll while page is scrolling */
       if (termScroll) termScroll.style.overflowY = scrollProg > 0 ? 'hidden' : 'auto';
 
-      /* Terminal */
+      /* Terminal → gutter (stays left of content column) */
       var s  = 1 - prog * (1 - MIN_S);
       var tx = prog * (cache.endCx - cache.vw / 2);
       var ty = prog * (cache.endCy - cache.vh / 2);
       outer.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
 
-      /* G Lottie — syncs exactly with terminal so it never drifts past it */
+      /* G → content column top-left (independent of terminal) */
       if (gEl) {
-        gEl.style.transform = outer.style.transform;
+        var gS  = 1 - prog * (1 - MIN_G_S);
+        var gTx = prog * (cache.gEndCx - cache.vw / 2);
+        var gTy = prog * (cache.gEndCy - cache.vh / 2);
+        gEl.style.transform = 'translate(' + gTx + 'px,' + gTy + 'px) scale(' + gS + ')';
         gEl.style.transformOrigin = '50% 50%';
         gEl.style.opacity = (0.07 + prog * 0.93).toFixed(3);
       }
@@ -1197,6 +1246,12 @@
     }
 
     var raf;
+    // Fade scroll hint out once user starts scrolling
+    var scrollHintEl = document.getElementById('scroll-hint')
+    window.addEventListener('scroll', function () {
+      if (scrollHintEl) scrollHintEl.style.opacity = window.scrollY > 40 ? '0' : '1'
+    }, { passive: true })
+
     window.addEventListener('scroll', function () {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(update);

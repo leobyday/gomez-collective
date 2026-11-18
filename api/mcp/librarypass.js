@@ -535,8 +535,11 @@ const LANDING_HTML = `<!DOCTYPE html>
     .url-copy.copied .icon-check{display:block}
 
     .hero-cta{margin-top:28px;animation:fadeUp .6s ease both;animation-delay:.85s}
-    .hero-cta-btn{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);text-decoration:none;opacity:.7;transition:opacity .2s;border:none;background:none;cursor:pointer;padding:0}
+    .hero-cta-btn{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);text-decoration:none;opacity:.7;transition:opacity .2s;border:none;background:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:6px}
     .hero-cta-btn:hover{opacity:1}
+    @keyframes cta-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+    .hero-cta-arrow{display:inline-block;animation:cta-bob 1.6s ease-in-out infinite}
+    @media(prefers-reduced-motion:reduce){.hero-cta-arrow{animation:none}}
 
     .scroll-down{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 0 8px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;user-select:none}
     @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
@@ -725,7 +728,7 @@ const LANDING_HTML = `<!DOCTYPE html>
       </button>
     </div>
     <div class="hero-cta">
-      <button class="hero-cta-btn" onclick="document.getElementById('install-steps').scrollIntoView({behavior:'smooth'})">How to connect ↓</button>
+      <button class="hero-cta-btn" onclick="document.getElementById('install-steps').scrollIntoView({behavior:'smooth'})">How to connect <span class="hero-cta-arrow">↓</span></button>
     </div>
   </section>
 
