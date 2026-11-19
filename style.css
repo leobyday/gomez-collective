@@ -342,7 +342,7 @@ html[data-theme="dark"] .work-tabs-row {
 
 .work-tabs-row + company-card { margin-top: 20px; }
 
-.company-card ~ .company-card { margin-top: 130px; }
+.company-card ~ .company-card { margin-top: 100px; }
 
 .company-desc {
   width: 284px;
@@ -550,16 +550,9 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .company-thumb-wrap--lottie {
   filter: drop-shadow(0px 10px 24px rgba(0, 0, 0, 0.28)) drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.14));
 }
-.company-thumb-wrap--lottie .company-thumb {
-  height: auto; /* override global 326px so margin-bottom trick works */
-  overflow: hidden;
-}
-/* negative margin makes container shorter than player's natural height,
-   so overflow:hidden clips the bottom where the watermark lives */
 .company-thumb-wrap--lottie dotlottie-player {
   display: block;
   width: 100%;
-  margin-bottom: -38px;
 }
 
 .company-thumb-wrap { position: relative; }
@@ -625,6 +618,11 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   padding-bottom: 70px;
 }
 
+/* Constrain shadow to the video area, not the padding-bottom space */
+.company-thumb-wrap--has-disney-phone .thumb-shadow {
+  bottom: 70px;
+}
+
 /* Disney background video: scale proportionally, no bottom crop */
 .company-thumb-wrap--has-disney-phone .company-thumb {
   height: auto;
@@ -675,7 +673,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
 .visit-site-link {
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--color-dim);
+  color: var(--color-text);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -684,7 +682,7 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   transition: color 0.2s;
 }
 
-.visit-site-link:hover { color: var(--color-text); }
+.visit-site-link:hover { color: #1a3a7a; }
 
 .visit-arrow {
   width: 16px;
@@ -911,8 +909,14 @@ dotlottie-player { background: transparent !important; margin-top: 1px; }
   .company-lang { white-space: normal; }
 }
 
+/* lg — Small laptops (≤1280px): tighten horizontal page padding */
+@media (max-width: 1280px) {
+  body { padding-left: 52px; padding-right: 52px; }
+}
+
 /* md — Mid (769–1024px): proportional image scaling, transitional layout */
 @media (min-width: 769px) and (max-width: 1024px) {
+  body { padding-left: 40px; padding-right: 40px; }
   /* Media thumbs scale proportionally at tablet widths too */
   .company-thumb--media,
   .company-thumb--media img,

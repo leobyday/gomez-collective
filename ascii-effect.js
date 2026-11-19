@@ -328,6 +328,56 @@
       }, { threshold: 0.1 })
       thumbObs.observe(thumb)
     })
+    // VISIT SITE hover scramble — targets the text span to preserve the SVG arrow
+    document.querySelectorAll('.visit-site-text').forEach(function (textEl) {
+      var orig      = 'VISIT SITE'
+      var animating = false
+      var pendingOut = false
+
+      function lockEl() {
+        textEl.style.minWidth   = textEl.offsetWidth + 'px'
+        textEl.style.fontFamily = FONT_GROTESK
+        textEl.style.fontWeight = WEIGHT_GROTESK
+      }
+      function unlockEl() {
+        textEl.textContent    = orig
+        textEl.style.minWidth   = ''
+        textEl.style.fontFamily = ''
+        textEl.style.fontWeight = ''
+        textEl.style.color      = ''
+      }
+
+      textEl.closest('.visit-site-link').addEventListener('mouseenter', function () {
+        pendingOut = false
+        if (animating) return
+        animating = true
+        lockEl()
+        scrambleTo(textEl, orig, 320, {
+          color: '#1a3a7a', finalColor: '#1a3a7a', burstMs: 0,
+        }).then(function () {
+          animating = false
+          if (pendingOut) runOut()
+        })
+      })
+
+      textEl.closest('.visit-site-link').addEventListener('mouseleave', function () {
+        pendingOut = true
+        if (animating) return
+        runOut()
+      })
+
+      function runOut() {
+        animating = true
+        pendingOut = false
+        scrambleTo(textEl, orig, 320, {
+          color: '#1a3a7a', finalColor: '#1a3a7a', burstMs: 0,
+        }).then(function () {
+          unlockEl()
+          animating = false
+        })
+      }
+    })
+
     runHero()
     // initCards is called by runTabs() after the full intro sequence
   }

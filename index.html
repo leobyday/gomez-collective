@@ -406,11 +406,11 @@
     /* Terminal body */
     .hterm-body {
       position:relative;
-      height:510px;
+      height:auto;
       padding:16px 0 0;
       display:flex; flex-direction:column; align-items:flex-start; gap:10px;
       background:rgba(140,165,190,.08);
-      overflow:hidden;
+      overflow:visible;
     }
     #hterm-canvas { position:absolute; inset:0; z-index:0; pointer-events:none; }
 
@@ -434,9 +434,7 @@
     .hterm-term {
       position:relative; z-index:2;
       width:100%;
-      flex:1;
       padding:10px 24px 24px 18px;
-      overflow-y:auto;
       font-family:var(--ht-mono); font-size:13px;
       color:var(--ht-ink); line-height:1.72;
       box-sizing:border-box;
@@ -897,6 +895,12 @@
   /* ── Homepage Terminal Hero ──────────────────────────────────── */
   (function () {
 
+    var NAV_ITEMS = [
+      { label: 'Startups',           category: 'startups' },
+      { label: 'Consumer',           category: 'consumer' },
+      { label: 'Design Engineering', category: 'design-engineering' },
+    ];
+
     var PLATFORMS = [
       {
         label: 'Car',
@@ -1015,25 +1019,33 @@
     var term    = document.getElementById('hterm-term');
     var hintEl  = document.getElementById('hterm-hint');
     var noAnim  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var htState = 'menu';
     var htIdx   = 0;
 
     function L(cls, html) { return '<span class="htL ' + cls + '">' + html + '</span>'; }
     function Lg() { return '<span class="htLg"></span>'; }
-    function div() { return L('ht-dim', '─'.repeat(44)); }
+
+    function navigateTo(item) {
+      var tabs   = document.querySelectorAll('.work-tab');
+      var target = document.querySelector('.company-card[data-category="' + item.category + '"]');
+      tabs.forEach(function (t) { t.classList.toggle('active', t.dataset.category === item.category); });
+      if (!target) return;
+      var navRow    = document.querySelector('.work-tabs-row');
+      var navHeight = navRow ? navRow.offsetHeight : 0;
+      var targetTop = target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: targetTop - navHeight - 32, behavior: 'smooth' });
+    }
 
     /* ── Menu ── */
     function showMenu() {
-      htState = 'menu';
-      clearFilter();
-      hintEl.textContent = '↑/↓  ·  enter/→  open';
+      hintEl.textContent = '↑/↓  ·  enter  go to section';
       term.innerHTML = [
         L('', '<span class="ht-name"><em>L</em>eo Gomez Blum</span>'),
         L('ht-soft', 'Founding product designer and design engineer.'),
         Lg(),
         L('ht-dim', 'Taking complex products from zero to first customers while owning brand, product, and design systems. AI-native, using Claude Code and agents to go from concept to shipped product.'),
         Lg(),
-        L('ht-dim', 'Select a platform:'),
+        L('ht-dim', 'Have designed for web, mobile apps, desktop apps, TvOS, car, chrome extension, MCP and WatchOS.'),
+        Lg(),
         '<div class="ht-mlist" id="ht-mlist"></div>',
       ].join('');
       renderMenu();
@@ -1043,15 +1055,15 @@
     function renderMenu() {
       var list = document.getElementById('ht-mlist');
       if (!list) return;
-      list.innerHTML = PLATFORMS.map(function (p, i) {
+      list.innerHTML = NAV_ITEMS.map(function (item, i) {
         var sel = i === htIdx;
         return '<div class="ht-mitem' + (sel ? ' sel' : '') + '" data-i="' + i + '">'
           + '<span class="ht-mcaret">' + (sel ? '›' : ' ') + '</span>'
-          + '<span class="ht-mlabel">' + p.label + (sel ? '<span class="ht-cursor"> █</span>' : '') + '</span>'
+          + '<span class="ht-mlabel">' + item.label + (sel ? '<span class="ht-cursor"> █</span>' : '') + '</span>'
           + '</div>';
       }).join('');
       list.querySelectorAll('.ht-mitem').forEach(function (el) {
-        el.addEventListener('click', function () { htIdx = +el.dataset.i; openSection(); });
+        el.addEventListener('click', function () { htIdx = +el.dataset.i; navigateTo(NAV_ITEMS[htIdx]); updateMenu(); });
       });
     }
 
@@ -1071,60 +1083,23 @@
       });
     }
 
-    /* ── Section ── */
-    function openSection() {
-      htState = 'section';
-      hintEl.textContent = '← / esc   back to platforms';
-      var p = PLATFORMS[htIdx];
-      filterCards(PLATFORMS[htIdx].label);
-      var lines = [
-        Lg(),
-        div(),
-        L('ht-bright', p.label.toUpperCase()),
-        div(),
-        Lg(),
-      ];
-      p.work.forEach(function (w, i) {
-        if (i > 0) lines.push(Lg());
-        var num = i < 9 ? '0' + (i + 1) : '' + (i + 1);
-        lines.push(L('', '<span class="ht-accent">[' + num + ']</span>  <span class="ht-bright">' + w.project + '</span>'));
-        if (w.tags && w.tags.length) lines.push(L('ht-dim ht-indent', w.tags.join('  ·  ')));
-        lines.push(L('ht-desc ht-indent', w.desc));
-        if (w.url) lines.push(L('ht-indent', '<a class="ht-ac-link" href="' + (w.url.startsWith('http') ? w.url : 'https://' + w.url) + '" target="_blank" rel="noopener">' + w.url.replace('https://','') + '</a>'));
-      });
-      lines.push(Lg());
-      lines.push(div());
-      lines.push(L('', '<span class="ht-accent">$ </span><button class="ht-back-btn" id="ht-back">&#8249; back to platforms</button><span class="ht-cursor"> █</span>'));
-      term.innerHTML = lines.join('');
-      var backBtn = document.getElementById('ht-back');
-      if (backBtn) backBtn.addEventListener('click', showMenu);
-      term.scrollTop = 0;
-    }
-
     /* ── Keyboard ── */
     document.addEventListener('keydown', function (e) {
-      if (htState === 'menu') {
-        if (e.key === 'ArrowUp' || e.key === 'k') {
-          e.preventDefault();
-          htIdx = (htIdx - 1 + PLATFORMS.length) % PLATFORMS.length;
-          updateMenu();
-        } else if (e.key === 'ArrowDown' || e.key === 'j') {
-          e.preventDefault();
-          htIdx = (htIdx + 1) % PLATFORMS.length;
-          updateMenu();
-        } else if (e.key === 'Enter' || e.key === 'ArrowRight' || e.key === 'l') {
-          e.preventDefault();
-          openSection();
-        }
-      } else if (htState === 'section') {
-        if (e.key === 'Escape' || e.key === 'q' || e.key === 'b' || e.key === 'ArrowLeft' || e.key === 'h') {
-          e.preventDefault();
-          showMenu();
-        }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        htIdx = (htIdx - 1 + NAV_ITEMS.length) % NAV_ITEMS.length;
+        updateMenu();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        htIdx = (htIdx + 1) % NAV_ITEMS.length;
+        updateMenu();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        navigateTo(NAV_ITEMS[htIdx]);
       }
     });
 
-    /* ── Character rain ── */
+        /* ── Character rain ── */
     (function () {
       var canvas  = document.getElementById('hterm-canvas');
       var ctx     = canvas.getContext('2d');

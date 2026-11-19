@@ -67,11 +67,10 @@ tabs.forEach(tab => {
     setActiveTab(tab.dataset.category);
     const target = document.querySelector(`.company-card[data-category="${tab.dataset.category}"]`);
     if (!target) return;
-    // Measure the actual sticky nav bottom at click time instead of relying on a static scroll-margin
     const navRow  = document.querySelector('.work-tabs-row');
-    const navBottom = navRow ? navRow.getBoundingClientRect().bottom : 0;
+    const navHeight = navRow ? navRow.offsetHeight : 0;
     const targetTop = target.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: targetTop - navBottom - 16, behavior: 'smooth' });
+    window.scrollTo({ top: targetTop - navHeight - 32, behavior: 'smooth' });
   });
 });
 
@@ -90,64 +89,90 @@ setTimeout(() => {
   });
 }, 3500);
 
-// ─── Scroll: card opacity + shadow fade ──────────────────
+// ─── Card reveal (GSAP) + gradient mask exit ─────────────
 
-const cards    = document.querySelectorAll('.company-card');
-const firstCard = document.querySelector('.work-section > company-card');
+gsap.registerPlugin(ScrollTrigger);
 
-let rafPending  = false;
-let hasScrolled = false;
+const cards = document.querySelectorAll('.company-card');
 
-function setCardOpacity(card, opacity) {
-  card.style.opacity = opacity < 1 ? opacity : '';
-  card.querySelectorAll('.thumb-shadow, .thumb-mobile-shadow').forEach(s => {
-    s.style.opacity = opacity;
+// Cards start invisible — GSAP reveals each one as it enters the viewport
+gsap.set(cards, { opacity: 0 });
+
+cards.forEach(card => {
+  gsap.to(card, {
+    opacity: 1,
+    duration: 0.7,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: card,
+      start: 'top 92%',
+      toggleActions: 'play none none none',
+    }
   });
-}
+});
+
+// Exit: as a card scrolls up past the sticky nav, a gradient mask wipes
+// from the top — the top edge fades first so it never overlaps the subnav,
+// then the rest of the card disappears as it continues scrolling off.
+let rafPending = false;
 
 function updateScrollState() {
   rafPending = false;
 
-  const navRow   = document.querySelector('.work-tabs-row');
+  const navRow    = document.querySelector('.work-tabs-row');
   const navBottom = navRow ? navRow.getBoundingClientRect().bottom : 0;
-  const vh = window.innerHeight;
 
-  // Auto-switch tab based on which category is most prominent in view
   let topmostVisibleCard = null;
-  let topmostTop = Infinity;
+  let topmostTop         = Infinity;
 
   cards.forEach(card => {
-    // Keep first card hidden until user scrolls
-    if (card === firstCard && !hasScrolled) {
-      setCardOpacity(card, 0);
+    const rect  = card.getBoundingClientRect();
+    const cardH = rect.height || 1;
+
+    // How many px of the card's top are above the nav bottom edge
+    const overlap = navBottom - rect.top;
+
+    if (overlap <= 0) {
+      // Card is fully below the nav — clear any mask
+      card.style.maskImage        = '';
+      card.style.webkitMaskImage  = '';
+      card.querySelectorAll('.thumb-shadow, .thumb-mobile-shadow')
+          .forEach(s => { s.style.opacity = ''; });
+
+      if (rect.top < topmostTop && rect.bottom > navBottom) {
+        topmostTop = rect.top;
+        topmostVisibleCard = card;
+      }
       return;
     }
 
-    const rect = card.getBoundingClientRect();
-
-    const fadeInStart  = vh + 20;
-    const fadeInEnd    = vh - 80;
-    const isSm = window.innerWidth <= 768;
-    const cardMid      = rect.top + rect.height * (isSm ? 0.70 : 0.40);
-    const fadeOutStart = navBottom;
-    const fadeOutEnd   = navBottom - (isSm ? 120 : 60);
-
-    let opacity;
-
-    if (rect.top >= fadeInStart) {
-      opacity = 0;
-    } else if (rect.top >= fadeInEnd) {
-      opacity = (fadeInStart - rect.top) / (fadeInStart - fadeInEnd);
-    } else if (cardMid <= fadeOutStart) {
-      opacity = Math.max(0, (cardMid - fadeOutEnd) / (fadeOutStart - fadeOutEnd));
-    } else {
-      opacity = 1;
+    if (overlap >= cardH) {
+      // Card is fully past the nav — hide entirely
+      const gone = 'linear-gradient(to bottom, transparent 100%, black 100%)';
+      card.style.maskImage        = gone;
+      card.style.webkitMaskImage  = gone;
+      card.querySelectorAll('.thumb-shadow, .thumb-mobile-shadow')
+          .forEach(s => { s.style.opacity = '0'; });
+      return;
     }
 
-    setCardOpacity(card, opacity);
+    // Partial: top of card is past nav, bottom is still below it.
+    // Gradient: transparent from card-top to navBottom, then a soft edge,
+    // then fully visible for the rest of the card.
+    const overlapPct = (overlap / cardH) * 100;
+    const softPct    = Math.min((80 / cardH) * 100, 18); // soft edge, capped at 18%
+    const mask = `linear-gradient(to bottom, transparent ${overlapPct.toFixed(1)}%, black ${Math.min(overlapPct + softPct, 100).toFixed(1)}%)`;
 
-    // Track the topmost card that's meaningfully in view
-    if (opacity > 0.5 && rect.top < topmostTop) {
+    card.style.maskImage        = mask;
+    card.style.webkitMaskImage  = mask;
+
+    // Shadows fade out as the card exits
+    const shadowOp = Math.max(0, 1 - overlap / (cardH * 0.45)).toFixed(3);
+    card.querySelectorAll('.thumb-shadow, .thumb-mobile-shadow')
+        .forEach(s => { s.style.opacity = shadowOp; });
+
+    // Tab tracking: use the card that still has the most visible content
+    if (overlap < cardH * 0.5 && rect.top < topmostTop) {
       topmostTop = rect.top;
       topmostVisibleCard = card;
     }
@@ -159,7 +184,6 @@ function updateScrollState() {
 }
 
 window.addEventListener('scroll', () => {
-  hasScrolled = true;
   if (!rafPending) {
     rafPending = true;
     requestAnimationFrame(updateScrollState);

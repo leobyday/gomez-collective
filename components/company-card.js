@@ -89,7 +89,7 @@ class CompanyCard extends HTMLElement {
     return `
       <div class="visit-site-row">
         <a href="${url}" class="visit-site-link" target="_blank" rel="noopener">
-          VISIT SITE
+          <span class="visit-site-text">VISIT SITE</span>
           <svg class="visit-arrow" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 15L15 5M15 5H7M15 5V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
